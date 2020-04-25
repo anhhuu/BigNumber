@@ -14,7 +14,6 @@ int main()
 
 	std::cout << std::endl;
 
-	std::string bin  = Convert::CovertBinToNumString("654324567543245675435678");
 	system("pause");
 	return 0;
 }
