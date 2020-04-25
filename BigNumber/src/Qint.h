@@ -4,7 +4,7 @@
 class Qint
 {
 private:
-	char _data[16];
+	unsigned char _data[16];
 
 public:
 	Qint();
