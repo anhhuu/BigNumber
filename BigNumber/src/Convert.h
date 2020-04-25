@@ -14,6 +14,4 @@ public:
 	//Nhận vào chuỗi bit
 	//Trả về số nguyên dạng chuỗi
 	static std::string CovertBinToNumString(std::string bits);
-
-	
 };
