@@ -7,6 +7,8 @@ public:
 	//Cộng 2 số nguyên lớn ở dạng chuỗi
 	//Kết quả trả về là số nguyên lớn dạng chuỗi
 	static std::string AddTwoIntString(std::string num1, std::string num2);
+	//Chuyển đổi một số nguyên dạng chuỗi về kiểu dữ liệu short 
+	static short stringToShort(std::string input);
 
 	//Chia số nguyên lớn cho 2
 	//Trả về kết quả của phép chia là một số nguyên lớn dạng chuỗi
