@@ -1,6 +1,8 @@
 ﻿#pragma once
 
 #include <string>
+#include "Utils.h"
+
 
 class Convert
 {
