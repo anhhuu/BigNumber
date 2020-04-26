@@ -17,7 +17,9 @@ int main()
 
 	//Debug
 	//std::cout<<Utils::AddTwoIntString("348794823723798", "312");
-	std::cout << Utils::DivideNumStringForTwo("100000");
+	std::cout<<Convert::CovertNumStringToBin("12");
+	
+
 
 
 	system("pause");
