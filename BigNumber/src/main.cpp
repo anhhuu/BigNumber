@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include "Qint.h"
 #include "Qfloat.h"
+#include "Utils.h"
 #include "Convert.h"
 #include "BitProcess.h"
 #include "Utils.h"
