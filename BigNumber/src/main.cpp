@@ -18,8 +18,15 @@ int main()
 
 	//Debug
 	//std::cout<<Utils::AddTwoIntString("348794823723798", "312");
-	std::cout<<Convert::CovertNumStringToBin("12");
-	
+	//std::cout<<Convert::CovertNumStringToBin("12");
+	std::string number = "12345677889999";
+	std::string binResult = Convert::CovertNumStringToBin(number);
+	std::cout << "Bin result: " << binResult << std::endl;
+	std::cout << "number: " << Convert::CovertBinToNumString(binResult);
+
+
+
+
 
 
 

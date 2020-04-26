@@ -32,7 +32,12 @@ std::string Convert::CovertBinToNumString(std::string bits)
 	int length = bits.length();
 
 	while (index < length) {
-		decResult += pow(bits[index] - '0', length - 1 - index);
+		
+		int exp = length - 1 - index;
+		if (bits[index] == '1') {
+			decResult = Utils::AddTwoIntString(decResult, Utils::PowOneDigit(2, exp));
+		}
+		
 		index++;
 	}
 	return decResult;
