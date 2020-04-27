@@ -1,19 +1,20 @@
 ﻿#include "Convert.h"
+#include "BitProcess.h"
 
 std::string Convert::CovertNumStringToBin(std::string num)
 {
 	std::string quotient = num;
 
-	std::string binResult = "";
+	std::string bitsResult = "";
 	do {
 		if ((quotient[quotient.length() - 1] - '0') % 2 == 0) {
 
-			binResult.insert(0,std::to_string(0));
+			bitsResult.insert(0,std::to_string(0));
 
 		}
 		else if ((quotient[quotient.length() - 1] - '0') % 2 == 1) {
 
-			binResult.insert(0,std::to_string(1));
+			bitsResult.insert(0,std::to_string(1));
 
 		}
 		quotient = Utils::DivideNumStringForTwo(quotient);
@@ -21,42 +22,40 @@ std::string Convert::CovertNumStringToBin(std::string num)
 
 	} while (quotient != "0");
 
-	int length = binResult.length();
+	int length = bitsResult.length();
 	int numberOfZeros = 128 - length;
 	for (int i = 0; i < numberOfZeros; i++) {
-		binResult.insert(0, "0");
+		bitsResult.insert(0, "0");
 	}
-	length = binResult.length();
+	length = bitsResult.length();
 
 	if (num[0] == '-') {
 
-		//Thực hiện đảo bit
-		for (int i = 0; i < length; i++) {
-			binResult[i] = binResult[i] == '0' ? '1' : '0';
-		}
+		BitProcess::ReverseBits(bitsResult);
+
 
 		int reminder = 1;
-		for (int i = binResult.length() - 1; i >= 0; i--) {
+		for (int i = bitsResult.length() - 1; i >= 0; i--) {
 
-			int result = binResult[i] - '0' + reminder;
+			int result = bitsResult[i] - '0' + reminder;
 			reminder = result / 2;
 			result = result % 2;
 
-			binResult[i] = (char)(result + '0');
+			bitsResult[i] = (char)(result + '0');
 
 			if (reminder == 0) break;
 		}
 		
-		binResult[0] = '1';
+		bitsResult[0] = '1';
 
 	}
 	else {
-		binResult[0] = '0';
+		bitsResult[0] = '0';
 	}
 	
 	
 
-	return binResult;
+	return bitsResult;
 }
 
 std::string Convert::CovertBinToNumString(std::string bits)
@@ -64,6 +63,37 @@ std::string Convert::CovertBinToNumString(std::string bits)
 	int index = 0;
 	std::string decResult = "0";
 	int length = bits.length();
+	bool isNegativeNumber = bits[0] == '1';
+	
+	//Nếu kết quả phép chuyển là số âm chuyển về bit của số dương để thực hiện tính toán nhanh hơn
+	if (isNegativeNumber) {
+		
+		int index = bits.length() - 1;
+		int reminder = 1;
+
+		//Trừ bits cho 1
+		while (index >= 0) {
+			
+
+			int tempResult = bits[index] -'0' - reminder;
+			if (tempResult == 0) {
+				bits[index] = '0';
+				break;
+			}
+			else if (tempResult == -1) {
+				bits[index] = '1';
+				reminder = 1;
+			}
+
+			index--;
+		}
+
+		BitProcess::ReverseBits(bits);
+
+		bits[0] = '0';
+
+	}
+
 
 	while (index < length) {
 		
@@ -82,9 +112,8 @@ std::string Convert::CovertBinToNumString(std::string bits)
 		index++;
 	}
 
-	if (bits[0] == '1') {
-		decResult = Utils::SubtractTwoSNumString(decResult, Utils::PowOneDigit(2, length - 1));
-
+	if (isNegativeNumber) {
+		decResult.insert(0, "-");
 	}
 
 	return decResult;

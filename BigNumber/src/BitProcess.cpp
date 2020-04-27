@@ -31,6 +31,7 @@ void BitProcess::StandardBits(std::string& bits)
 	}
 }
 
+
 std::string BitProcess::GetBit(unsigned char memmory[MAX_CELL])
 {
 	std::string temp;
@@ -62,6 +63,21 @@ void BitProcess::SetBit(unsigned char memmory[MAX_CELL], std::string bits)
 		else
 		{
 			BitProcess::SetBitOne(memmory[i / BITS_OF_CELL], i % BITS_OF_CELL);
+		}
+	}
+}
+
+void BitProcess::ReverseBits(std::string& bits)
+{
+	for (unsigned int i = 0; i < bits.size(); i++)
+	{
+		if (bits[i] == '0')
+		{
+			bits[i] = '1';
+		}
+		else
+		{
+			bits[i] = '0';
 		}
 	}
 }

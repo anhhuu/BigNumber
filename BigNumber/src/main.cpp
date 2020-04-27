@@ -38,7 +38,7 @@ void TestCaseConvert() {
 
 	srand(time(NULL));
 
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 10000; i++) {
 		int number = rand()%3000-1000;		
 		std::cout << number << std::endl;
 		std::string bits = Convert::CovertNumStringToBin(std::to_string(number));
