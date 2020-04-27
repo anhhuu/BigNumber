@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
-
+#include "BitProcess.h"
+#include "Convert.h"
 class Qint
 {
 private:
@@ -59,12 +60,12 @@ public:
 public:
 	//boolean operator
 
+	const bool operator==(const Qint& other) const;
+	const bool operator!=(const Qint& other) const;
 	const bool operator>(const Qint& other) const;
 	const bool operator>=(const Qint& other) const;
 	const bool operator<(const Qint& other) const;
 	const bool operator<=(const Qint& other) const;
-	const bool operator==(const Qint& other) const;
-	const bool operator!=(const Qint& other) const;
 
 public:
 	//bitwise operator

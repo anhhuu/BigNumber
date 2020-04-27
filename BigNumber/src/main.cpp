@@ -3,6 +3,7 @@
 #include "Qfloat.h"
 #include "Convert.h"
 #include "BitProcess.h"
+using namespace std;
 
 int main()
 {

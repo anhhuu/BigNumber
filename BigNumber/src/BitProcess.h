@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include"Qint.h"
 
 #define MAX_CELL 16 
 #define BITS_OF_CELL 8
@@ -6,7 +7,7 @@
 
 class BitProcess
 {
-private: 
+public: 
 	// Lấy bit tại vị trị pos từ phải qua
 	static bool GetBit(unsigned char memory, int pos);
 	// Bật bit lên 1 tại pos từ phải qua
@@ -23,4 +24,5 @@ public:
 
 	// Set bit trên vùng nhớ unsigned char 16 bytes
 	static void SetBit(unsigned char memmory[MAX_CELL], std::string bits);
+
 };
