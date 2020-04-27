@@ -1,4 +1,4 @@
-#include "Utils.h"
+﻿#include "Utils.h"
 #include <string>
 std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 {
@@ -65,6 +65,8 @@ std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 
 	return result;
 }
+
+
 
 
 short Utils::StringToShort(std::string input)
@@ -170,6 +172,109 @@ std::string Utils::PowOneDigit(int factor, int exp)
 		result = MultiplyNumStringWithOneDigit(result, factor);
 
 	}
+	return result;
+}
+
+std::string Utils::FindMaxNumString(std::string num1, std::string num2) {
+	int lengthNum1 = num1.length();
+	int lengthNum2 = num2.length();
+
+	if (lengthNum1 > lengthNum2) {
+		return num1;
+	}
+	else if (lengthNum1 < lengthNum2) {
+		return num2;
+	}
+
+	//Trường hợp 2 chuỗi có độ dài bằng nhau
+	int index = 0;
+	if (num1 == num2) return num1;
+		
+
+	while (index<lengthNum1 && num1[index] == num2[index]) {
+		index++;
+	}
+	if (num1[index] - num2[index] > 0) {
+		return num1;
+	}
+	else {
+		return num2;
+	}
+
+
+}
+
+std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
+{
+	if (num1 == num2) return "0";
+	/*if (num1[0] == '-' && num2[0] != '-') {
+		std::string result = Utils::AddTwoIntString(num1.erase(0, 1), num2);
+		return result.insert(0, "-");
+
+	}*/
+	std::string result = "";
+	std::string subtrahend = FindMaxNumString(num1, num2);
+	std::string minuend = subtrahend == num1 ? num2 : num1;
+	int reminder = 0;
+	int tempResult = 0;
+	int pointerSubtrahend = subtrahend.length() - 1;
+	int pointerMinuend = minuend.length() - 1;
+
+
+	while (pointerSubtrahend >= 0) {
+		
+		if (pointerMinuend>=0) {
+			tempResult = subtrahend[pointerSubtrahend] - minuend[pointerMinuend] - reminder;
+		}
+		else {
+			tempResult = subtrahend[pointerSubtrahend]  - reminder-'0';
+		}
+		
+		
+		if (tempResult < 0) {
+			if (pointerMinuend >= 0) {
+				tempResult = subtrahend[pointerSubtrahend] +10 - minuend[pointerMinuend] - reminder;
+			}
+			else {
+				tempResult = subtrahend[pointerSubtrahend] +10  - reminder-'0';
+			}
+			reminder = 1;			
+
+		}
+		else {
+			reminder = 0;
+
+		}
+		result.insert(0, std::to_string(tempResult));
+		pointerSubtrahend--;
+		pointerMinuend--;
+
+
+	}
+		
+	if (subtrahend == num2) {
+		result.insert(0, "-");
+	}
+	int lengthResult = result.length();
+	//Xóa những số 0 thừa
+	int currentPos = 0;
+	//
+	int minimumLength = 2;
+
+	if (result[0] == '-') {
+		currentPos++;		
+		minimumLength++;
+	}
+	
+	while (currentPos < lengthResult &&
+		result[currentPos] == '0' &&
+		lengthResult>=minimumLength		
+		) {
+		result.erase(currentPos, 1);
+		lengthResult = result.length();
+	}
+
+
 	return result;
 }
 

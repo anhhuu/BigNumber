@@ -27,4 +27,16 @@ public:
 	//Trả về số nguyên lớn dạng chuỗi
 	//ex: 2^72 = ? 
 	static std::string PowOneDigit(int factor, int exp);
+
+private:
+	//Tìm số lớn nhất giữa 2 chuỗi
+	static std::string FindMaxNumString(std::string num1, std::string num2);
+
+public:
+
+	//Thực hiện trừ hai số với nhau 
+	//Nhận vào số trừ và số bị trừ
+	//Trả về kết quả của phép trừ
+	static std::string SubtractTwoSNumString(std::string num1, std::string num2);
+
 };

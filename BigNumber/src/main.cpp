@@ -5,30 +5,57 @@
 #include "Convert.h"
 #include "BitProcess.h"
 #include "Utils.h"
+#include <time.h>
+#include <bitset>
+void TestCaseSubtract() {
+	int num1 = 0;
+	int num2 = 0;
+	bool pass = true;
 
+	srand(time(NULL));
+	for (int i = 0; i < 10; i++) {
+		
+		num1 = rand() % 500;
+		num2 = rand() % 1000;
+
+		
+		std::cout << "Thuc hien: " << num1 << " - " << num2 << std::endl;
+		std::cout << "Ket qua dung: " << num1 - num2 << std::endl;
+		std::cout << "Ket qua ham: " << Utils::SubtractTwoSNumString(std::to_string(num1), std::to_string(num2))<<std::endl;
+		if (std::to_string(num1 - num2) !=
+			Utils::SubtractTwoSNumString(std::to_string(num1), std::to_string(num2))) {
+			std::cout << "failed" << std::endl;
+			return;
+
+		}
+		
+	}
+
+	std::cout << "Pass";
+
+}
+void TestCaseConvert() {
+
+	srand(time(NULL));
+
+	for (int i = 0; i < 10; i++) {
+		int number = rand()%3000-1000;		
+		std::cout << number << std::endl;
+		std::string bits = Convert::CovertNumStringToBin(std::to_string(number));
+		std::string numberStr = Convert::CovertBinToNumString(bits);
+	
+
+		if (std::to_string(number) != numberStr) {
+			std::cout << "Failed"; return;
+		}
+	}
+
+	std::cout << "Passed";
+}
 int main()
 {
-	/*std::string bits = "00001010100010010101111010101001010101001001010101000100101011110101010010101010010010101010001001010111101010100100000000000001111";
-	unsigned char data[16] = { 0 };
-	
-	BitProcess::SetBit(data, bits);
-	std::cout << BitProcess::GetBit(data);
 
-	std::cout << std::endl;*/
-
-	//Debug
-	//std::cout<<Utils::AddTwoIntString("348794823723798", "312");
-	//std::cout<<Convert::CovertNumStringToBin("12");
-	std::string number = "12345677889999";
-	std::string binResult = Convert::CovertNumStringToBin(number);
-	std::cout << "Bin result: " << binResult << std::endl;
-	std::cout << "number: " << Convert::CovertBinToNumString(binResult);
-
-
-
-
-
-
+	TestCaseConvert();
 
 	system("pause");
 	return 0;
