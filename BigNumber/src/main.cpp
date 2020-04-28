@@ -4,7 +4,6 @@
 #include "Convert.h"
 #include "BitProcess.h"
 #include "Utils.h"
-
 void test_394()
 {
 	Qint a;

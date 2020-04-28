@@ -32,6 +32,11 @@ std::string Convert::CovertBinToNumString(std::string bits)
 	return std::string();
 }
 
+
+void  Convert::convertFromC2ToBin(const bool source[128], bool result[128])
+{
+}
+
 void Convert::ConvertBitsToTwoComplement(std::string &bits, bool sign)
 {
     if (sign)
