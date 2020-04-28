@@ -19,7 +19,7 @@ public:
 	void ScanQInt();
 
 	//In số QInt ra màn hình
-	void PrintQInt();
+	void PrintQInt() const;
 
 	//Chuyển đổi thập phân sang nhị phân
 	//Trả về mảng bit ở dạng bool
@@ -81,4 +81,7 @@ public:
 	Qint operator|(const Qint& other) const;
 	Qint operator^(const Qint& other) const;
 	Qint operator~();
+
+public:
+	friend std::ostream& operator<<(std::ostream& os, const Qint& dt);
 };

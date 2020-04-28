@@ -8,7 +8,8 @@ std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 	int pointerNum2 = num2.length()-1;
 	int resultOfAddingTwoNum = 0;
 
-	while (pointerNum1>= 0 && pointerNum2>= 0) {
+	while (pointerNum1>= 0 && pointerNum2>= 0)
+	{
 		resultOfAddingTwoNum = num1[pointerNum1] + num2[pointerNum2] + reminder - 2 * 48;
 
 		reminder = resultOfAddingTwoNum / 10;
@@ -23,7 +24,9 @@ std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 		pointerNum2--;
 
 	}
-	while (pointerNum1 >= 0) {
+	
+	while (pointerNum1 >= 0) 
+	{
 		resultOfAddingTwoNum = num1[pointerNum1] - 48 + reminder;
 
 		reminder = resultOfAddingTwoNum / 10;
@@ -35,11 +38,10 @@ std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 		result.insert(0, s);
 		resultOfAddingTwoNum = 0;
 		pointerNum1--;
-
-
-
 	}
-	while (pointerNum2 >= 0) {
+
+	while (pointerNum2 >= 0) 
+	{
 		resultOfAddingTwoNum = num2[pointerNum2] - 48 + reminder;
 
 		reminder = resultOfAddingTwoNum / 10;
@@ -51,32 +53,30 @@ std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 		result.insert(0, s);
 		resultOfAddingTwoNum = 0;
 		pointerNum2--;
-
-
 	}
-	if (reminder != 0) {
+
+	if (reminder != 0) 
+	{
 		std::string s = "";
 		s += reminder + 48;
 
 		result.insert(0, s);
 	}
 
-	
-
 	return result;
 }
-
-
 
 
 short Utils::StringToShort(std::string input)
 {
 	short result = 0;
-	for (int i = 0; i < input.length(); i++) {
+	for (int i = 0; i < input.length(); i++) 
+	{
 		result = result * 10 + input[i] - 48;
 	}
 	return result;
 }
+
 std::string Utils::DivideNumStringForTwo(std::string num)
 {
 	unsigned int index = 0;
@@ -84,6 +84,7 @@ std::string Utils::DivideNumStringForTwo(std::string num)
 	{
 		index++;
 	}
+
 	unsigned int dividendNum = 0;
 	unsigned int surplus = 0;
 	unsigned int resultTemp = 0;
@@ -111,6 +112,7 @@ std::string Utils::DivideNumStringForTwo(std::string num)
 	{
 		resultStr.erase(0, 1);
 	}
+
 	return resultStr;
 }
 
@@ -130,7 +132,8 @@ std::string Utils::MultiplyNumStringWithOneDigit(std::string num1, int num2)
 			temp = temp % 10;
 			q = std::to_string(temp) + q;
 		}
-		else {
+		else 
+		{
 			q = std::to_string(temp) + q;
 			r = 0;
 		}
@@ -145,7 +148,8 @@ std::string Utils::MultiplyNumString(std::string num1, std::string num2)
 {
 	std::string q = "";
 	std::string zero = "";
-	for (int i = num1.length() - 1; i >= 0; i--) {
+	for (int i = num1.length() - 1; i >= 0; i--) 
+	{
 		int k = (int)(num1[i] - '0');
 
 		std::string temp = Utils::MultiplyNumStringWithOneDigit(num2, k) + zero;
@@ -162,21 +166,25 @@ std::string Utils::PowOneDigit(int factor, int exp)
 {
 	std::string result = "1";
 
-	for (int i = 0; i < exp; i++) {
+	for (int i = 0; i < exp; i++) 
+	{
 		result = MultiplyNumStringWithOneDigit(result, factor);
 
 	}
 	return result;
 }
 
-std::string Utils::FindMaxNumString(std::string num1, std::string num2) {
+std::string Utils::FindMaxNumString(std::string num1, std::string num2) 
+{
 	int lengthNum1 = num1.length();
 	int lengthNum2 = num2.length();
 
-	if (lengthNum1 > lengthNum2) {
+	if (lengthNum1 > lengthNum2) 
+	{
 		return num1;
 	}
-	else if (lengthNum1 < lengthNum2) {
+	else if (lengthNum1 < lengthNum2) 
+	{
 		return num2;
 	}
 
@@ -185,27 +193,25 @@ std::string Utils::FindMaxNumString(std::string num1, std::string num2) {
 	if (num1 == num2) return num1;
 		
 
-	while (index<lengthNum1 && num1[index] == num2[index]) {
+	while (index<lengthNum1 && num1[index] == num2[index]) 
+	{
 		index++;
 	}
-	if (num1[index] - num2[index] > 0) {
+
+	if (num1[index] - num2[index] > 0) 
+	{
 		return num1;
 	}
-	else {
+	else 
+	{
 		return num2;
 	}
-
-
 }
 
 std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 {
 	if (num1 == num2) return "0";
-	/*if (num1[0] == '-' && num2[0] != '-') {
-		std::string result = Utils::AddTwoIntString(num1.erase(0, 1), num2);
-		return result.insert(0, "-");
 
-	}*/
 	std::string result = "";
 	std::string subtrahend = FindMaxNumString(num1, num2);
 	std::string minuend = subtrahend == num1 ? num2 : num1;
@@ -242,32 +248,30 @@ std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 		result.insert(0, std::to_string(tempResult));
 		pointerSubtrahend--;
 		pointerMinuend--;
-
-
 	}
 		
-	if (subtrahend == num2) {
+	if (subtrahend == num2) 
+	{
 		result.insert(0, "-");
 	}
+
 	int lengthResult = result.length();
 	//Xóa những số 0 thừa
 	int currentPos = 0;
 	//
 	int minimumLength = 2;
 
-	if (result[0] == '-') {
+	if (result[0] == '-') 
+	{
 		currentPos++;		
 		minimumLength++;
 	}
 	
-	while (currentPos < lengthResult &&
-		result[currentPos] == '0' &&
-		lengthResult>=minimumLength		
-		) {
+	while (currentPos < lengthResult && result[currentPos] == '0' && lengthResult>=minimumLength) 
+	{
 		result.erase(currentPos, 1);
 		lengthResult = result.length();
 	}
-
 
 	return result;
 }

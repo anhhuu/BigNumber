@@ -37,31 +37,7 @@ std::string Convert::CovertBinToNumString(std::string bits)
 	
 	//Nếu kết quả phép chuyển là số âm chuyển về bit của số dương để thực hiện tính toán nhanh hơn
 	if (isNegativeNumber) {
-		
-		int index = bits.length() - 1;
-		int reminder = 1;
-
-		//Trừ bits cho 1
-		while (index >= 0) {
-			
-
-			int tempResult = bits[index] -'0' - reminder;
-			if (tempResult == 0) {
-				bits[index] = '0';
-				break;
-			}
-			else if (tempResult == -1) {
-				bits[index] = '1';
-				reminder = 1;
-			}
-
-			index--;
-		}
-
-		BitProcess::ReverseBits(bits);
-
-		bits[0] = '0';
-
+		ConvertBitsToTwoComplement(bits, true);
 	}
 
 
