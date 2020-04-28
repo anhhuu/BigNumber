@@ -36,7 +36,7 @@ std::string Utils::DivideNumStringForTwo(std::string num)
 		index++;
 	}
 
-	if (resultStr[0] == '0')
+	if (resultStr[0] == '0' && resultStr.length() > 1)
 	{
 		resultStr.erase(0, 1);
 	}

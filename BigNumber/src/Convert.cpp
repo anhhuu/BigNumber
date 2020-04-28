@@ -9,7 +9,7 @@ std::string Convert::CovertNumStringToBin(std::string num)
     unsigned int index = 0;
     bool negative = num[0] == '-';    
 
-    while (num != "") 
+    while (num != "0") 
     {
         result += std::to_string((num[num.length() - 1] - '0') % 2);
         num = Utils::DivideNumStringForTwo(num);
@@ -30,11 +30,6 @@ std::string Convert::CovertNumStringToBin(std::string num)
 std::string Convert::CovertBinToNumString(std::string bits)
 {
 	return std::string();
-}
-
-
-void  Convert::convertFromC2ToBin(const bool source[128], bool result[128])
-{
 }
 
 void Convert::ConvertBitsToTwoComplement(std::string &bits, bool sign)

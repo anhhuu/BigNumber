@@ -25,4 +25,5 @@ public:
 	//Trả về số nguyên lớn dạng chuỗi
 	//ex: 2^72 = ? 
 	static std::string PowOneDigit(int factor, int exp);
+
 };

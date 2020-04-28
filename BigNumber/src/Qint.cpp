@@ -1,20 +1,20 @@
 
 #include<string>
-using namespace std;
 #include <iostream>
 
 #include "Qint.h"
 #include "Utils.h"
 #include "Convert.h"
 #include "BitProcess.h"
-  
+
 Qint::Qint()
-	:_data{0}
+	:_data{ 0 }
 {
 }
 
 Qint::Qint(const std::string number)
 {
+	BitProcess::SetBit(_data, number);
 }
 
 Qint::~Qint()
@@ -37,7 +37,21 @@ void Qint::PrintQInt() const
 
 bool* Qint::DecToBin() const
 {
-	return nullptr;
+	bool* result = new bool[128];
+	std::string bits = BitProcess::GetBit(this->_data);
+	for (int i = 0; i < bits.length(); i++)
+	{
+		if (bits[i] == '1')
+		{
+			result[i] = true;
+		}
+		else
+		{
+			result[i] = false;
+		}
+	}
+
+	return result;
 }
 
 Qint Qint::BinToDec(const bool* bit)
@@ -108,14 +122,15 @@ Qint Qint::operator--(const int)
 
 const bool Qint::operator==(const Qint& other) const
 {
-	string AllZeroBitString = "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
-	Qint ComparedValue = (*this ^ other);	//Lấy kq XOR giữa số so sánh và số được so sánh Ra một số Qint
-	bool *ComparedValueArray = ComparedValue.DecToBin();	//Chuyển số Qint vừa có được sang mảng các bit
-	
+	std::string allZeroBitsString = std::string(128, '0');
+	Qint comparedValue = (*this ^ other);	//Lấy kq XOR giữa số so sánh và số được so sánh Ra một số Qint
+
+	std::string comparedValueBitsStr = BitProcess::GetBit(comparedValue._data);
+
 	bool flag = false; //Checking flag
 	for (int i = 0; i < 128; i++) //Nếu kq XOR là 0 thì hai số bằng nhau và ngược lại
 	{
-		if (AllZeroBitString[i] != ComparedValueArray[i])
+		if (allZeroBitsString[i] != comparedValueBitsStr[i])
 			return flag;
 	}
 
@@ -134,72 +149,66 @@ const bool Qint::operator!=(const Qint& other) const
 
 const bool Qint::operator>(const Qint& other) const
 {
-	Qint temp = other;//Sao chép other sang biến tạm
-	bool *OTHER = temp.DecToBin();//Chuyển sang dãy bit
-	bool *THIS = DecToBin();//Chuyển sang dãy bit
+	std::string otherBitsStr = BitProcess::GetBit(other._data);//Chuyển sang dãy bit
+	std::string thisBitsStr = BitProcess::GetBit(this->_data);//Chuyển sang dãy bit
 	bool flag = false;//Checking flag
 
 	// a = b
-	if (*this == other) 
+	if (*this == other)
 		return flag;
 
 	// a < 0 and b > 0
-	if (THIS[127] == 1 && OTHER[127] == 0)
+	if (thisBitsStr[0] == '1' && otherBitsStr[0] == '0')
 		return flag;
 
 	// a > 0 and b < 0
-	else if (THIS[127] == 0 && OTHER[127] == 1) 
+	else if (thisBitsStr[0] == '0' && otherBitsStr[0] == '1')
 	{
 		flag = true;
 		return flag;
 	}
 
 	// a > 0 and b > 0
-	else if (THIS[127] == 0 && OTHER[127] == 0)
+	else if (thisBitsStr[0] == '0' && otherBitsStr[0] == '0')
 	{
-		int i = 126;
+		int i = 1;
 		do //So sánh bit giá trị bên trái nhất
 		{
-			if (THIS[i] == 1 && OTHER[i] == 0) //a > b
+			if (thisBitsStr[i] == '1' && otherBitsStr[i] == '0') //a > b
 			{
 				flag = true;
 				return flag;
 			}
-			else if (THIS[i] == 0 && OTHER[i] == 1) //a < b
+			else if (thisBitsStr[i] == '0' && otherBitsStr[i] == '1') //a < b
 			{
 				flag = false;
 				return flag;
 			}
-			i--; //Xét bit kế tiếp
-		} while (i >= 0);
+			i++; //Xét bit kế tiếp
+		} while (i < 128);
 	}
-	
+
 	// a < 0 and b < 0
-	else if (THIS[127] == 1 && OTHER[127] == 1)
+	else if (thisBitsStr[0] == '1' && otherBitsStr[0] == '1')
 	{
-		Qint temp1 = *this;//Copy dữ liệu
-		Qint temp2 = other;
-		bool result1[128], result2[128]; //Các biến chứa dãy bit của (this) và (other)
+		Convert::ConvertBitsToTwoComplement(thisBitsStr, true);
+		Convert::ConvertBitsToTwoComplement(otherBitsStr, true);
 
-		Convert::convertFromC2ToBin(temp1.DecToBin(),result1);//Chuyển từ dạng bù 2 về nhị phân thường
-		Convert::convertFromC2ToBin(temp2.DecToBin(),result2);
-
-
-		int i = 126;
+		int i = 1;
 		do	// So sánh ngược của TH so sánh 2 số dương		
 		{
-			if (result1[i] == 1 && result2[i] == 0) 
+			if (thisBitsStr[i] == '1' && otherBitsStr[i] == '0')
 			{
 				flag = false;
 				return flag;
 			}
-			else if (result1[i] == 0 && result2[i] == 1)
+			else if (thisBitsStr[i] == '0' && otherBitsStr[i] == '1')
 			{
 				flag = true;
 				return flag;
 			}
-			i--;
-		} while (i >= 0);
+			i++;
+		} while (i < 128);
 	}
 
 	return flag;
@@ -268,7 +277,26 @@ Qint Qint::operator|(const Qint& other) const
 
 Qint Qint::operator^(const Qint& other) const
 {
-	return Qint();
+	std::string otherBitsStr = BitProcess::GetBit(other._data);//Chuyển sang dãy bit
+	std::string thisBitsStr = BitProcess::GetBit(this->_data);//Chuyển sang dãy bit
+
+	std::string bitsStrResult;
+
+	for (int i = 0; i < 127; i++)
+	{
+		if (otherBitsStr[i] == thisBitsStr[i])
+		{
+			bitsStrResult += "0";
+		}
+		else
+		{
+			bitsStrResult += "1";
+		}
+	}
+
+	Qint returnVal;
+	BitProcess::SetBit(returnVal._data, bitsStrResult);
+	return returnVal;
 }
 
 Qint Qint::operator~()

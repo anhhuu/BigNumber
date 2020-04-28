@@ -32,7 +32,7 @@ void BitProcess::StandardBits(std::string& bits, unsigned int numOfBits)
 	}
 }
 
-std::string BitProcess::GetBit(unsigned char memmory[MAX_CELL])
+std::string BitProcess::GetBit(const unsigned char memmory[MAX_CELL])
 {
 	std::string temp;
 	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i++)
