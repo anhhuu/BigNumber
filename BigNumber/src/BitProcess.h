@@ -18,8 +18,8 @@ private:
 public:
 	//Chuẩn hoá chuỗi bit cho đủ 128 bits, nếu thiếu thì thêm bit 0 vào đầu, thừa thì cắt các bit ở cuối
 	static void StandardBits(std::string& bits, unsigned int numOfBits);
-
-	//Get bit trên vùng nhớ unsigned char 16 bytes
+	
+  //Get bit trên vùng nhớ unsigned char 16 bytes
 	static std::string GetBit(const unsigned char memmory[MAX_CELL]);
 
 	//Set bit trên vùng nhớ unsigned char 16 bytes
