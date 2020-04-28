@@ -276,7 +276,15 @@ Qint Qint::operator<<(const int n)
 Qint Qint::operator>>(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	bits.insert(0, std::string(n, '0'));
+
+	if (bits.at(0) == '1')
+	{
+		bits.insert(0, std::string(n, '1'));
+	}
+	else
+	{
+		bits.insert(0, std::string(n, '0'));
+	}
 	bits.erase(bits.length() - n, n);
 
 	Qint returnVal;
@@ -313,9 +321,9 @@ Qint Qint::operator&(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == '1' && bitsOther.at(i) == '1') 
+		if (bitsThis.at(i) == '1' && bitsOther.at(i) == '1')
 		{
 			result.append("1");
 		}
@@ -333,9 +341,9 @@ Qint Qint::operator|(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == '0' && bitsOther.at(i) == '0') 
+		if (bitsThis.at(i) == '0' && bitsOther.at(i) == '0')
 		{
 			result.append("0");
 		}
@@ -354,13 +362,13 @@ Qint Qint::operator^(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == bitsOther.at(i)) 
+		if (bitsThis.at(i) == bitsOther.at(i))
 		{
 			result.append("0");
 		}
-		else 
+		else
 		{
 			result.append("1");
 		}
@@ -375,14 +383,14 @@ Qint Qint::operator~()
 {
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == '0') 
+		if (bitsThis.at(i) == '0')
 		{
 			result.append("1");
 
 		}
-		else 
+		else
 		{
 			result.append("0");
 		}
