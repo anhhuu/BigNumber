@@ -7,6 +7,7 @@
 #include "Convert.h"
 #include "BitProcess.h"
 
+
 Qint::Qint()
 	:_data{ 0 }
 {
@@ -20,6 +21,7 @@ Qint::Qint(const std::string number)
 
 Qint::~Qint()
 {
+	memset(_data, 0, 16);
 }
 
 void Qint::ScanQInt()
@@ -32,12 +34,19 @@ void Qint::ScanQInt()
 	BitProcess::SetBit(_data, bin);
 }
 
-void Qint::PrintQInt() const
+void Qint::PrintQInt()
 {
+	const std::string bits = BitProcess::GetBit(_data);
+	const std::string bigIntNumber = Convert::CovertBinToNumString(bits);
+	std::cout << bigIntNumber; 
+
+
+
 }
 
-bool* Qint::DecToBin() const
+bool* Qint::DecToBin()
 {
+
 	bool* result = new bool[128];
 	std::string bits = BitProcess::GetBit(this->_data);
 	for (int i = 0; i < bits.length(); i++)
@@ -57,7 +66,17 @@ bool* Qint::DecToBin() const
 
 Qint Qint::BinToDec(const bool* bit)
 {
-	return Qint();
+	int length = MAX_CELL * BITS_OF_CELL;
+	std::string bits = "";
+
+	for(int i = 0;i<length;i++){
+		bits += (bit[i] ? '1' : '0');
+	}
+	const std::string numberInStr = Convert::CovertBinToNumString(bits);
+
+	Qint newQInt = Qint(numberInStr);
+	return newQInt;
+
 }
 
 char* Qint::BinToHex(const bool* bit)
@@ -364,11 +383,5 @@ Qint Qint::operator~()
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, result);
 	return returnVal;
-}
-
-void Qint::showBit()
-{
-	std::cout << BitProcess::GetBit(_data);
-
 }
 

@@ -1,3 +1,4 @@
+﻿#include "Convert.h"
 #include <algorithm>
 #include "Convert.h"
 #include "Utils.h"
@@ -29,7 +30,64 @@ std::string Convert::CovertNumStringToBin(std::string num)
 
 std::string Convert::CovertBinToNumString(std::string bits)
 {
-	return std::string();
+	int index = 0;
+	std::string decResult = "0";
+	int length = bits.length();
+	bool isNegativeNumber = bits[0] == '1';
+	
+	//Nếu kết quả phép chuyển là số âm chuyển về bit của số dương để thực hiện tính toán nhanh hơn
+	if (isNegativeNumber) {
+		
+		int index = bits.length() - 1;
+		int reminder = 1;
+
+		//Trừ bits cho 1
+		while (index >= 0) {
+			
+
+			int tempResult = bits[index] -'0' - reminder;
+			if (tempResult == 0) {
+				bits[index] = '0';
+				break;
+			}
+			else if (tempResult == -1) {
+				bits[index] = '1';
+				reminder = 1;
+			}
+
+			index--;
+		}
+
+		BitProcess::ReverseBits(bits);
+
+		bits[0] = '0';
+
+	}
+
+
+	while (index < length) {
+		
+		int exp = length - 1 - index;
+		if (bits[index] == '1') {
+			if (bits[index] == '1' && index == 0) {
+				index++;
+				continue;
+			}
+			else {
+				decResult = Utils::AddTwoIntString(decResult, Utils::PowOneDigit(2, exp));
+			}
+			
+		}
+		
+		index++;
+	}
+
+	if (isNegativeNumber) {
+		decResult.insert(0, "-");
+	}
+
+	return decResult;
+
 }
 
 void Convert::ConvertBitsToTwoComplement(std::string &bits, bool sign)
