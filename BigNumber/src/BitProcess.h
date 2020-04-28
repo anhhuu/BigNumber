@@ -26,4 +26,5 @@ public:
 
 	//Đảo chuỗi bits
 	static void ReverseBits(std::string& bits);
+
 };

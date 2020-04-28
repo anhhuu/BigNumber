@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <string>
-
+#include <iostream>
+#include "BitProcess.h"
+#include"Convert.h"
 class Qint
 {
 private:
@@ -16,11 +18,11 @@ public:
 	void ScanQInt();
 
 	//In số QInt ra màn hình
-	void PrintQInt() const;
+	void PrintQInt();
 
 	//Chuyển đổi thập phân sang nhị phân
 	//Trả về mảng bit ở dạng bool
-	bool* DecToBin() const;
+	bool* DecToBin();
 
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số nguyên lớn

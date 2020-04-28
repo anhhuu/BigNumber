@@ -2,17 +2,17 @@
 
 bool BitProcess::GetBit(unsigned char memory, int pos)
 {
-	return (memory >> pos) & 1;
+	return (memory >> BITS_OF_CELL - 1- pos%BITS_OF_CELL) & 1;
 }
 
 void BitProcess::SetBitOne(unsigned char& memory, int pos)
 {
-	memory = (1 << pos) | memory;
+	memory = (1 <<BITS_OF_CELL-1 - pos%BITS_OF_CELL) | memory;
 }
 
 void BitProcess::SetBitZero(unsigned char& memory, int pos)
 {
-	memory = (~(1 << pos)) & memory;
+	memory = (~(1 << BITS_OF_CELL - 1 - pos % BITS_OF_CELL)) & memory;
 }
 
 void BitProcess::StandardBits(std::string& bits)
@@ -37,7 +37,7 @@ std::string BitProcess::GetBit(unsigned char memmory[MAX_CELL])
 	std::string temp;
 	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i++)
 	{
-		bool bit = BitProcess::GetBit(memmory[i / BITS_OF_CELL], i % BITS_OF_CELL);
+		bool bit = BitProcess::GetBit(memmory[i / BITS_OF_CELL],i);
 		if (bit == true)
 		{
 			temp += '1';
@@ -53,16 +53,16 @@ std::string BitProcess::GetBit(unsigned char memmory[MAX_CELL])
 void BitProcess::SetBit(unsigned char memmory[MAX_CELL], std::string bits)
 {
 	StandardBits(bits);
-
+	memset(memmory, 0, MAX_CELL);
 	for (int i = 0; i < bits.size(); i++)
 	{
 		if (bits[i] == '0')
 		{
-			BitProcess::SetBitZero(memmory[i / BITS_OF_CELL], i % BITS_OF_CELL);
+			BitProcess::SetBitZero(memmory[i / BITS_OF_CELL], i);
 		}
 		else
 		{
-			BitProcess::SetBitOne(memmory[i / BITS_OF_CELL], i % BITS_OF_CELL);
+			BitProcess::SetBitOne(memmory[i / BITS_OF_CELL], i);
 		}
 	}
 }
@@ -81,3 +81,4 @@ void BitProcess::ReverseBits(std::string& bits)
 		}
 	}
 }
+
