@@ -19,7 +19,7 @@ private:
 
 public:
 	// Get bit trên vùng nhớ unsigned char 16 bytes
-	static std::string GetBit(unsigned char memmory[MAX_CELL]);
+	static std::string GetBit(const unsigned char memmory[MAX_CELL]);
 
 	// Set bit trên vùng nhớ unsigned char 16 bytes
 	static void SetBit(unsigned char memmory[MAX_CELL], std::string bits);
