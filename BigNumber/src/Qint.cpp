@@ -14,7 +14,8 @@ Qint::Qint()
 
 Qint::Qint(const std::string number)
 {
-	BitProcess::SetBit(_data, number);
+	std::string bin = Convert::CovertNumStringToBin(number);
+	BitProcess::SetBit(_data, bin);
 }
 
 Qint::~Qint()
@@ -248,8 +249,8 @@ const bool Qint::operator<=(const Qint& other) const
 Qint Qint::operator<<(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	bits += "0";
-	bits.erase(0, 1);
+	bits += std::string(n, '0');
+	bits.erase(0, n);
 
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, bits);
@@ -259,8 +260,8 @@ Qint Qint::operator<<(const int n)
 Qint Qint::operator>>(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	bits.insert(0, "0");
-	bits.erase(bits.length() - 1, 1);
+	bits.insert(0, std::string(n, '0'));
+	bits.erase(bits.length() - n - 1, n);
 
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, bits);
@@ -270,9 +271,9 @@ Qint Qint::operator>>(const int n)
 Qint Qint::rol(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	char f = bits.at(0);
+	std::string f = bits.substr(0, n);
 	bits += f;
-	bits.erase(0, 1);
+	bits.erase(0, n);
 
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, bits);
@@ -282,9 +283,9 @@ Qint Qint::rol(const int n)
 Qint Qint::ror(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	char f = bits.at(bits.length() - 1);
-	bits.insert(bits.begin(), f);
-	bits.erase(bits.length() - 1, 1);
+	std::string f = bits.substr(bits.length() - n, n);
+	bits.insert(0, f);
+	bits.erase(bits.length() - n, n);
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, bits);
 	return returnVal;
@@ -351,7 +352,7 @@ Qint Qint::operator~()
 {
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string result;
-	for (int i; i < 128; i++) {
+	for (int i = 0; i < 128; i++) {
 		if (bitsThis.at(i) == '0') {
 			result.append("1");
 
@@ -363,5 +364,11 @@ Qint Qint::operator~()
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, result);
 	return returnVal;
+}
+
+void Qint::showBit()
+{
+	std::cout << BitProcess::GetBit(_data);
+
 }
 

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <iostream>
 #include "BitProcess.h"
 #include "Convert.h"
 class Qint
@@ -79,4 +80,6 @@ public:
 	Qint operator|(const Qint& other) const;
 	Qint operator^(const Qint& other) const;
 	Qint operator~();
+
+
 };
