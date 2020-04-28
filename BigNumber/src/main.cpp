@@ -8,15 +8,8 @@
 #include <time.h>
 #include <bitset>
 
-
 int main()
 {
-
-	
-	Qint q("1230340234324234234234234234234");
-
-	q.PrintQInt();
-
 	system("pause");
 	return 0;
 }

@@ -1,61 +1,31 @@
 ﻿#include "Convert.h"
+#include <algorithm>
+#include "Convert.h"
+#include "Utils.h"
 #include "BitProcess.h"
 
 std::string Convert::CovertNumStringToBin(std::string num)
 {
-	std::string quotient = num;
+    std::string result;
+    unsigned int index = 0;
+    bool negative = num[0] == '-';    
 
-	std::string bitsResult = "";
-	do {
-		if ((quotient[quotient.length() - 1] - '0') % 2 == 0) {
+    while (num != "0") 
+    {
+        result += std::to_string((num[num.length() - 1] - '0') % 2);
+        num = Utils::DivideNumStringForTwo(num);
+    }
 
-			bitsResult.insert(0,std::to_string(0));
+    std::reverse(result.begin(), result.end());
 
-		}
-		else if ((quotient[quotient.length() - 1] - '0') % 2 == 1) {
+    BitProcess::StandardBits(result, 128);
 
-			bitsResult.insert(0,std::to_string(1));
+    if (negative)
+    {
+        ConvertBitsToTwoComplement(result, true);
+    }
 
-		}
-		quotient = Utils::DivideNumStringForTwo(quotient);
-
-
-	} while (quotient != "0");
-
-	int length = bitsResult.length();
-	int numberOfZeros = 128 - length;
-	for (int i = 0; i < numberOfZeros; i++) {
-		bitsResult.insert(0, "0");
-	}
-	length = bitsResult.length();
-
-	if (num[0] == '-') {
-
-		BitProcess::ReverseBits(bitsResult);
-
-
-		int reminder = 1;
-		for (int i = bitsResult.length() - 1; i >= 0; i--) {
-
-			int result = bitsResult[i] - '0' + reminder;
-			reminder = result / 2;
-			result = result % 2;
-
-			bitsResult[i] = (char)(result + '0');
-
-			if (reminder == 0) break;
-		}
-		
-		bitsResult[0] = '1';
-
-	}
-	else {
-		bitsResult[0] = '0';
-	}
-	
-	
-
-	return bitsResult;
+    return result;
 }
 
 std::string Convert::CovertBinToNumString(std::string bits)
@@ -118,4 +88,13 @@ std::string Convert::CovertBinToNumString(std::string bits)
 
 	return decResult;
 
+}
+
+void Convert::ConvertBitsToTwoComplement(std::string &bits, bool sign)
+{
+    if (sign)
+    {
+        BitProcess::ReverseBits(bits);
+        bits = BitProcess::AddTwoBits(bits, "1");
+    }
 }

@@ -79,7 +79,6 @@ short Utils::StringToShort(std::string input)
 }
 std::string Utils::DivideNumStringForTwo(std::string num)
 {
-
 	unsigned int index = 0;
 	if (num[0] == '-' || num[0] == '+')
 	{
@@ -93,31 +92,26 @@ std::string Utils::DivideNumStringForTwo(std::string num)
 	while (index < num.length())
 	{
 		dividendNum = (dividendNum * 10) + num[index] - '0';
-
 		resultTemp = dividendNum / 2;
 		surplus = dividendNum % 2;
 
 		if (surplus != 0)
 		{
-			//Du khac khong
 			dividendNum = surplus;
 		}
 		else
 		{
-			//Du bang 0 
 			dividendNum = 0;
-		
 		}
 		resultStr += std::to_string(resultTemp);
 		index++;
 	}
 
-	if (resultStr[0] == '0' && resultStr.length()>1)
+	if (resultStr[0] == '0' && resultStr.length() > 1)
 	{
 		resultStr.erase(0, 1);
 	}
 	return resultStr;
-	
 }
 
 std::string Utils::MultiplyNumStringWithOneDigit(std::string num1, int num2)
@@ -277,4 +271,3 @@ std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 
 	return result;
 }
-
