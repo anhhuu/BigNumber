@@ -1,6 +1,13 @@
-﻿#include "Qint.h"
+
 #include<string>
 using namespace std;
+#include <iostream>
+
+#include "Qint.h"
+#include "Utils.h"
+#include "Convert.h"
+#include "BitProcess.h"
+  
 Qint::Qint()
 	:_data{0}
 {
@@ -16,6 +23,12 @@ Qint::~Qint()
 
 void Qint::ScanQInt()
 {
+	std::string temp;
+	std::cin >> temp;
+
+	std::string bin = Convert::CovertNumStringToBin(temp);
+
+	BitProcess::SetBit(_data, bin);
 }
 
 void Qint::PrintQInt() const

@@ -3,18 +3,16 @@
 #include "Qfloat.h"
 #include "Convert.h"
 #include "BitProcess.h"
-using namespace std;
+#include "Utils.h"
+void test_394()
+{
+	Qint a;
+	a.ScanQInt();
+}
 
 int main()
 {
-	std::string bits = "00001010100010010101111010101001010101001001010101000100101011110101010010101010010010101010001001010111101010100100000000000001111";
-	unsigned char data[16] = { 0 };
-	
-	BitProcess::SetBit(data, bits);
-	std::cout << BitProcess::GetBit(data);
-
-	std::cout << std::endl;
-
+	test_394();
 	system("pause");
 	return 0;
 }
