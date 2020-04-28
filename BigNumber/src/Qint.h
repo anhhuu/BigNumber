@@ -1,6 +1,7 @@
-#pragma once
+﻿#pragma once
 #include <string>
-
+#include "BitProcess.h"
+#include "Convert.h"
 class Qint
 {
 private:
@@ -12,26 +13,26 @@ public:
 	~Qint();
 
 public:
-	//scan Qint fromt keyboard
+	//Nhập số QInt từ bàn phím
 	void ScanQInt();
 
-	//print Qint on screen
+	//In số QInt ra màn hình
 	void PrintQInt() const;
 
-	//convert decimal to binary of Qint
-	//return a bit array of bool 
+	//Chuyển đổi thập phân sang nhị phân
+	//Trả về mảng bit ở dạng bool
 	bool* DecToBin() const;
 
-	//convert binary to decimal of Qint
-	//return a Qint
+	//Chuyển đổi nhị phân sang thập phân
+	//Trả về một số nguyên lớn
 	static Qint BinToDec(const bool* bit);
 
-	//convert hexadecimal to binary of Qint
-	//return a hexa array of char 
+	//Chuyển đổi thập phân sang thập lục phân
+	//Trả về mảng kí tự của hệ thập lục phân 
 	char* DecToHex() const;
 	
-	//convert binary to hexadecimal of Qint
-	//return a hexa array of char 
+	//Chuyển đổi nhị phân sang thập lục phân
+	//Trả về mảng chứa các kí tự của hệ thập lục phân
 	static char* BinToHex(const bool* bit);
 
 public:
@@ -59,12 +60,12 @@ public:
 public:
 	//boolean operator
 
+	const bool operator==(const Qint& other) const;
+	const bool operator!=(const Qint& other) const;
 	const bool operator>(const Qint& other) const;
 	const bool operator>=(const Qint& other) const;
 	const bool operator<(const Qint& other) const;
 	const bool operator<=(const Qint& other) const;
-	const bool operator==(const Qint& other) const;
-	const bool operator!=(const Qint& other) const;
 
 public:
 	//bitwise operator
