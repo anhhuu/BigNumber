@@ -1,13 +1,12 @@
 ﻿#pragma once
-
 #include <string>
+#include "Utils.h"
 
 class Convert
 {
-private:
+public:
 	static void ConvertBitsToTwoComplement(std::string& bits, bool sign);
 
-public:
 	//Chuyển đổi một số nguyên hệ 10 sang chuỗi nhị nhân
 	//Nhận vào số nguyên định dạng chuỗi
 	//Trả về chuỗi chứa các bit ở dạng bù 2

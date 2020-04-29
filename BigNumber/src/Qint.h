@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include <string>
+#include <iostream>
+#include "BitProcess.h"
+#include "Convert.h"
 
 class Qint
 {
@@ -59,12 +62,12 @@ public:
 public:
 	//boolean operator
 
+	const bool operator==(const Qint& other) const;
+	const bool operator!=(const Qint& other) const;
 	const bool operator>(const Qint& other) const;
 	const bool operator>=(const Qint& other) const;
 	const bool operator<(const Qint& other) const;
 	const bool operator<=(const Qint& other) const;
-	const bool operator==(const Qint& other) const;
-	const bool operator!=(const Qint& other) const;
 
 public:
 	//bitwise operator
@@ -78,4 +81,8 @@ public:
 	Qint operator|(const Qint& other) const;
 	Qint operator^(const Qint& other) const;
 	Qint operator~();
+
+public:
+	friend std::ostream& operator<<(std::ostream& os, const Qint& dt);
+	friend std::istream& operator>>(std::istream& is, Qint& dt);
 };

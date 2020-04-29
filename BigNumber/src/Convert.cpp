@@ -1,3 +1,4 @@
+﻿#include "Convert.h"
 #include <algorithm>
 #include "Convert.h"
 #include "Utils.h"
@@ -9,7 +10,7 @@ std::string Convert::CovertNumStringToBin(std::string num)
     unsigned int index = 0;
     bool negative = num[0] == '-';    
 
-    while (num != "") 
+    while (num != "0") 
     {
         result += std::to_string((num[num.length() - 1] - '0') % 2);
         num = Utils::DivideNumStringForTwo(num);
@@ -29,7 +30,50 @@ std::string Convert::CovertNumStringToBin(std::string num)
 
 std::string Convert::CovertBinToNumString(std::string bits)
 {
-	return std::string();
+	int index = 0;
+	std::string decResult = "0";
+	int length = bits.length();
+	bool isNegativeNumber = bits[0] == '1';
+	
+	//Nếu kết quả phép chuyển là số âm chuyển về bit của số dương để thực hiện tính toán nhanh hơn
+	if (isNegativeNumber) 
+	{
+		ConvertBitsToTwoComplement(bits, true);
+	}
+	
+	bool sign = false;
+
+	while (index < length)
+	{
+		int exp = length - 1 - index;
+		if (bits[index] == '1') {
+			if (bits[index] == '1' && index == 0) 
+			{
+				sign = true; //Sau khi đảo chuyển từ bù 2 về dạng nhị phân bình thường vẫn còn bit dấu thì lưu giá trị cờ
+				index++;
+				continue;
+			}
+			else
+			{
+				decResult = Utils::AddTwoIntString(decResult, Utils::PowOneDigit(2, exp));
+			}
+		}
+		
+		index++;
+	}
+
+	if (sign)
+	{
+		decResult = Utils::SubtractTwoSNumString(decResult, Utils::PowOneDigit(2, 127));
+		//Trường hợp số nhỏ nhất -2^127
+	}
+	else if (isNegativeNumber) 
+	{
+		decResult.insert(0, "-");
+	}
+
+	return decResult;
+
 }
 
 void Convert::ConvertBitsToTwoComplement(std::string &bits, bool sign)
