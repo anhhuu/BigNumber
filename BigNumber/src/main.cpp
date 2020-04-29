@@ -5,11 +5,6 @@
 #include "Convert.h"
 #include "BitProcess.h"
 #include "Utils.h"
-#include <time.h>
-#include <bitset>
-
-#include <stdint.h>
-#include <cstdint>
 
 void testTask1()
 {
@@ -77,6 +72,18 @@ void testTask1()
 
 int main()
 {
+	bool bits[128] = { 0 };
+	bits[0] = 1;
+
+	std::cout << "sizeof(Qint) = " << sizeof(Qint) << " bytes" << std::endl;
+
+	std::cout << "Min number: " << Qint::BinToDec(bits) << std::endl;
+
+	memset(bits, true, 128);
+	bits[0] = 0;
+	
+	std::cout << "Max number:  " << Qint::BinToDec(bits) << std::endl;
+
 	testTask1();
 	system("pause");
 	return 0;
