@@ -1,21 +1,21 @@
 #include "BitProcess.h"
 
-bool BitProcess::GetBit(unsigned char memory, int pos)
+bool BitProcess::GetBit(const unsigned char memory, const unsigned int& pos)
 {
 	return (memory >> BITS_OF_CELL - 1 - pos % BITS_OF_CELL) & 1;
 }
 
-void BitProcess::SetBitOne(unsigned char& memory, int pos)
+void BitProcess::SetBitOne(unsigned char& memory, const unsigned int& pos)
 {
 	memory = (1 << BITS_OF_CELL - 1 - pos % BITS_OF_CELL) | memory;
 }
 
-void BitProcess::SetBitZero(unsigned char& memory, int pos)
+void BitProcess::SetBitZero(unsigned char& memory, const unsigned int& pos)
 {
 	memory = (~(1 << BITS_OF_CELL - 1 - pos % BITS_OF_CELL)) & memory;
 }
 
-void BitProcess::StandardBits(std::string& bits, unsigned int numOfBits)
+void BitProcess::StandardBits(std::string& bits, const unsigned int &numOfBits)
 {
 	unsigned int i = bits.size();
 

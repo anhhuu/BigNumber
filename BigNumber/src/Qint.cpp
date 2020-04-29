@@ -43,7 +43,7 @@ void Qint::PrintQInt() const
 	std::cout << bigIntNumber;
 }
 
-bool* Qint::DecToBin()
+bool* Qint::DecToBin() const
 {
 	bool* result = new bool[128];
 	std::string bits = BitProcess::GetBit(this->_data);
@@ -148,7 +148,9 @@ const bool Qint::operator==(const Qint& other) const
 	for (int i = 0; i < 128; i++) //Nếu kq XOR là 0 thì hai số bằng nhau và ngược lại
 	{
 		if (allZeroBitsString[i] != comparedValueBitsStr[i])
+		{
 			return flag;
+		}
 	}
 
 	flag = true;
@@ -404,4 +406,10 @@ std::ostream& operator<<(std::ostream& os, const Qint& dt)
 {
 	dt.PrintQInt();
 	return os;
+}
+
+std::istream& operator>>(std::istream& is, Qint& dt)
+{
+	dt.ScanQInt();
+	return is;
 }

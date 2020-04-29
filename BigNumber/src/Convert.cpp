@@ -36,29 +36,39 @@ std::string Convert::CovertBinToNumString(std::string bits)
 	bool isNegativeNumber = bits[0] == '1';
 	
 	//Nếu kết quả phép chuyển là số âm chuyển về bit của số dương để thực hiện tính toán nhanh hơn
-	if (isNegativeNumber) {
+	if (isNegativeNumber) 
+	{
 		ConvertBitsToTwoComplement(bits, true);
 	}
+	
+	bool sign = false;
 
-
-	while (index < length) {
-		
+	while (index < length)
+	{
 		int exp = length - 1 - index;
 		if (bits[index] == '1') {
-			if (bits[index] == '1' && index == 0) {
+			if (bits[index] == '1' && index == 0) 
+			{
+				sign = true; //Sau khi đảo chuyển từ bù 2 về dạng nhị phân bình thường vẫn còn bit dấu thì lưu giá trị cờ
 				index++;
 				continue;
 			}
-			else {
+			else
+			{
 				decResult = Utils::AddTwoIntString(decResult, Utils::PowOneDigit(2, exp));
 			}
-			
 		}
 		
 		index++;
 	}
 
-	if (isNegativeNumber) {
+	if (sign)
+	{
+		decResult = Utils::SubtractTwoSNumString(decResult, Utils::PowOneDigit(2, 127));
+		//Trường hợp số nhỏ nhất -2^127
+	}
+	else if (isNegativeNumber) 
+	{
 		decResult.insert(0, "-");
 	}
 

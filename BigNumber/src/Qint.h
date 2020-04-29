@@ -23,7 +23,7 @@ public:
 
 	//Chuyển đổi thập phân sang nhị phân
 	//Trả về mảng bit ở dạng bool
-	bool* DecToBin();
+	bool* DecToBin() const;
 
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số nguyên lớn
@@ -84,4 +84,5 @@ public:
 
 public:
 	friend std::ostream& operator<<(std::ostream& os, const Qint& dt);
+	friend std::istream& operator>>(std::istream& is, Qint& dt);
 };
