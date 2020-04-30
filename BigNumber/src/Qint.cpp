@@ -21,6 +21,10 @@ Qint::Qint(const std::string &number)
 	std::string x = BitProcess::GetBit(_data);
 }
 
+Qint::Qint( std::string bitsSequence,int){
+   BitProcess::SetBit(_data,bitsSequence);
+}
+
 Qint::~Qint()
 {
 	memset(_data, 0, 16);
@@ -80,7 +84,7 @@ std::string Qint::BinToHex(const bool *bit) const
 {
     std::string bitsInString = "";
     
-    bitsInString = Convert::ConvertBitFromBoolToString(bit);
+    bitsInString = Convert::ConvertBitsFromBoolToString(bit);
     
 	return Convert::ConvertBinToHex(bitsInString);
 }
@@ -88,7 +92,7 @@ std::string Qint::BinToHex(const bool *bit) const
 std::string Qint::DecToHex() const
 {
     std::string bits = BitProcess::GetBit(_data);
-    auto bitInBool = Convert::ConvertBitFromStringToBool(bits);
+    auto bitInBool = Convert::ConvertBitsFromStringToBool(bits);
     return this->BinToHex(bitInBool);
 }
 
@@ -96,16 +100,22 @@ Qint Qint::operator+(const Qint& other) const
 {
     std::string bits1 = BitProcess::GetBit(_data);
     std::string bits2 = BitProcess::GetBit(other._data);
-    auto addedBits = BitProcess::AddTwoBits(bits1 , bits2);
-    auto numValue = Convert::CovertBinToNumString(addedBits);
+    std::string addedBits = BitProcess::AddTwoBits(bits1 , bits2);
+    std::string numValue = Convert::CovertBinToNumString(addedBits);
     Qint result(numValue);    
 	return result;
 }
 
 Qint Qint::operator-(const Qint& other) const
 {
+    std::string bits1 = BitProcess::GetBit(this->_data);
+    std::string bits2 = BitProcess::GetBit(other._data);
     
-	return Qint();
+    std::string processedBits = Utils::ReverseBitsAndPlusOne(bits2);
+    std::string addedBits = BitProcess::AddTwoBits(bits1, processedBits);
+    Qint result(addedBits,0);
+    
+    return result;
 }
 
 Qint Qint::operator*(const Qint& other) const

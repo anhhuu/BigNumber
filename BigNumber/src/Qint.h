@@ -13,6 +13,7 @@ public:
 	Qint();
 	Qint(const std::string &number);
 	~Qint();
+    Qint(std::string bitsSequence,int);
 
 public:
 	//Nhập số QInt từ bàn phím

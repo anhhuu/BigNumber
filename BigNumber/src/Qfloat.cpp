@@ -9,11 +9,11 @@ Qfloat::~Qfloat()
 {
 }
 
-void Qfloat::ScanQInt(Qfloat& x)
+void Qfloat::ScanQfloat(Qfloat& x)
 {
 }
 
-void Qfloat::PrintQInt(const Qfloat& x) const
+void Qfloat::PrintQfloat(const Qfloat& x) const
 {
 }
 

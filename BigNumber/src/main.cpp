@@ -77,11 +77,9 @@ void testTask1()
 
 int main()
 {
-    std::string s = "01111";
-    Qint a = s;
-    Qint b("10000");
-    
-    std::cout<<a+b;
+    Qint num1("1000");
+    Qint num2("-10000");
+    std::cout<<num1+num2;
     
 	system("pause");
 	return 0;

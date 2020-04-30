@@ -347,3 +347,10 @@ std::string Utils::DevideNumDecForSixteen(std::string num){
     
 }
 
+std::string Utils::ReverseBitsAndPlusOne(std::string bits){
+   
+    BitProcess::ReverseBits(bits);
+    std::string result = BitProcess::AddTwoBits(bits, "1");
+    return result;
+    
+}

@@ -39,11 +39,25 @@ public:
     //Nhận vào số trừ và số bị trừ
     //Trả về kết quả của phép trừ
     static std::string SubtractTwoSNumString(std::string num1, std::string num2);
-    
-private: inline static std::map<std::string,std::string> _mapBinToHex;
-        inline static bool calledLazyFunctionBinToHex = false;
-        
 
+private:
+    inline static std::map<std::string,std::string> _mapBinToHex;
+    
+    //Kiểm soát việc khởi tạo giá trị cho map quá nhiều lần
+    inline static bool calledLazyFunctionBinToHex = false;
+    
+    //Lấy ra map kết quả chứa thông tin phép chuyển theo từng bộ 4 bit bin sang hex
+    //Không tham số đầu vào
+    //Trả về std::map<std::string,std::string>
 public: static std::map<std::string,std::string> GetMapBinToHex();
+    
+    //Thực hiện chia một số cho 16
+    //Nhận vào một số hệ 10
+    //Trả về kết quả phép chia param/16 kết quả chia lấy nguyên
     static std::string DevideNumDecForSixteen(std::string num);
+    
+    //Đảo bit đồng thời cộng 1 vào chuỗi bits vừa đảo
+    //Nhận vào một chuỗi bits
+    //Trả về 1 chuỗi bit đã được đảo ngược và cộng 1
+    static std::string ReverseBitsAndPlusOne(std::string bits);
 };
