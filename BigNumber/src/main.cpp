@@ -77,10 +77,10 @@ void testTask1()
 
 int main()
 {
-    Qint num1("1000");
-    Qint num2("-10000");
-    std::cout<<num1+num2;
     
-	system("pause");
+    std::cout<<Qint("-10")*Qint("-243242342");
+        
+    
+	//system("pause");
 	return 0;
 }

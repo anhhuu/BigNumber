@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Qint.h"
 #include <string>
 
@@ -8,11 +8,11 @@
 class BitProcess
 {
 private:
-	//Lấy bit tại vị trị pos từ phải qua
+	//Lấy bit tại vị trị pos từ trái qua
 	static bool GetBit(const unsigned char memory, const unsigned int& pos);
-	//Bật bit lên 1 tại pos từ phải qua
+	//Bật bit lên 1 tại pos từ trái qua
 	static void SetBitOne(unsigned char& memory, const unsigned int& pos);
-	//Tắt bit xuống 0 tại pos từ phải qua
+	//Tắt bit xuống 0 tại pos từ trái qua
 	static void SetBitZero(unsigned char& memory, const unsigned int& pos);
 
 public:
@@ -31,4 +31,10 @@ public:
 public:
 	//Cộng nhị phân 2 dãy bits
 	static std::string AddTwoBits(std::string bits1, std::string bits2);
+    //Thực hiện trừ 2 dãy bits
+    static std::string SubtractTwoBits(std::string bits1,std::string bits2);
+    //Thực hiện nhân nhị phân 2 dãy bits
+    static std::string MultiplyTwoBits(std::string bits1,std::string bits2);
+    //shift right một chuỗi 3 dãy bits
+    static void ShiftRightThreeBits(std::string &A,std::string &Q,char &Q_1);
 };

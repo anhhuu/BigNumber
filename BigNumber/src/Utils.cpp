@@ -354,3 +354,49 @@ std::string Utils::ReverseBitsAndPlusOne(std::string bits){
     return result;
     
 }
+
+std::string Utils::ConvertPartAfterBinaryPointToBits(std::string number){
+    
+    return nullptr;
+    
+}
+
+std::string Utils::MultiplyNumberWithTwo(std::string number){
+    
+    unsigned long posOfDot = number.find(".");
+    
+    if(posOfDot == std::string::npos){
+        return Utils::MultiplyNumStringWithOneDigit(number, 2);
+    }
+    int reminder = 0;
+    int tempResult = 0;
+    bool hasMetPoint = false;
+    std::string result = number;
+    
+    for(int i = number.length()-1;i>=0;i--){
+        
+        if(number[i]!='.'){
+            
+            tempResult = (number[i]-'0') *2 + reminder;
+            
+            reminder = tempResult/10;
+            tempResult %= 10;
+            result[i] = tempResult + '0';
+            
+            if(hasMetPoint && i == 0 && reminder!=0){
+                result.insert(0, std::to_string(reminder));
+            }
+                        
+            
+            
+        }else{
+            hasMetPoint = true;
+        }
+        
+        
+    }
+    
+ 
+    return result;
+    
+}

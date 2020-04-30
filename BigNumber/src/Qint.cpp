@@ -120,7 +120,11 @@ Qint Qint::operator-(const Qint& other) const
 
 Qint Qint::operator*(const Qint& other) const
 {
-	return Qint();
+    auto bits1 = BitProcess::GetBit(_data);
+    auto bits2 = BitProcess::GetBit(other._data);
+    
+    auto result = BitProcess::MultiplyTwoBits(bits1,bits2);
+	return Qint(result,0);
 }
 
 Qint Qint::operator/(const Qint& other) const

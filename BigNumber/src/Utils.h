@@ -60,4 +60,15 @@ public: static std::map<std::string,std::string> GetMapBinToHex();
     //Nhận vào một chuỗi bits
     //Trả về 1 chuỗi bit đã được đảo ngược và cộng 1
     static std::string ReverseBitsAndPlusOne(std::string bits);
+    
+    //Thực hiện chuyển đổi phần sau dấu phẩy của một số
+    //Nhận vào số thập phân
+    //Chuỗi chứa dãy bits sau khi chuyển đổi
+    static std::string ConvertPartAfterBinaryPointToBits(std::string number);
+    
+    //
+    //
+    //
+    static std::string MultiplyNumberWithTwo(std::string number);
+    
 };
