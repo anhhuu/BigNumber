@@ -13,10 +13,12 @@ Qint::Qint()
 {
 }
 
-Qint::Qint(const std::string number)
+Qint::Qint(const std::string &number)
 {
 	std::string bin = Convert::CovertNumStringToBin(number);
 	BitProcess::SetBit(_data, bin);
+
+	std::string x = BitProcess::GetBit(_data);
 }
 
 Qint::~Qint()
@@ -34,19 +36,15 @@ void Qint::ScanQInt()
 	BitProcess::SetBit(_data, bin);
 }
 
-void Qint::PrintQInt()
+void Qint::PrintQInt() const
 {
 	const std::string bits = BitProcess::GetBit(_data);
 	const std::string bigIntNumber = Convert::CovertBinToNumString(bits);
-	std::cout << bigIntNumber; 
-
-
-
+	std::cout << bigIntNumber;
 }
 
-bool* Qint::DecToBin()
+bool* Qint::DecToBin() const
 {
-
 	bool* result = new bool[128];
 	std::string bits = BitProcess::GetBit(this->_data);
 	for (int i = 0; i < bits.length(); i++)
@@ -69,33 +67,44 @@ Qint Qint::BinToDec(const bool* bit)
 	int length = MAX_CELL * BITS_OF_CELL;
 	std::string bits = "";
 
-	for(int i = 0;i<length;i++){
+	for (int i = 0; i < length; i++) {
 		bits += (bit[i] ? '1' : '0');
 	}
 	const std::string numberInStr = Convert::CovertBinToNumString(bits);
 
-	Qint newQInt = Qint(numberInStr);
+	const Qint newQInt = Qint(numberInStr);
 	return newQInt;
-
 }
 
-char* Qint::BinToHex(const bool* bit)
+std::string Qint::BinToHex(const bool *bit) const
 {
-	return nullptr;
+    std::string bitsInString = "";
+    
+    bitsInString = Convert::ConvertBitFromBoolToString(bit);
+    
+	return Convert::ConvertBinToHex(bitsInString);
 }
 
-char* Qint::DecToHex() const
+std::string Qint::DecToHex() const
 {
-	return nullptr;
+    std::string bits = BitProcess::GetBit(_data);
+    auto bitInBool = Convert::ConvertBitFromStringToBool(bits);
+    return this->BinToHex(bitInBool);
 }
 
-Qint Qint::operator+(const Qint&) const
+Qint Qint::operator+(const Qint& other) const
 {
-	return Qint();
+    std::string bits1 = BitProcess::GetBit(_data);
+    std::string bits2 = BitProcess::GetBit(other._data);
+    auto addedBits = BitProcess::AddTwoBits(bits1 , bits2);
+    auto numValue = Convert::CovertBinToNumString(addedBits);
+    Qint result(numValue);    
+	return result;
 }
 
 Qint Qint::operator-(const Qint& other) const
 {
+    
 	return Qint();
 }
 
@@ -109,11 +118,11 @@ Qint Qint::operator/(const Qint& other) const
 	return Qint();
 }
 
-const Qint& Qint::operator=(const std::string number)
+Qint& Qint::operator=(const std::string &number)
 {
-	Qint rv;
-	return rv;
-	// TODO: insert return statement here
+    *this = Qint(number);
+    return *this;
+    
 }
 
 Qint& Qint::operator++()
@@ -151,7 +160,9 @@ const bool Qint::operator==(const Qint& other) const
 	for (int i = 0; i < 128; i++) //Nếu kq XOR là 0 thì hai số bằng nhau và ngược lại
 	{
 		if (allZeroBitsString[i] != comparedValueBitsStr[i])
+		{
 			return flag;
+		}
 	}
 
 	flag = true;
@@ -279,8 +290,16 @@ Qint Qint::operator<<(const int n)
 Qint Qint::operator>>(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	bits.insert(0, std::string(n, '0'));
-	bits.erase(bits.length() - n - 1, n);
+
+	if (bits.at(0) == '1')
+	{
+		bits.insert(0, std::string(n, '1'));
+	}
+	else
+	{
+		bits.insert(0, std::string(n, '0'));
+	}
+	bits.erase(bits.length() - n, n);
 
 	Qint returnVal;
 	BitProcess::SetBit(returnVal._data, bits);
@@ -316,8 +335,10 @@ Qint Qint::operator&(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) {		
-		if (bitsThis.at(i) == '1' && bitsOther.at(i) == '1') {
+	for (int i = 0; i < 128; i++)
+	{
+		if (bitsThis.at(i) == '1' && bitsOther.at(i) == '1')
+		{
 			result.append("1");
 		}
 		else {
@@ -334,8 +355,10 @@ Qint Qint::operator|(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) {
-		if (bitsThis.at(i) == '0' && bitsOther.at(i) == '0') {
+	for (int i = 0; i < 128; i++)
+	{
+		if (bitsThis.at(i) == '0' && bitsOther.at(i) == '0')
+		{
 			result.append("0");
 		}
 		else {
@@ -353,11 +376,14 @@ Qint Qint::operator^(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) {
-		if (bitsThis.at(i) == bitsOther.at(i) ) {
+	for (int i = 0; i < 128; i++)
+	{
+		if (bitsThis.at(i) == bitsOther.at(i))
+		{
 			result.append("0");
 		}
-		else {
+		else
+		{
 			result.append("1");
 		}
 	}
@@ -371,12 +397,15 @@ Qint Qint::operator~()
 {
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string result;
-	for (int i = 0; i < 128; i++) {
-		if (bitsThis.at(i) == '0') {
+	for (int i = 0; i < 128; i++)
+	{
+		if (bitsThis.at(i) == '0')
+		{
 			result.append("1");
 
 		}
-		else {
+		else
+		{
 			result.append("0");
 		}
 	}
@@ -385,3 +414,36 @@ Qint Qint::operator~()
 	return returnVal;
 }
 
+std::ostream& operator<<(std::ostream& os, const Qint& dt)
+{
+	dt.PrintQInt();
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Qint& dt)
+{
+	dt.ScanQInt();
+	return is;
+}
+
+Qint& Qint::operator=(const Qint &other)  {
+    
+    if(this==&other){
+        return *this;
+    }
+    
+    for(int i = 0;i<16;i++){
+        _data[i] = other._data[i];
+    }
+    return *this;
+}
+Qint::Qint(const Qint&other){
+    
+       if(this==&other){
+           return;
+       }
+       
+       for(int i = 0;i<16;i++){
+           _data[i] = other._data[i];
+       }
+}
