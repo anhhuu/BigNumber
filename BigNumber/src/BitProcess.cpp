@@ -181,3 +181,43 @@ void BitProcess::ShiftRightThreeBits(std::string &A,std::string &Q,char &Q_1){
     
     
 }
+std::string BitProcess::DivideTwoBits(std::string bits1,std::string bits2){
+    
+    std::string A = std::string(128,bits1[0]);
+    const std::string M = bits2;
+    std::string Q = bits1;
+    
+    int k = 128;
+    
+    while(k>0){
+        
+        BitProcess::ShiftLeftTwoBits(A,Q);
+        A = BitProcess::SubtractTwoBits(A, M);
+        
+        if(A[0] == '1'){
+            A = BitProcess::AddTwoBits(A, M);
+            Q[Q.length()-1] = '0';
+        }else{
+            Q[Q.length()-1] = '1';
+        }
+        k--;
+        
+    }
+    
+    
+    return Q;
+    
+    
+}
+
+void BitProcess::ShiftLeftTwoBits(std::string &A,std::string &Q){
+   
+    std::string concatenatedResult = A+Q;
+    concatenatedResult.insert(concatenatedResult.length(), "0");
+    concatenatedResult.erase(0,1);
+    
+    A = concatenatedResult.substr(0,A.length());
+    Q = concatenatedResult.substr(A.length(),Q.length());
+    
+}
+

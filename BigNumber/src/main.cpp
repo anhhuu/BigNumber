@@ -78,8 +78,7 @@ void testTask1()
 int main()
 {
     
-    std::cout<<Qint("-10")*Qint("-243242342");
-        
+    std::cout<<(Qint("0")/Qint("10000"));
     
 	//system("pause");
 	return 0;

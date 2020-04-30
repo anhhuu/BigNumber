@@ -37,4 +37,9 @@ public:
     static std::string MultiplyTwoBits(std::string bits1,std::string bits2);
     //shift right một chuỗi 3 dãy bits
     static void ShiftRightThreeBits(std::string &A,std::string &Q,char &Q_1);
+    //
+    static std::string DivideTwoBits(std::string bits1,std::string bits2);
+    //
+    static void ShiftLeftTwoBits(std::string &A,std::string &Q);
+    
 };
