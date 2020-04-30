@@ -13,7 +13,7 @@ Qint::Qint()
 {
 }
 
-Qint::Qint(const std::string number)
+Qint::Qint(const std::string &number)
 {
 	std::string bin = Convert::CovertNumStringToBin(number);
 	BitProcess::SetBit(_data, bin);
@@ -72,27 +72,39 @@ Qint Qint::BinToDec(const bool* bit)
 	}
 	const std::string numberInStr = Convert::CovertBinToNumString(bits);
 
-	Qint newQInt = Qint(numberInStr);
+	const Qint newQInt = Qint(numberInStr);
 	return newQInt;
 }
 
-char* Qint::BinToHex(const bool* bit)
+std::string Qint::BinToHex(const bool *bit) const
 {
-	return nullptr;
+    std::string bitsInString = "";
+    
+    bitsInString = Convert::ConvertBitFromBoolToString(bit);
+    
+	return Convert::ConvertBinToHex(bitsInString);
 }
 
-char* Qint::DecToHex() const
+std::string Qint::DecToHex() const
 {
-	return nullptr;
+    std::string bits = BitProcess::GetBit(_data);
+    auto bitInBool = Convert::ConvertBitFromStringToBool(bits);
+    return this->BinToHex(bitInBool);
 }
 
-Qint Qint::operator+(const Qint&) const
+Qint Qint::operator+(const Qint& other) const
 {
-	return Qint();
+    std::string bits1 = BitProcess::GetBit(_data);
+    std::string bits2 = BitProcess::GetBit(other._data);
+    auto addedBits = BitProcess::AddTwoBits(bits1 , bits2);
+    auto numValue = Convert::CovertBinToNumString(addedBits);
+    Qint result(numValue);    
+	return result;
 }
 
 Qint Qint::operator-(const Qint& other) const
 {
+    
 	return Qint();
 }
 
@@ -106,11 +118,11 @@ Qint Qint::operator/(const Qint& other) const
 	return Qint();
 }
 
-const Qint& Qint::operator=(const std::string number)
+Qint& Qint::operator=(const std::string &number)
 {
-	Qint rv;
-	return rv;
-	// TODO: insert return statement here
+    *this = Qint(number);
+    return *this;
+    
 }
 
 Qint& Qint::operator++()
@@ -412,4 +424,26 @@ std::istream& operator>>(std::istream& is, Qint& dt)
 {
 	dt.ScanQInt();
 	return is;
+}
+
+Qint& Qint::operator=(const Qint &other)  {
+    
+    if(this==&other){
+        return *this;
+    }
+    
+    for(int i = 0;i<16;i++){
+        _data[i] = other._data[i];
+    }
+    return *this;
+}
+Qint::Qint(const Qint&other){
+    
+       if(this==&other){
+           return;
+       }
+       
+       for(int i = 0;i<16;i++){
+           _data[i] = other._data[i];
+       }
 }

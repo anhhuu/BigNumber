@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "Qint.h"
 #include "Qfloat.h"
 #include "Utils.h"
@@ -77,7 +77,12 @@ void testTask1()
 
 int main()
 {
-	testTask1();
+    std::string s = "01111";
+    Qint a = s;
+    Qint b("10000");
+    
+    std::cout<<a+b;
+    
 	system("pause");
 	return 0;
 }

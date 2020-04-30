@@ -1,4 +1,4 @@
-﻿#include "Convert.h"
+#include "Convert.h"
 #include <algorithm>
 #include "Convert.h"
 #include "Utils.h"
@@ -83,4 +83,42 @@ void Convert::ConvertBitsToTwoComplement(std::string &bits, bool sign)
         BitProcess::ReverseBits(bits);
         bits = BitProcess::AddTwoBits(bits, "1");
     }
+}
+
+std::string Convert::ConvertBinToHex(std::string bits){
+    
+    std::string result = "";
+    auto mapBinToHex = Utils::GetMapBinToHex();
+    for(int i = 0;i<MAX_CELL*BITS_OF_CELL;i+=4){
+        
+        result+=mapBinToHex[bits.substr(i,4)];
+        
+    }
+    return result;
+}
+
+
+std::string Convert::ConvertBitFromBoolToString(const bool * bits){
+    
+    std::string result = "";
+    for(int i = 0;i<MAX_CELL*BITS_OF_CELL;i++)
+        result+=bits[i]?'1':'0';
+    
+    return result;
+    
+    
+}
+ 
+bool * Convert::ConvertBitFromStringToBool(std::string bits){
+    
+    
+    bool result[MAX_CELL*BITS_OF_CELL];
+    for(int i = 0;i<MAX_CELL*BITS_OF_CELL;i++)
+        result[i] = bits[i] == '1'?true:false;
+  
+    return result;
+}
+
+std::string Convert::ConvertDecToHex(std::string number){
+    return nullptr;
 }
