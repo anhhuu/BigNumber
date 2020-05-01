@@ -41,15 +41,15 @@ public:
     static std::string SubtractTwoSNumString(std::string num1, std::string num2);
 
 private:
-    inline static std::map<std::string,std::string> _mapBinToHex;
-    
-    //Kiểm soát việc khởi tạo giá trị cho map quá nhiều lần
-    inline static bool calledLazyFunctionBinToHex = false;
-    
+    static  std::map<std::string, std::string> _mapBinToHex;
+       
+   
+public: 
+
     //Lấy ra map kết quả chứa thông tin phép chuyển theo từng bộ 4 bit bin sang hex
-    //Không tham số đầu vào
-    //Trả về std::map<std::string,std::string>
-public: static std::map<std::string,std::string> GetMapBinToHex();
+   //Không tham số đầu vào
+   //Trả về std::map<std::string,std::string>
+    static std::map<std::string,std::string> GetMapBinToHex();
     
     //Thực hiện chia một số cho 16
     //Nhận vào một số hệ 10
@@ -66,9 +66,9 @@ public: static std::map<std::string,std::string> GetMapBinToHex();
     //Chuỗi chứa dãy bits sau khi chuyển đổi
     static std::string ConvertPartAfterBinaryPointToBits(std::string number);
     
-    //
-    //
-    //
+    //Nhân một thập phân với 2
+    //Nhận vào một số thập phân
+    //Trả ra kết quả đã nhân với 2 ở dạng chuỗi
     static std::string MultiplyNumberWithTwo(std::string number);
     
 };

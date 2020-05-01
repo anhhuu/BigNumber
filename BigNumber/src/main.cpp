@@ -68,18 +68,14 @@ void testTask1()
 	cBig.ScanQInt();
 	bool* bits = cBig.DecToBin();
 
-	Qint dBig = Qint::BinToDec(bits);
+	
 
-	std::cout << "cBig \t\t= " << cBig << std::endl;
-	std::cout << "dBig \t\t= " << dBig << std::endl;
+
 
 }
 
 int main()
 {
-    
-    std::cout<<(Qint("0")/Qint("10000"));
-    
-	//system("pause");
+	Qint a = std::string("234234234234");
 	return 0;
 }

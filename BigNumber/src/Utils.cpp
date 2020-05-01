@@ -278,28 +278,28 @@ std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
     return result;
 }
 
-std::map<std::string,std::string> Utils::GetMapBinToHex(){
-    
-    if(calledLazyFunctionBinToHex == false){
-        _mapBinToHex["0000"] = "0";
-        _mapBinToHex["0001"] = "1";
-        _mapBinToHex["0010"] = "2";
-        _mapBinToHex["0011"] = "3";
-        _mapBinToHex["0100"] = "4";
-        _mapBinToHex["0101"] = "5";
-        _mapBinToHex["0110"] = "6";
-        _mapBinToHex["0111"] = "7";
-        _mapBinToHex["1000"] = "8";
-        _mapBinToHex["1001"] = "9";
-        _mapBinToHex["1010"] = "A";
-        _mapBinToHex["1011"] = "B";
-        _mapBinToHex["1100"] = "C";
-        _mapBinToHex["1101"] = "D";
-        _mapBinToHex["1110"] = "E";
-        _mapBinToHex["1111"] = "F";
-        calledLazyFunctionBinToHex = true;
-    }
-    
+std::map<std::string, std::string> Utils::_mapBinToHex = {
+    {"0000","0"},
+    {"0001","1"},
+    {"0010","2"},
+    {"0011","3"},
+    {"0100","4"},
+    {"0101","5"},
+    {"0110","6"},
+    {"0111","7"},
+    {"1000","8"},
+    {"1001","9"},
+    {"1010","A"},
+    {"1011","B"},
+    {"1100","C"},
+    {"1101","D"},
+    {"1110","E"},
+    {"1111","F"}
+
+};
+
+std::map<std::string,std::string> Utils::GetMapBinToHex(){      
+ 
     return _mapBinToHex;
     
 }

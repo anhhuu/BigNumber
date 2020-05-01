@@ -96,27 +96,3 @@ std::string Convert::ConvertBinToHex(std::string bits){
     }
     return result;
 }
-
-
-std::string Convert::ConvertBitsFromBoolToString(const bool * bits){
-    
-    std::string result = "";
-    for(int i = 0;i<MAX_CELL*BITS_OF_CELL;i++)
-        result+=bits[i]?'1':'0';
-    
-    return result;
-    
-    
-}
- 
-bool * Convert::ConvertBitsFromStringToBool(std::string bits){
-    
-    
-    bool result[MAX_CELL*BITS_OF_CELL];
-    for(int i = 0;i<MAX_CELL*BITS_OF_CELL;i++)
-        result[i] = bits[i] == '1'?true:false;
-  
-    return result;
-}
-
-

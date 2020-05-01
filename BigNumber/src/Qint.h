@@ -28,7 +28,7 @@ public:
 
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số nguyên lớn
-    static Qint BinToDec(const bool* bit) ;
+    static Qint BinToDec(std::string bits) ;
 
 	//Chuyển đổi thập phân sang thập lục phân
 	//Trả về mảng kí tự của hệ thập lục phân 
@@ -36,7 +36,7 @@ public:
 	
 	//Chuyển đổi nhị phân sang thập lục phân
 	//Trả về mảng chứa các kí tự của hệ thập lục phân
-	std::string BinToHex(const bool* bit) const;
+	std::string BinToHex(std::string bits) const;
 
 public:
 	//+ operator
