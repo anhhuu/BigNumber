@@ -28,6 +28,8 @@ public:
 	//ex: 2^72 = ? 
 	static std::string PowOneDigit(int factor, int exp);
 
+	std::string NegativePowTwo(unsigned int exp);
+
 private:
 	//Tìm số lớn nhất giữa 2 chuỗi
 	static std::string FindMaxNumString(std::string num1, std::string num2);
