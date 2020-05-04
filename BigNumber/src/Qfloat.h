@@ -10,10 +10,10 @@ public:
 
 public:
 	//scan Qfloat fromt keyboard
-	void ScanQInt(Qfloat& x);
+	void ScanQfloat();
 
 	//print Qfloat on screen
-	void PrintQInt(const Qfloat& x) const;
+	void PrintQfloat() const;
 
 	//convert decimal to binary of Qfloat
 	//return a bit array of bool 

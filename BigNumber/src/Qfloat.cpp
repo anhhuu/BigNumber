@@ -1,4 +1,9 @@
 #include "Qfloat.h"
+#include <string>
+#include <iostream>
+
+#include "BitProcess.h"
+#include "Convert.h"
 
 Qfloat::Qfloat()
 	:_data{0}
@@ -7,13 +12,20 @@ Qfloat::Qfloat()
 
 Qfloat::~Qfloat()
 {
+	memset(_data, 0, sizeof(_data));
 }
 
-void Qfloat::ScanQInt(Qfloat& x)
+void Qfloat::ScanQfloat()
 {
+	std::string temp;
+	std::cin >> temp;
+
+	std::string bin = Convert::ConvertFloatToBin(temp);
+
+	BitProcess::SetBit(_data, bin);
 }
 
-void Qfloat::PrintQInt(const Qfloat& x) const
+void Qfloat::PrintQfloat() const
 {
 }
 
