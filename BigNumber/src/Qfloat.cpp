@@ -15,6 +15,7 @@ Qfloat::~Qfloat()
 	memset(_data, 0, sizeof(_data));
 }
 
+
 void Qfloat::ScanQfloat()
 {
 	std::string temp;

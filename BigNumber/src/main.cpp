@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "Qint.h"
 #include "Qfloat.h"
 #include "Utils.h"
@@ -68,10 +68,9 @@ void testTask1()
 	cBig.ScanQInt();
 	bool* bits = cBig.DecToBin();
 
-	Qint dBig = Qint::BinToDec(bits);
+	
 
-	std::cout << "cBig \t\t= " << cBig << std::endl;
-	std::cout << "dBig \t\t= " << dBig << std::endl;
+
 
 }
 

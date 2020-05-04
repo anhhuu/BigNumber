@@ -1,8 +1,9 @@
-﻿#pragma once
+#pragma once
 #include <string>
-
+#include <map>
 class Utils
 {
+    
 public:
 	//Cộng 2 số nguyên lớn ở dạng chuỗi
 	//Kết quả trả về là số nguyên lớn dạng chuỗi
@@ -31,14 +32,45 @@ public:
 	std::string NegativePowTwo(unsigned int exp);
 
 private:
-	//Tìm số lớn nhất giữa 2 chuỗi
-	static std::string FindMaxNumString(std::string num1, std::string num2);
-
+    //Tìm số lớn nhất giữa 2 chuỗi
+    static std::string FindMaxNumString(std::string num1, std::string num2);
+    
 public:
+    
+    //Thực hiện trừ hai số với nhau
+    //Nhận vào số trừ và số bị trừ
+    //Trả về kết quả của phép trừ
+    static std::string SubtractTwoSNumString(std::string num1, std::string num2);
 
-	//Thực hiện trừ hai số với nhau 
-	//Nhận vào số trừ và số bị trừ
-	//Trả về kết quả của phép trừ
-	static std::string SubtractTwoSNumString(std::string num1, std::string num2);
+private:
+    static  std::map<std::string, std::string> _mapBinToHex;
+       
+   
+public: 
 
+    //Lấy ra map kết quả chứa thông tin phép chuyển theo từng bộ 4 bit bin sang hex
+   //Không tham số đầu vào
+   //Trả về std::map<std::string,std::string>
+    static std::map<std::string,std::string> GetMapBinToHex();
+    
+    //Thực hiện chia một số cho 16
+    //Nhận vào một số hệ 10
+    //Trả về kết quả phép chia param/16 kết quả chia lấy nguyên
+    static std::string DevideNumDecForSixteen(std::string num);
+    
+    //Đảo bit đồng thời cộng 1 vào chuỗi bits vừa đảo
+    //Nhận vào một chuỗi bits
+    //Trả về 1 chuỗi bit đã được đảo ngược và cộng 1
+    static std::string ReverseBitsAndPlusOne(std::string bits);
+    
+    //Thực hiện chuyển đổi phần sau dấu phẩy của một số
+    //Nhận vào số thập phân
+    //Chuỗi chứa dãy bits sau khi chuyển đổi
+    static std::string ConvertPartAfterBinaryPointToBits(std::string number);
+    
+    //Nhân một thập phân với 2
+    //Nhận vào một số thập phân
+    //Trả ra kết quả đã nhân với 2 ở dạng chuỗi
+    static std::string MultiplyNumberWithTwo(std::string number);
+    
 };

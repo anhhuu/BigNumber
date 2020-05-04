@@ -1,10 +1,15 @@
-﻿#pragma once
+#pragma once
 #include <string>
 #include "Utils.h"
 
 class Convert
 {
 public:
+    //Chuyển đổi một chuỗi bit sang mã hex
+    //Nhận vào chuỗi bits
+    //Trả về chuỗi hex
+    static std::string ConvertBinToHex(std::string bits);
+    
 	static void ConvertBitsToTwoComplement(std::string& bits, bool sign);
 
 	//Chuyển đổi một số nguyên hệ 10 sang chuỗi nhị nhân
