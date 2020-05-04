@@ -95,7 +95,8 @@ void showRawBitFloat(std::string str)
 
 int main()
 {
-	//testTask1();
+	//testTask1_2();
+	std::cout << std::atoi("235346453646534634");
 	std::string floatNum;
 	while (true)
 	{
