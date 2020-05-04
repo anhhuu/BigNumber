@@ -22,7 +22,7 @@ public:
 	//Chuyển đổi một chuỗi bit sang số nguyên
 	//Nhận vào chuỗi bit
 	//Trả về số nguyên dạng chuỗi
-	static std::string CovertBinToNumString(std::string bits);
+	static std::string ConvertBinToNumString(std::string bits);
 
 	//Chuyển phần thập phân dạng decimal qua binary
 	//Nhận vào phần thập phân, 1 tham chiếu để đếm bao nhiêu bit 0 trước bit 1 đầu tiên của phần thập phân, tham 
@@ -31,4 +31,10 @@ public:
 
 	//Chuyển đổi một số thực dạng chuỗi qua dạng binary (floating point)
 	static std::string ConvertFloatToBin(const std::string& floatNum);
+
+	//Chuyển đổi một chuỗi bit sang số thực
+	static std::string ConvertBinToFloat(std::string bits);
+
+	//Chuyển đổi phần thập phân của bin qua float
+	static std::string ConvertBinPartToFloat(std::string bits, const unsigned int& countFirstZero = 0);
 };

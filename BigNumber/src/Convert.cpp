@@ -30,7 +30,7 @@ std::string Convert::CovertNumStringToBin(std::string num, unsigned int numOfBit
 	return result;
 }
 
-std::string Convert::CovertBinToNumString(std::string bits)
+std::string Convert::ConvertBinToNumString(std::string bits)
 {
 	int index = 0;
 	std::string decResult = "0";
@@ -262,14 +262,14 @@ std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 
 		decPart = ConvertDecPartToBin(decPart, countBitBeforeOne, false);
 		int exp = countBitBeforeOne + 1;
-		if (exp < EXPONENT_BIAS)
+		if (exp < EXPONENT_BIAS - 1)
 		{
 			exp = -exp + EXPONENT_BIAS;
 			decPart.erase(0, 1);
 		}
-		else if (exp == EXPONENT_BIAS)
+		else if (exp == EXPONENT_BIAS - 1)
 		{
-			exp = -exp + EXPONENT_BIAS;
+			exp = -exp + EXPONENT_BIAS - 1;
 		}
 		else
 		{
@@ -286,6 +286,95 @@ std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 	}
 
 	result += exponent + significant.substr(0, NUM_OF_SIGNIFICANT_BITS);
+	return result;
+}
+
+std::string Convert::ConvertBinToFloat(std::string bits)
+{
+	std::string result;
+	std::string exponent;
+
+	if (bits[0] == '1')
+	{
+		result += "-";
+	}
+
+	exponent = bits.substr(1, NUM_OF_EXPONENT_BITS);
+	//lấy 15 bit mũ trong bits
+	std::string significant;
+	significant = bits.substr(NUM_OF_EXPONENT_BITS + 1, NUM_OF_EXPONENT_BITS + NUM_OF_SIGNIFICANT_BITS);
+
+	//xét trường hợp số vô cùng và số báo lỗi
+	if (exponent == std::string(NUM_OF_EXPONENT_BITS, '1'))
+	{
+		if (std::atoi(significant.c_str()) == 0)
+		{
+			result = "inf";
+		}
+		else
+		{
+			result = "NaN";
+		}
+		return result;
+	}
+
+	BitProcess::StandardBits(exponent, MAX_CELL * BITS_OF_CELL);
+
+	int exp = atoi(Convert::ConvertBinToNumString(exponent).c_str());
+
+	if (exp == 0)
+	{
+		if (std::atoi(significant.c_str()) == 0)
+		{
+			result = "0";
+		}
+		else
+		{
+			exp = -EXPONENT_BIAS + 1;
+			//result.append("0.");
+			result += ConvertBinPartToFloat(significant, -exp);
+		}
+
+		return result;
+	}
+
+	exp -= EXPONENT_BIAS;
+	significant.insert(0, "1");
+
+	if (exp > 0)
+	{
+		significant.insert(exp + 1, ".");
+	}
+	else
+	{
+		significant.insert(0, std::string(-exp, '0'));
+		significant.insert(1, ".");
+	}
+
+	int pos = significant.find_first_of(".", 0);
+	std::string significantInt = significant.substr(0, pos);
+	std::string significantAfterPoint = significant.substr(pos + 1, significant.length() - 1);
+	
+	BitProcess::StandardBits(significantInt, MAX_CELL * BITS_OF_CELL);
+
+	result += ConvertBinToNumString(significantInt);
+	significantAfterPoint = ConvertBinPartToFloat(significantAfterPoint);
+	significantAfterPoint.erase(0, 1);
+	result += significantAfterPoint;
+
+	return result;
+}
+
+std::string Convert::ConvertBinPartToFloat(std::string bits, const unsigned int& countFirstZero)
+{
+	std::string result;
+	for (unsigned int i = 0; i < bits.length(); i++)
+	{
+		if (bits[i] == '1')
+		{
+			result = Utils::AddTwoDecWithPoint(result, Utils::NegativePowTwo(i + countFirstZero + 1));
+		}
+	}
 	return result;
 }
 
