@@ -73,7 +73,7 @@ short Utils::StringToShort(std::string input)
 {
 
 	short result = 0;
-	for (int i = 0; i < input.length(); i++)
+	for (unsigned int i = 0; i < input.length(); i++)
 	{
 		result = result * 10 + input[i] - 48;
 	}
@@ -82,41 +82,41 @@ short Utils::StringToShort(std::string input)
 
 std::string Utils::DivideNumStringForTwo(std::string num)
 {
-    unsigned int index = 0;
-    if (num[0] == '-' || num[0] == '+')
-    {
-        index++;
-    }
-    
-    unsigned int dividendNum = 0;
-    unsigned int surplus = 0;
-    unsigned int resultTemp = 0;
-    std::string resultStr = "";
-    
-    while (index < num.length())
-    {
-        dividendNum = (dividendNum * 10) + num[index] - '0';
-        resultTemp = dividendNum / 2;
-        surplus = dividendNum % 2;
-        
-        if (surplus != 0)
-        {
-            dividendNum = surplus;
-        }
-        else
-        {
-            dividendNum = 0;
-        }
-        resultStr += std::to_string(resultTemp);
-        index++;
-    }
-    
-    if (resultStr[0] == '0' && resultStr.length() > 1)
-    {
-        resultStr.erase(0, 1);
-    }
-    
-    return resultStr;
+	unsigned int index = 0;
+	if (num[0] == '-' || num[0] == '+')
+	{
+		index++;
+	}
+
+	unsigned int dividendNum = 0;
+	unsigned int surplus = 0;
+	unsigned int resultTemp = 0;
+	std::string resultStr = "";
+
+	while (index < num.length())
+	{
+		dividendNum = (dividendNum * 10) + num[index] - '0';
+		resultTemp = dividendNum / 2;
+		surplus = dividendNum % 2;
+
+		if (surplus != 0)
+		{
+			dividendNum = surplus;
+		}
+		else
+		{
+			dividendNum = 0;
+		}
+		resultStr += std::to_string(resultTemp);
+		index++;
+	}
+
+	if (resultStr[0] == '0' && resultStr.length() > 1)
+	{
+		resultStr.erase(0, 1);
+	}
+
+	return resultStr;
 }
 
 std::string Utils::MultiplyNumStringWithOneDigit(std::string num1, int num2)
@@ -179,16 +179,18 @@ std::string Utils::PowOneDigit(int factor, int exp)
 std::string Utils::NegativePowTwo(unsigned int exp)
 {
 	std::string str = "5";
-	for (int i = 1; i < exp; i++)
+
+	for (unsigned int i = 1; i < exp; i++)
 	{
-		str.push_back('0');												
+		str.push_back('0');
 	}
-	for (int i = 1; i < exp; i++)
+
+	for (unsigned int i = 1; i < exp; i++)
 	{
-		str = DivideNumStringForTwo(str);								
+		str = DivideNumStringForTwo(str);
 	}
-	str.insert(str.begin(), exp - str.size(), '0');						
-	str = "0." + str;													
+	str.insert(str.begin(), exp - str.size(), '0');
+	str = "0." + str;
 	return str;
 }
 
@@ -228,193 +230,133 @@ std::string Utils::FindMaxNumString(std::string num1, std::string num2)
 
 std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 {
-    if (num1 == num2) return "0";
-    
-    std::string result = "";
-    std::string subtrahend = FindMaxNumString(num1, num2);
-    std::string minuend = subtrahend == num1 ? num2 : num1;
-    int reminder = 0;
-    int tempResult = 0;
-    int pointerSubtrahend = subtrahend.length() - 1;
-    int pointerMinuend = minuend.length() - 1;
-    
-    
-    while (pointerSubtrahend >= 0) {
-        
-        if (pointerMinuend>=0) {
-            tempResult = subtrahend[pointerSubtrahend] - minuend[pointerMinuend] - reminder;
-        }
-        else {
-            tempResult = subtrahend[pointerSubtrahend]  - reminder-'0';
-        }
-        
-        
-        if (tempResult < 0) {
-            if (pointerMinuend >= 0) {
-                tempResult = subtrahend[pointerSubtrahend] +10 - minuend[pointerMinuend] - reminder;
-            }
-            else {
-                tempResult = subtrahend[pointerSubtrahend] +10  - reminder-'0';
-            }
-            reminder = 1;
-            
-        }
-        else {
-            reminder = 0;
-            
-        }
-        result.insert(0, std::to_string(tempResult));
-        pointerSubtrahend--;
-        pointerMinuend--;
-    }
-    
-    if (subtrahend == num2)
-    {
-        result.insert(0, "-");
-    }
-    
-    int lengthResult = result.length();
-    //Xóa những số 0 thừa
-    int currentPos = 0;
-    //
-    int minimumLength = 2;
-    
-    if (result[0] == '-')
-    {
-        currentPos++;
-        minimumLength++;
-    }
-    
-    while (currentPos < lengthResult && result[currentPos] == '0' && lengthResult>=minimumLength)
-    {
-        result.erase(currentPos, 1);
-        lengthResult = result.length();
-    }
-    
-    return result;
+	if (num1 == num2) return "0";
+
+	std::string result = "";
+	std::string subtrahend = FindMaxNumString(num1, num2);
+	std::string minuend = subtrahend == num1 ? num2 : num1;
+	int reminder = 0;
+	int tempResult = 0;
+	int pointerSubtrahend = subtrahend.length() - 1;
+	int pointerMinuend = minuend.length() - 1;
+
+	while (pointerSubtrahend >= 0)
+	{
+		if (pointerMinuend >= 0)
+		{
+			tempResult = subtrahend[pointerSubtrahend] - minuend[pointerMinuend] - reminder;
+		}
+		else
+		{
+			tempResult = subtrahend[pointerSubtrahend] - reminder - '0';
+		}
+
+		if (tempResult < 0)
+		{
+			if (pointerMinuend >= 0)
+			{
+				tempResult = subtrahend[pointerSubtrahend] + 10 - minuend[pointerMinuend] - reminder;
+			}
+			else
+			{
+				tempResult = subtrahend[pointerSubtrahend] + 10 - reminder - '0';
+			}
+			reminder = 1;
+		}
+		else
+		{
+			reminder = 0;
+		}
+
+		result.insert(0, std::to_string(tempResult));
+		pointerSubtrahend--;
+		pointerMinuend--;
+	}
+
+	if (subtrahend == num2)
+	{
+		result.insert(0, "-");
+	}
+
+	int lengthResult = result.length();
+	//Xóa những số 0 thừa
+	int currentPos = 0;
+	//
+	int minimumLength = 2;
+
+	if (result[0] == '-')
+	{
+		currentPos++;
+		minimumLength++;
+	}
+
+	while (currentPos < lengthResult && result[currentPos] == '0' && lengthResult >= minimumLength)
+	{
+		result.erase(currentPos, 1);
+		lengthResult = result.length();
+	}
+
+	return result;
 }
 
 std::map<std::string, std::string> Utils::_mapBinToHex = {
-    {"0000","0"},
-    {"0001","1"},
-    {"0010","2"},
-    {"0011","3"},
-    {"0100","4"},
-    {"0101","5"},
-    {"0110","6"},
-    {"0111","7"},
-    {"1000","8"},
-    {"1001","9"},
-    {"1010","A"},
-    {"1011","B"},
-    {"1100","C"},
-    {"1101","D"},
-    {"1110","E"},
-    {"1111","F"}
-
+	{"0000","0"},
+	{"0001","1"},
+	{"0010","2"},
+	{"0011","3"},
+	{"0100","4"},
+	{"0101","5"},
+	{"0110","6"},
+	{"0111","7"},
+	{"1000","8"},
+	{"1001","9"},
+	{"1010","A"},
+	{"1011","B"},
+	{"1100","C"},
+	{"1101","D"},
+	{"1110","E"},
+	{"1111","F"}
 };
 
-std::map<std::string,std::string> Utils::GetMapBinToHex(){      
- 
-    return _mapBinToHex;
-    
+std::map<std::string, std::string> Utils::GetMapBinToHex()
+{
+	return _mapBinToHex;
 }
 
-std::string Utils::DevideNumDecForSixteen(std::string num){
-    
-    std::string result = "";
-    
-    int index = 0;
-    bool isNegative = false;
-   
-    if(num[0] == '-'){
-        index++;
-        isNegative = true;
-    }
-    
-    int length = num.length();
-    int reminder = 0;
-    
-    //currentNumber <=99
-    int currentNumber = 0;
-    
-    
-    while(index<length){
-        
-        currentNumber = currentNumber*10 + num[index]- '0';
-        if(currentNumber>=16){
-            result+=currentNumber/16 + '0';
-            currentNumber%=16;
-        }else{
-            result+='0';
-        }
-        index++;
-        
-    }
-    size_t currentLength = result.length();
-    index = 0;
-    while(currentLength>1&&result[index] == '0'){
-        result.erase(index,1);
-        currentLength = result.length();
-    }
-   
-    
-    return result;
-    
-}
+std::string Utils::MultiplyNumberWithTwo(std::string number)
+{
 
+	unsigned long posOfDot = number.find(".");
 
-std::string Utils::ReverseBitsAndPlusOne(std::string bits){
-   
-    BitProcess::ReverseBits(bits);
-    std::string result = BitProcess::AddTwoBits(bits, "1");
-    return result;
-    
-}
+	if (posOfDot == std::string::npos)
+	{
+		return Utils::MultiplyNumStringWithOneDigit(number, 2);
+	}
+	int reminder = 0;
+	int tempResult = 0;
+	bool hasMetPoint = false;
+	std::string result = number;
 
-std::string Utils::ConvertPartAfterBinaryPointToBits(std::string number){
-    
-    return nullptr;
-    
-}
+	for (int i = number.length() - 1; i >= 0; i--)
+	{
+		if (number[i] != '.')
+		{
+			tempResult = (number[i] - '0') * 2 + reminder;
 
+			reminder = tempResult / 10;
+			tempResult %= 10;
+			result[i] = tempResult + '0';
 
-std::string Utils::MultiplyNumberWithTwo(std::string number){
-    
-    unsigned long posOfDot = number.find(".");
-    
-    if(posOfDot == std::string::npos){
-        return Utils::MultiplyNumStringWithOneDigit(number, 2);
-    }
-    int reminder = 0;
-    int tempResult = 0;
-    bool hasMetPoint = false;
-    std::string result = number;
-    
-    for(int i = number.length()-1;i>=0;i--){
-        
-        if(number[i]!='.'){
-            
-            tempResult = (number[i]-'0') *2 + reminder;
-            
-            reminder = tempResult/10;
-            tempResult %= 10;
-            result[i] = tempResult + '0';
-            
-            if(hasMetPoint && i == 0 && reminder!=0){
-                result.insert(0, std::to_string(reminder));
-            }
-                        
-            
-            
-        }else{
-            hasMetPoint = true;
-        }
-        
-        
-    }
-    
- 
-    return result;
-    
+			if (hasMetPoint && i == 0 && reminder != 0)
+			{
+				result.insert(0, std::to_string(reminder));
+			}
+		}
+		else
+		{
+			hasMetPoint = true;
+		}
+	}
+
+	return result;
 }

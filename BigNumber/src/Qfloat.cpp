@@ -6,7 +6,7 @@
 #include "Convert.h"
 
 Qfloat::Qfloat()
-	:_data{0}
+	:_data{ 0 }
 {
 }
 
@@ -20,9 +20,7 @@ void Qfloat::ScanQfloat()
 {
 	std::string temp;
 	std::cin >> temp;
-
 	std::string bin = Convert::ConvertFloatToBin(temp);
-
 	BitProcess::SetBit(_data, bin);
 }
 

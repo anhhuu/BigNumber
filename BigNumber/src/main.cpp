@@ -34,6 +34,18 @@ void testTask1()
 	std::cout << "b \t\t= " << b << std::endl;
 	std::cout << "bBig \t\t= " << bBig << std::endl;
 
+	std::cout << "a + b \t\t= " << (a + b) << std::endl;
+	std::cout << "aBig + bBig \t= " << (aBig + bBig) << std::endl;
+
+	std::cout << "a - b \t\t= " << (a - b) << std::endl;
+	std::cout << "aBig - bBig \t= " << (aBig - bBig) << std::endl;
+
+	std::cout << "a * b \t\t= " << (a * b) << std::endl;
+	std::cout << "aBig * bBig \t= " << (aBig * bBig) << std::endl;
+
+	std::cout << "a / b \t\t= " << (a / b) << std::endl;
+	std::cout << "aBig / bBig \t= " << (aBig / bBig) << std::endl;
+
 	std::cout << "a & b \t\t= " << (a & b) << std::endl;
 	std::cout << "aBig & bBig \t= " << (aBig & bBig) << std::endl;
 
@@ -67,16 +79,12 @@ void testTask1()
 	Qint cBig;
 	cBig.ScanQInt();
 	bool* bits = cBig.DecToBin();
-
-	
-
-
-
 }
 
 int main()
 {
-	std::cout << Convert::ConvertFloatToBin("0.00000000000000000000000000000000000000000001");
+	//testTask1();
+	std::cout << Convert::ConvertFloatToBin("0.00001");
 	system("pause");
 	return 0;
 }

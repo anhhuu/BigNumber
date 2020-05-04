@@ -94,7 +94,7 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 
 	std::string num = "1";
 	num = num.insert(1, lengthDecPartAtFirstTime + countFirstZero, '0');
-	
+
 	std::string result;
 
 	if (isIntPartDiffZero)
@@ -115,10 +115,10 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 				{
 					break;
 				}
-				
+
 				decPart.erase(0, 1);
 				firstPosDecPartNotOfZero = decPart.find_first_not_of('0', 0);
-				
+
 				if (firstPosDecPartNotOfZero > 0)
 				{
 					decPart = decPart.substr(firstPosDecPartNotOfZero, decPart.length() - firstPosDecPartNotOfZero);
@@ -216,7 +216,7 @@ std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 	}
 
 	std::string decPart = floatNum.substr(firstPosOfDot + 1, floatNum.length() - 1 - firstPosOfDot);
-	
+
 	std::string exponent;
 	std::string significant;
 
@@ -282,14 +282,14 @@ void Convert::ConvertBitsToTwoComplement(std::string& bits, bool sign)
 	}
 }
 
-std::string Convert::ConvertBinToHex(std::string bits){
-    
-    std::string result = "";
-    auto mapBinToHex = Utils::GetMapBinToHex();
-    for(int i = 0;i<MAX_CELL*BITS_OF_CELL;i+=4){
-        
-        result+=mapBinToHex[bits.substr(i,4)];
-        
-    }
-    return result;
+std::string Convert::ConvertBinToHex(std::string bits) {
+
+	std::string result = "";
+	auto mapBinToHex = Utils::GetMapBinToHex();
+	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i += 4) {
+
+		result += mapBinToHex[bits.substr(i, 4)];
+
+	}
+	return result;
 }

@@ -2,20 +2,20 @@
 
 bool BitProcess::GetBit(const unsigned char memory, const unsigned int& pos)
 {
-	return (memory >> BITS_OF_CELL - 1 - pos % BITS_OF_CELL) & 1;
+	return (memory >> (BITS_OF_CELL - 1 - pos % BITS_OF_CELL)) & 1;
 }
 
 void BitProcess::SetBitOne(unsigned char& memory, const unsigned int& pos)
 {
-	memory = (1 << BITS_OF_CELL - 1 - pos % BITS_OF_CELL) | memory;
+	memory = (1 << (BITS_OF_CELL - 1 - pos % BITS_OF_CELL)) | memory;
 }
 
 void BitProcess::SetBitZero(unsigned char& memory, const unsigned int& pos)
 {
-	memory = (~(1 << BITS_OF_CELL - 1 - pos % BITS_OF_CELL)) & memory;
+	memory = (~(1 << (BITS_OF_CELL - 1 - pos % BITS_OF_CELL))) & memory;
 }
 
-void BitProcess::StandardBits(std::string& bits, const unsigned int &numOfBits)
+void BitProcess::StandardBits(std::string& bits, const unsigned int& numOfBits)
 {
 	unsigned int i = bits.size();
 
@@ -54,7 +54,7 @@ void BitProcess::SetBit(unsigned char memmory[MAX_CELL], std::string bits)
 {
 	StandardBits(bits, MAX_CELL * BITS_OF_CELL);
 	memset(memmory, 0, MAX_CELL);
-	for (int i = 0; i < bits.size(); i++)
+	for (unsigned int i = 0; i < bits.size(); i++)
 	{
 		if (bits[i] == '0')
 		{
@@ -118,106 +118,96 @@ std::string BitProcess::AddTwoBits(std::string bits1, std::string bits2)
 	return result;
 }
 
-std::string BitProcess::SubtractTwoBits(std::string bits1,std::string bits2){
-    
-    std::string processedBits2 = Utils::ReverseBitsAndPlusOne(bits2);
-    std::string result = BitProcess::AddTwoBits(bits1, processedBits2);
-    return result;
-    
+std::string BitProcess::SubtractTwoBits(std::string bits1, std::string bits2)
+{
+	Convert::ConvertBitsToTwoComplement(bits2, true);
+	std::string result = BitProcess::AddTwoBits(bits1, bits2);
+	return result;
 }
 
-std::string BitProcess::MultiplyTwoBits(std::string bits1,std::string bits2){
-    
 
-    int k = bits2.length();
-    
-    std::string A = std::string(128,'0');
-    char Q_1 = '0';
-    std::string Q = bits2;
-    const std::string M = bits1;
-    
-    
-    while (k>0) {
-        
-        int QLength = Q.length();
-        
-        if(Q[QLength-1]=='1' && Q_1 == '0'){
-            
-            A = BitProcess::SubtractTwoBits(A, M);
-            
-        }else if(Q[QLength-1] == '0' && Q_1 == '1'){
-            
-            A = BitProcess::AddTwoBits(A, M);
-            
-        }else if((Q[QLength-1] == '0'&& Q_1 == '0') ||
-                 (Q[QLength-1] =='1' && Q_1 == '1')) {
-            
-            //DoNothing
-            
-        }
-        
-        BitProcess::ShiftRightThreeBits(A, Q, Q_1);
-        
-        k--;
-    }
-    std::string result = A+Q;
-    auto length = result.length();
-    
-    BitProcess::StandardBits(result, 128);
-    
-    return result ;
-    
+std::string BitProcess::MultiplyTwoBits(std::string bits1, std::string bits2) 
+{
+	int k = bits2.length();
+
+	std::string A = std::string(128, '0');
+	char Q_1 = '0';
+	std::string Q = bits2;
+	const std::string M = bits1;
+
+	while (k > 0) {
+
+		int QLength = Q.length();
+
+		if (Q[QLength - 1] == '1' && Q_1 == '0') 
+		{
+			A = BitProcess::SubtractTwoBits(A, M);
+		}
+		else if (Q[QLength - 1] == '0' && Q_1 == '1') 
+		{
+			A = BitProcess::AddTwoBits(A, M);
+		}
+		else if ((Q[QLength - 1] == '0' && Q_1 == '0') || (Q[QLength - 1] == '1' && Q_1 == '1')) 
+		{
+			//DoNothing
+		}
+
+		BitProcess::ShiftRightThreeBits(A, Q, Q_1);
+
+		k--;
+	}
+	std::string result = A + Q;
+	auto length = result.length();
+
+	BitProcess::StandardBits(result, 128);
+
+	return result;
+
 }
 
-void BitProcess::ShiftRightThreeBits(std::string &A,std::string &Q,char &Q_1){
-    
-    std::string concatenatedBits = A+Q;
-    Q_1 = Q[Q.length()-1];
-    concatenatedBits.insert(0, "0");
-    
-    A = concatenatedBits.substr(0,A.length());
-    Q = concatenatedBits.substr(A.length(),Q.length());
-    
-    
-    
-}
-std::string BitProcess::DivideTwoBits(std::string bits1,std::string bits2){
-    
-    std::string A = std::string(128,bits1[0]);
-    const std::string M = bits2;
-    std::string Q = bits1;
-    
-    int k = 128;
-    
-    while(k>0){
-        
-        BitProcess::ShiftLeftTwoBits(A,Q);
-        A = BitProcess::SubtractTwoBits(A, M);
-        
-        if(A[0] == '1'){
-            A = BitProcess::AddTwoBits(A, M);
-            Q[Q.length()-1] = '0';
-        }else{
-            Q[Q.length()-1] = '1';
-        }
-        k--;
-        
-    }
-    
-    
-    return Q;
-    
-    
+void BitProcess::ShiftRightThreeBits(std::string& A, std::string& Q, char& Q_1) {
+
+	std::string concatenatedBits = A + Q;
+	Q_1 = Q[Q.length() - 1];
+	concatenatedBits.insert(0, "0");
+
+	A = concatenatedBits.substr(0, A.length());
+	Q = concatenatedBits.substr(A.length(), Q.length());
 }
 
-void BitProcess::ShiftLeftTwoBits(std::string &A,std::string &Q){
-   
-    std::string concatenatedResult = A+Q;
-    concatenatedResult.insert(concatenatedResult.length(), "0");
-    concatenatedResult.erase(0,1);
-    
-    A = concatenatedResult.substr(0,A.length());
-    Q = concatenatedResult.substr(A.length(),Q.length());
-    
+std::string BitProcess::DivideTwoBits(std::string bits1, std::string bits2) {
+
+	std::string A = std::string(128, bits1[0]);
+	const std::string M = bits2;
+	std::string Q = bits1;
+
+	int k = 128;
+
+	while (k > 0) {
+
+		BitProcess::ShiftLeftTwoBits(A, Q);
+		A = BitProcess::SubtractTwoBits(A, M);
+
+		if (A[0] == '1') {
+			A = BitProcess::AddTwoBits(A, M);
+			Q[Q.length() - 1] = '0';
+		}
+		else {
+			Q[Q.length() - 1] = '1';
+		}
+		k--;
+
+	}
+	return Q;
+}
+
+void BitProcess::ShiftLeftTwoBits(std::string& A, std::string& Q) {
+
+	std::string concatenatedResult = A + Q;
+	concatenatedResult.insert(concatenatedResult.length(), "0");
+	concatenatedResult.erase(0, 1);
+
+	A = concatenatedResult.substr(0, A.length());
+	Q = concatenatedResult.substr(A.length(), Q.length());
 }
 

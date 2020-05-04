@@ -29,15 +29,15 @@ public:
 public:
 	//Cộng nhị phân 2 dãy bits
 	static std::string AddTwoBits(std::string bits1, std::string bits2);
-    //Thực hiện trừ 2 dãy bits
-    static std::string SubtractTwoBits(std::string bits1,std::string bits2);
-    //Thực hiện nhân nhị phân 2 dãy bits
-    static std::string MultiplyTwoBits(std::string bits1,std::string bits2);
-    //shift right một chuỗi 3 dãy bits
-    static void ShiftRightThreeBits(std::string &A,std::string &Q,char &Q_1);
-    //
-    static std::string DivideTwoBits(std::string bits1,std::string bits2);
-    //
-    static void ShiftLeftTwoBits(std::string &A,std::string &Q);
-    
+	//Thực hiện trừ 2 dãy bits
+	static std::string SubtractTwoBits(std::string bits1, std::string bits2);
+	//Thực hiện nhân nhị phân 2 dãy bits
+	static std::string MultiplyTwoBits(std::string bits1, std::string bits2);
+	//Shift right một chuỗi 3 dãy bits
+	static void ShiftRightThreeBits(std::string& A, std::string& Q, char& Q_1);
+	//Chia 2 dãy bit
+	static std::string DivideTwoBits(std::string bits1, std::string bits2);
+	//Shift left một chuỗi 3 dãy bits
+	static void ShiftLeftTwoBits(std::string& A, std::string& Q);
+
 };

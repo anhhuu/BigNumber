@@ -11,9 +11,9 @@ private:
 
 public:
 	Qint();
-	Qint(const std::string &number);
-	~Qint();
-    Qint(std::string bitsSequence,int);
+	Qint(const std::string& numberOrBits, const bool& isBits = false);
+	Qint(const Qint& other);
+	~Qint(); 
 
 public:
 	//Nhập số QInt từ bàn phím
@@ -28,19 +28,19 @@ public:
 
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số nguyên lớn
-    static Qint BinToDec(std::string bits) ;
+	static Qint BinToDec(std::string bits);
 
 	//Chuyển đổi thập phân sang thập lục phân
 	//Trả về mảng kí tự của hệ thập lục phân 
 	std::string DecToHex() const;
-	
+
 	//Chuyển đổi nhị phân sang thập lục phân
 	//Trả về mảng chứa các kí tự của hệ thập lục phân
 	std::string BinToHex(std::string bits) const;
 
 public:
 	//+ operator
-	Qint operator+(const Qint& ) const;
+	Qint operator+(const Qint&) const;
 	//- operator
 	Qint operator-(const Qint& other) const;
 	//* operator
@@ -48,7 +48,7 @@ public:
 	//div operator
 	Qint operator/(const Qint& other) const;
 
-	Qint& operator=(const std::string &number);
+	Qint& operator=(const std::string& number);
 
 public:
 	//++ operator: ++Qint
@@ -82,8 +82,7 @@ public:
 	Qint operator|(const Qint& other) const;
 	Qint operator^(const Qint& other) const;
 	Qint operator~();
-    Qint& operator=(const Qint &other);
-    Qint(const Qint&other);
+	Qint& operator=(const Qint& other);
 
 public:
 	friend std::ostream& operator<<(std::ostream& os, const Qint& dt);
