@@ -3,9 +3,8 @@
 #include "Convert.h"
 #include "Utils.h"
 #include "BitProcess.h"
+#include "Core.h"
 
-#define SIGNIFICANT 112
-#define MAX_EXP 16383
 
 std::string Convert::CovertNumStringToBin(std::string num, unsigned int numOfBits)
 {
@@ -81,29 +80,30 @@ std::string Convert::CovertBinToNumString(std::string bits)
 
 std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& countBitsBeforeOne, const bool& isIntPartDiffZero = true)
 {
-	std::string result;
-	std::string num = "1";
+	//Xử lí số "0123" -> "123"
+	unsigned int firstPosDecPartNotOfZero = decPart.find_first_not_of('0', 0);
 
-	int index = 0;
-	int len = 0;
-	int pos = 0;
-	int i = 0;
-	// xử lí số "0123" -> "123"
-	pos = decPart.find_first_not_of('0', 0);
-	int countFirstZero = pos;
-	if (pos == -1)
+	int countFirstZero = firstPosDecPartNotOfZero;
+	if (firstPosDecPartNotOfZero == -1)
+	{
 		return "0";
-	decPart = decPart.substr(pos, decPart.length() - pos);
+	}
+	decPart = decPart.substr(firstPosDecPartNotOfZero, decPart.length() - firstPosDecPartNotOfZero);
 
-	len = decPart.length();
-	num = num.insert(1, len + countFirstZero, '0');
+	unsigned int lengthDecPartAtFirstTime = decPart.length();
+
+	std::string num = "1";
+	num = num.insert(1, lengthDecPartAtFirstTime + countFirstZero, '0');
+	
+	std::string result;
 
 	if (isIntPartDiffZero)
 	{
-		while (i < SIGNIFICANT)
+		int index = 0;
+		while (index < NUM_OF_SIGNIFICANT_BITS)
 		{
 			decPart = Utils::MultiplyNumStringWithOneDigit(decPart, 2);
-			if (decPart.length() < len + countFirstZero + 1)
+			if (decPart.length() < lengthDecPartAtFirstTime + countFirstZero + 1)
 			{
 				result.append(1, '0');
 			}
@@ -112,13 +112,19 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 				result.append(1, '1');
 
 				if (decPart == num)
+				{
 					break;
+				}
+				
 				decPart.erase(0, 1);
-				pos = decPart.find_first_not_of('0', 0);
-				if (pos > 0)
-					decPart = decPart.substr(pos, decPart.length() - pos);
+				firstPosDecPartNotOfZero = decPart.find_first_not_of('0', 0);
+				
+				if (firstPosDecPartNotOfZero > 0)
+				{
+					decPart = decPart.substr(firstPosDecPartNotOfZero, decPart.length() - firstPosDecPartNotOfZero);
+				}
 			}
-			i++;
+			index++;
 		}
 		return result;
 	}
@@ -127,10 +133,10 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 		bool isOne = false;
 		unsigned int firstPosOne = -1;
 		unsigned int countBitsAfterOne = 0;
-		while (!isOne && countBitsBeforeOne < MAX_EXP + SIGNIFICANT)
+		while (!isOne && countBitsBeforeOne < MAX_EXPONENT + NUM_OF_SIGNIFICANT_BITS)
 		{
 			decPart = Utils::MultiplyNumStringWithOneDigit(decPart, 2);
-			if (decPart.length() < len + countFirstZero + 1)
+			if (decPart.length() < lengthDecPartAtFirstTime + countFirstZero + 1)
 			{
 				//result.append(1, '0');
 				countBitsBeforeOne++;
@@ -142,18 +148,23 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 				isOne = true;
 
 				if (decPart == num)
+				{
 					return result;
+				}
+
 				decPart.erase(0, 1);
-				pos = decPart.find_first_not_of('0', 0);
-				if (pos > 0)
-					decPart = decPart.substr(pos, decPart.length() - pos);
+				firstPosDecPartNotOfZero = decPart.find_first_not_of('0', 0);
+				if (firstPosDecPartNotOfZero > 0)
+				{
+					decPart = decPart.substr(firstPosDecPartNotOfZero, decPart.length() - firstPosDecPartNotOfZero);
+				}
 			}
 		}
 
-		while (countBitsAfterOne < SIGNIFICANT - 1 && countBitsBeforeOne < MAX_EXP + SIGNIFICANT)
+		while (countBitsAfterOne < NUM_OF_SIGNIFICANT_BITS - 1 && countBitsBeforeOne < MAX_EXPONENT + NUM_OF_SIGNIFICANT_BITS)
 		{
 			decPart = Utils::MultiplyNumStringWithOneDigit(decPart, 2);
-			if (decPart.length() < len + countFirstZero + 1)
+			if (decPart.length() < lengthDecPartAtFirstTime + countFirstZero + 1)
 			{
 				result.append(1, '0');
 			}
@@ -162,11 +173,16 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 				result.append(1, '1');
 
 				if (decPart == num)
+				{
 					break;
+				}
+
 				decPart.erase(0, 1);
-				pos = decPart.find_first_not_of('0', 0);
-				if (pos > 0)
-					decPart = decPart.substr(pos, decPart.length() - pos);
+				firstPosDecPartNotOfZero = decPart.find_first_not_of('0', 0);
+				if (firstPosDecPartNotOfZero > 0)
+				{
+					decPart = decPart.substr(firstPosDecPartNotOfZero, decPart.length() - firstPosDecPartNotOfZero);
+				}
 			}
 			countBitsAfterOne++;
 		}
@@ -174,15 +190,14 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 	}
 }
 
-std::string Convert::ConvertFloatToBin(std::string floatNum)
+std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 {
-	std::string result;
 	unsigned int index = 0;
+	std::string result;
 	bool negative = floatNum[0] == '-';
-
 	if (negative)
 	{
-		floatNum.erase(0, 1);
+		index++;
 		result.insert(0, "1");
 	}
 	else
@@ -191,18 +206,19 @@ std::string Convert::ConvertFloatToBin(std::string floatNum)
 	}
 
 	unsigned int countBitBeforeOne = 0;
-	unsigned int pos = floatNum.find_first_of('.', 0);
+	unsigned int firstPosOfDot = floatNum.find_first_of('.', 0);
 
-	std::string intPart = floatNum.substr(0, pos);
+	std::string intPart = floatNum.substr(index, firstPosOfDot);
 
 	if (intPart != "0")
-		intPart = CovertNumStringToBin(intPart, 129);
+	{
+		intPart = CovertNumStringToBin(intPart, MAX_CELL * BITS_OF_CELL + 1);
+	}
 
-	std::string decPart = floatNum.substr(pos + 1, floatNum.length() - 1 - pos);
-
-	const int K = 16383;
-
+	std::string decPart = floatNum.substr(firstPosOfDot + 1, floatNum.length() - 1 - firstPosOfDot);
+	
 	std::string exponent;
+	std::string significant;
 
 	if (intPart != "0")
 	{
@@ -213,32 +229,47 @@ std::string Convert::ConvertFloatToBin(std::string floatNum)
 		int exp = intPart.length();
 		if (exp >= MAX_CELL * BITS_OF_CELL)
 		{
-			exponent = std::string(15, '1');
-			result += exponent + std::string(112, '0');
+			exponent = std::string(NUM_OF_EXPONENT_BITS, '1');
+			result += exponent + std::string(NUM_OF_SIGNIFICANT_BITS, '0');
 			return result;
 		}
 
-		exponent = CovertNumStringToBin(std::to_string(exp + K), 15);
+		exponent = CovertNumStringToBin(std::to_string(exp + EXPONENT_BIAS), NUM_OF_EXPONENT_BITS);
 
-		floatNum = intPart + decPart;
-		if (floatNum.length() < SIGNIFICANT)
+		significant = intPart + decPart;
+		if (significant.length() < NUM_OF_SIGNIFICANT_BITS)
 		{
-			floatNum += std::string(SIGNIFICANT - intPart.length() - decPart.length(), '0');
+			significant += std::string(NUM_OF_SIGNIFICANT_BITS - intPart.length() - decPart.length(), '0');
 		}
 	}
 	else
 	{
 		decPart = ConvertDecPartToBin(decPart, countBitBeforeOne, false);
 		int exp = countBitBeforeOne + 1;
-		exp = -exp + K;
-		exponent = CovertNumStringToBin(std::to_string(exp), 15);
+		if (exp < EXPONENT_BIAS)
+		{
+			exp = -exp + EXPONENT_BIAS;
+			decPart.erase(0, 1);
+		}
+		else if (exp == EXPONENT_BIAS)
+		{
+			exp = -exp + EXPONENT_BIAS;
+		}
+		else
+		{
+			decPart.insert(decPart.begin(), exp - EXPONENT_BIAS, '0');
+			exp = 0;
+		}
+		exponent = CovertNumStringToBin(std::to_string(exp), NUM_OF_EXPONENT_BITS);
 
-		decPart.erase(0, 1);
-		floatNum = intPart + decPart + std::string(SIGNIFICANT - intPart.length() - decPart.length(), '0');
+		significant = decPart;
+		if (significant.length() < NUM_OF_SIGNIFICANT_BITS)
+		{
+			significant += std::string(NUM_OF_SIGNIFICANT_BITS - decPart.length(), '0');
+		}
 	}
 
-	//exponent = exponent.substr(127 - 14, 15);
-	result += exponent + floatNum.substr(0, SIGNIFICANT);
+	result += exponent + significant.substr(0, NUM_OF_SIGNIFICANT_BITS);
 	return result;
 }
 

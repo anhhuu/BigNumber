@@ -20,5 +20,5 @@ public:
 
 	static std::string ConvertDecPartToBin(std::string decPart, unsigned int& countBitsBeforeOne, const bool& isIntPartDiffZero);
 
-	static std::string ConvertFloatToBin(std::string floatNum);
+	static std::string ConvertFloatToBin(const std::string& floatNum);
 };
