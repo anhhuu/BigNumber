@@ -182,6 +182,91 @@ std::string Utils::NegativePowTwo(unsigned int exp)
 	return str;
 }
 
+std::string Utils::AddTwoDecWithPoint(std::string num1, std::string num2)
+{
+	std::string result = "";
+	int pos = 0;
+	unsigned long int posDot1 = num1.find(".");
+	unsigned long int posDot2 = num2.find(".");
+
+	if (posDot1 == std::string::npos) {
+		num1.insert(num1.length(), ".0");
+		posDot1 = num1.find(".");
+	}
+	if (posDot2 == std::string::npos) {
+		num2.insert(num2.length(), ".0");
+
+		posDot2 = num2.find(".");
+	}
+
+	int countNumberDigitAfterDot1 = num1.substr(posDot1 + 1, std::string::npos).length();
+	int countNumberDigitAfterDot2 = num2.substr(posDot2 + 1, std::string::npos).length();
+
+	if (countNumberDigitAfterDot1 < countNumberDigitAfterDot2) {
+		num1.insert(num1.length(), countNumberDigitAfterDot2 - countNumberDigitAfterDot1, '0');
+	}
+	else if (countNumberDigitAfterDot1 > countNumberDigitAfterDot2) {
+		num2.insert(num2.length(), countNumberDigitAfterDot1 - countNumberDigitAfterDot2, '0');
+	}
+
+	int reminder = 0;
+	int pointerNum1 = num1.length() - 1;
+	int pointerNum2 = num2.length() - 1;
+
+	int tempResult = 0;
+
+	while (pointerNum1 >= 0 && pointerNum2 >= 0) {
+
+		if (num1[pointerNum1] != '.') {
+			tempResult = num1[pointerNum1] - '0' + num2[pointerNum2] - '0' + reminder;
+			reminder = tempResult / 10;
+			tempResult %= 10;
+			result.insert(0, std::to_string(tempResult));
+		}
+		else {
+			result.insert(0, ".");
+		}
+		pointerNum1--;
+		pointerNum2--;
+	}
+
+	while (pointerNum1 >= 0)
+	{
+
+		if (reminder != 0) {
+			tempResult = num1[pointerNum1] - '0' + reminder;
+			reminder = tempResult / 10;
+			tempResult %= 10;
+			result.insert(0, std::to_string(tempResult));
+			pointerNum1--;
+		}
+		else {
+			result.insert(0, num1.substr(0, pointerNum1 + 1));
+			break;
+		}
+
+
+	}
+	while (pointerNum2 >= 0)
+	{
+		if (reminder != 0) {
+
+			tempResult = num2[pointerNum2] - '0' + reminder;
+			reminder = tempResult / 10;
+			tempResult %= 10;
+			result.insert(0, std::to_string(tempResult));
+			pointerNum2--;
+
+		}
+		else {
+			result.insert(0, num2.substr(0, pointerNum2 + 1));
+			break;
+		}
+
+	}
+	return result;
+}
+
 std::string Utils::FindMaxNumString(std::string num1, std::string num2)
 {
 	int lengthNum1 = num1.length();

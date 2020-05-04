@@ -35,6 +35,7 @@ public:
 	//exs: 2^-72 = ? 
 	static std::string NegativePowTwo(unsigned int exp);
 
+	static std::string AddTwoDecWithPoint(std::string num1, std::string num2);
 private:
 	//Tìm số lớn nhất giữa 2 chuỗi
 	static std::string FindMaxNumString(std::string num1, std::string num2);
