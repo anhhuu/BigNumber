@@ -8,6 +8,9 @@
 #include <time.h>
 #include <bitset>
 
+#include <stdint.h>
+#include <cstdint>
+
 void testTask1()
 {
 	Qint aBig("0");
@@ -16,10 +19,12 @@ void testTask1()
 	long long int b = 0;
 
 	std::cout << "input int a = "; std::cin >> a;
-	aBig = Qint(std::to_string(a));
+	//aBig = Qint(std::to_string(a));
+	std::cin >> aBig;
 
 	std::cout << "input int b = "; std::cin >> b;
-	bBig = Qint(std::to_string(b));
+	//bBig = Qint(std::to_string(b));
+	std::cin >> bBig;
 
 	std::cout << std::endl;
 
@@ -72,8 +77,7 @@ void testTask1()
 
 int main()
 {
-	testTask1();
-
+	std::cout << Convert::ConvertFloatToBin("0.00000000000000000000000000000000000000000001");
 	system("pause");
 	return 0;
 }

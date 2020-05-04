@@ -15,7 +15,7 @@ Qint::Qint()
 
 Qint::Qint(const std::string number)
 {
-	std::string bin = Convert::CovertNumStringToBin(number);
+	std::string bin = Convert::CovertNumStringToBin(number, MAX_CELL * BITS_OF_CELL);
 	BitProcess::SetBit(_data, bin);
 
 	std::string x = BitProcess::GetBit(_data);
@@ -31,7 +31,7 @@ void Qint::ScanQInt()
 	std::string temp;
 	std::cin >> temp;
 
-	std::string bin = Convert::CovertNumStringToBin(temp);
+	std::string bin = Convert::CovertNumStringToBin(temp, MAX_CELL * BITS_OF_CELL);
 
 	BitProcess::SetBit(_data, bin);
 }
@@ -43,7 +43,7 @@ void Qint::PrintQInt() const
 	std::cout << bigIntNumber;
 }
 
-bool* Qint::DecToBin()
+bool* Qint::DecToBin() const
 {
 	bool* result = new bool[128];
 	std::string bits = BitProcess::GetBit(this->_data);
@@ -148,7 +148,9 @@ const bool Qint::operator==(const Qint& other) const
 	for (int i = 0; i < 128; i++) //Nếu kq XOR là 0 thì hai số bằng nhau và ngược lại
 	{
 		if (allZeroBitsString[i] != comparedValueBitsStr[i])
+		{
 			return flag;
+		}
 	}
 
 	flag = true;
@@ -276,7 +278,15 @@ Qint Qint::operator<<(const int n)
 Qint Qint::operator>>(const int n)
 {
 	std::string bits = BitProcess::GetBit(this->_data);
-	bits.insert(0, std::string(n, '0'));
+
+	if (bits.at(0) == '1')
+	{
+		bits.insert(0, std::string(n, '1'));
+	}
+	else
+	{
+		bits.insert(0, std::string(n, '0'));
+	}
 	bits.erase(bits.length() - n, n);
 
 	Qint returnVal;
@@ -313,9 +323,9 @@ Qint Qint::operator&(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == '1' && bitsOther.at(i) == '1') 
+		if (bitsThis.at(i) == '1' && bitsOther.at(i) == '1')
 		{
 			result.append("1");
 		}
@@ -333,9 +343,9 @@ Qint Qint::operator|(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == '0' && bitsOther.at(i) == '0') 
+		if (bitsThis.at(i) == '0' && bitsOther.at(i) == '0')
 		{
 			result.append("0");
 		}
@@ -354,13 +364,13 @@ Qint Qint::operator^(const Qint& other) const
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string bitsOther = BitProcess::GetBit(other._data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == bitsOther.at(i)) 
+		if (bitsThis.at(i) == bitsOther.at(i))
 		{
 			result.append("0");
 		}
-		else 
+		else
 		{
 			result.append("1");
 		}
@@ -375,14 +385,14 @@ Qint Qint::operator~()
 {
 	std::string bitsThis = BitProcess::GetBit(this->_data);
 	std::string result;
-	for (int i = 0; i < 128; i++) 
+	for (int i = 0; i < 128; i++)
 	{
-		if (bitsThis.at(i) == '0') 
+		if (bitsThis.at(i) == '0')
 		{
 			result.append("1");
 
 		}
-		else 
+		else
 		{
 			result.append("0");
 		}
@@ -396,4 +406,10 @@ std::ostream& operator<<(std::ostream& os, const Qint& dt)
 {
 	dt.PrintQInt();
 	return os;
+}
+
+std::istream& operator>>(std::istream& is, Qint& dt)
+{
+	dt.ScanQInt();
+	return is;
 }
