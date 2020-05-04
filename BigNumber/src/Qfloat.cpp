@@ -30,10 +30,24 @@ void Qfloat::PrintQfloat() const
 
 bool* Qfloat::DecToBin(const Qfloat& x) const
 {
-	return nullptr;
+	bool* result = new bool[MAX_CELL * BITS_OF_CELL];
+	std::string bits = BitProcess::GetBit(this->_data);
+	for (unsigned int i = 0; i < bits.length(); i++)
+	{
+		if (bits[i] == '1')
+		{
+			result[i] = true;
+		}
+		else
+		{
+			result[i] = false;
+		}
+	}
+
+	return result;
 }
 
-Qfloat Qfloat::BinToDec(const bool* bit) const
+Qfloat Qfloat::BinToDec(std::string bits)
 {
 	return Qfloat();
 }

@@ -68,18 +68,6 @@ std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 	return result;
 }
 
-
-short Utils::StringToShort(std::string input)
-{
-
-	short result = 0;
-	for (unsigned int i = 0; i < input.length(); i++)
-	{
-		result = result * 10 + input[i] - 48;
-	}
-	return result;
-}
-
 std::string Utils::DivideNumStringForTwo(std::string num)
 {
 	unsigned int index = 0;

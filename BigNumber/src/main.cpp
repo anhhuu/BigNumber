@@ -11,7 +11,7 @@
 #include <stdint.h>
 #include <cstdint>
 
-void testTask1()
+void testTask1_2()
 {
 	Qint aBig("0");
 	Qint bBig("0");
@@ -81,10 +81,29 @@ void testTask1()
 	bool* bits = cBig.DecToBin();
 }
 
+void showRawBitFloat(std::string str)
+{
+	for (unsigned int i = 0; i < NUM_OF_EXPONENT_BITS + NUM_OF_SIGNIFICANT_BITS + 1; i++)
+	{
+		if (i == 1 || i == 1 + NUM_OF_EXPONENT_BITS)
+		{
+			std::cout << std::endl;
+		}
+		std::cout << str[i];
+	}
+}
+
 int main()
 {
 	//testTask1();
-	std::cout << Convert::ConvertFloatToBin("0.00001");
+	std::string floatNum;
+	while (true)
+	{
+		std::cin >> floatNum;
+		showRawBitFloat(Convert::ConvertFloatToBin(floatNum));
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
 	system("pause");
 	return 0;
 }
