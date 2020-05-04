@@ -8,6 +8,7 @@ private:
 
 public:
 	Qfloat();
+	Qfloat(const std::string& numberOrBits, const bool& isBits = false);
 	~Qfloat();
 
 public:
@@ -24,4 +25,8 @@ public:
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số Qfloat
 	static Qfloat BinToDec(std::string bits);
+
+public:
+	friend std::ostream& operator<<(std::ostream& os, const Qfloat& dt);
+	friend std::istream& operator>>(std::istream& is, Qfloat& dt);
 };

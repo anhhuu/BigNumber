@@ -57,7 +57,7 @@ void Qint::ScanQInt()
 void Qint::PrintQInt() const
 {
 	const std::string bits = BitProcess::GetBit(_data);
-	const std::string bigIntNumber = Convert::CovertBinToNumString(bits);
+	const std::string bigIntNumber = Convert::ConvertBinToNumString(bits);
 	std::cout << bigIntNumber;
 }
 
@@ -84,7 +84,7 @@ Qint Qint::BinToDec(std::string bits)
 {
 	int length = MAX_CELL * BITS_OF_CELL;
 
-	const std::string numberInStr = Convert::CovertBinToNumString(bits);
+	const std::string numberInStr = Convert::ConvertBinToNumString(bits);
 
 	const Qint newQInt = Qint(numberInStr);
 	return newQInt;
@@ -108,7 +108,7 @@ Qint Qint::operator+(const Qint& other) const
 	std::string bits1 = BitProcess::GetBit(_data);
 	std::string bits2 = BitProcess::GetBit(other._data);
 	std::string addedBits = BitProcess::AddTwoBits(bits1, bits2);
-	std::string numValue = Convert::CovertBinToNumString(addedBits);
+	std::string numValue = Convert::ConvertBinToNumString(addedBits);
 
 	Qint result(numValue);
 	return result;

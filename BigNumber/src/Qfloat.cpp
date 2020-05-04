@@ -10,6 +10,19 @@ Qfloat::Qfloat()
 {
 }
 
+Qfloat::Qfloat(const std::string& numberOrBits, const bool& isBits)
+{
+	if (!isBits)
+	{
+		std::string bin = Convert::ConvertFloatToBin(numberOrBits);
+		BitProcess::SetBit(_data, bin);
+	}
+	else
+	{
+		BitProcess::SetBit(_data, numberOrBits);
+	}
+}
+
 Qfloat::~Qfloat()
 {
 	memset(_data, 0, sizeof(_data));
@@ -26,6 +39,9 @@ void Qfloat::ScanQfloat()
 
 void Qfloat::PrintQfloat() const
 {
+	const std::string bits = BitProcess::GetBit(_data);
+	const std::string bigFloatNumber = Convert::ConvertBinToFloat(bits);
+	std::cout << bigFloatNumber;
 }
 
 bool* Qfloat::DecToBin(const Qfloat& x) const
@@ -49,5 +65,22 @@ bool* Qfloat::DecToBin(const Qfloat& x) const
 
 Qfloat Qfloat::BinToDec(std::string bits)
 {
-	return Qfloat();
+	int length = MAX_CELL * BITS_OF_CELL;
+
+	const std::string numberInStr = Convert::ConvertBinToNumString(bits);
+
+	const Qfloat newQfloat = Qfloat(numberInStr);
+	return newQfloat;
+}
+
+std::ostream& operator<<(std::ostream& os, const Qfloat& dt)
+{
+	dt.PrintQfloat();
+	return os;
+}
+
+std::istream& operator>>(std::istream& is, Qfloat& dt)
+{
+	dt.ScanQfloat();
+	return is;
 }
