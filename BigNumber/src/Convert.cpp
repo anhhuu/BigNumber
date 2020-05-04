@@ -1,5 +1,5 @@
-#include "Convert.h"
 #include <algorithm>
+
 #include "Convert.h"
 #include "Utils.h"
 #include "BitProcess.h"
@@ -209,6 +209,18 @@ std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 
 	std::string intPart = floatNum.substr(index, firstPosOfDot - index);
 
+	unsigned int firstPosDecPartNotOfZero = intPart.find_first_not_of('0', 0);
+
+	if (firstPosDecPartNotOfZero == -1)
+	{
+		intPart = "0";
+	}
+
+	if (firstPosDecPartNotOfZero != std::string::npos)
+	{
+		intPart = intPart.substr(firstPosDecPartNotOfZero, intPart.length() - firstPosDecPartNotOfZero);
+	}
+
 	if (intPart != "0")
 	{
 		intPart = CovertNumStringToBin(intPart, MAX_CELL * BITS_OF_CELL + 1);
@@ -243,6 +255,11 @@ std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 	}
 	else
 	{
+		if (std::atoi(decPart.c_str()) == 0)
+		{
+			return std::string(MAX_CELL * BITS_OF_CELL, '0');
+		}
+
 		decPart = ConvertDecPartToBin(decPart, countBitBeforeOne, false);
 		int exp = countBitBeforeOne + 1;
 		if (exp < EXPONENT_BIAS)
@@ -281,11 +298,11 @@ void Convert::ConvertBitsToTwoComplement(std::string& bits, bool sign)
 	}
 }
 
-std::string Convert::ConvertBinToHex(std::string bits) 
+std::string Convert::ConvertBinToHex(std::string bits)
 {
 	std::string result = "";
 	auto mapBinToHex = Utils::GetMapBinToHex();
-	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i += 4) 
+	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i += 4)
 	{
 		result += mapBinToHex[bits.substr(i, 4)];
 	}
