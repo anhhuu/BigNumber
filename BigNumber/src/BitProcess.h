@@ -1,9 +1,7 @@
 #pragma once
 #include"Qint.h"
 #include <string>
-
-#define MAX_CELL 16 
-#define BITS_OF_CELL 8
+#include "Core.h"
 
 class BitProcess
 {

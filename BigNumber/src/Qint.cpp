@@ -15,7 +15,7 @@ Qint::Qint()
 
 Qint::Qint(const std::string &number)
 {
-	std::string bin = Convert::CovertNumStringToBin(number);
+	std::string bin = Convert::CovertNumStringToBin(number, MAX_CELL * BITS_OF_CELL);
 	BitProcess::SetBit(_data, bin);
 
 	std::string x = BitProcess::GetBit(_data);
@@ -35,7 +35,7 @@ void Qint::ScanQInt()
 	std::string temp;
 	std::cin >> temp;
 
-	std::string bin = Convert::CovertNumStringToBin(temp);
+	std::string bin = Convert::CovertNumStringToBin(temp, MAX_CELL * BITS_OF_CELL);
 
 	BitProcess::SetBit(_data, bin);
 }

@@ -76,6 +76,7 @@ void testTask1()
 
 int main()
 {
-	Qint a = std::string("234234234234");
+	std::cout << Convert::ConvertFloatToBin("0.00000000000000000000000000000000000000000001");
+	system("pause");
 	return 0;
 }
