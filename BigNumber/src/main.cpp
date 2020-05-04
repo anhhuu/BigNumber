@@ -19,12 +19,12 @@ void testTask1_2()
 	long long int b = 0;
 
 	std::cout << "input int a = "; std::cin >> a;
-	//aBig = Qint(std::to_string(a));
-	std::cin >> aBig;
+	aBig = Qint(std::to_string(a));
+	//std::cin >> aBig;
 
 	std::cout << "input int b = "; std::cin >> b;
-	//bBig = Qint(std::to_string(b));
-	std::cin >> bBig;
+	bBig = Qint(std::to_string(b));
+	//std::cin >> bBig;
 
 	std::cout << std::endl;
 
@@ -75,10 +75,10 @@ void testTask1_2()
 
 	std::cout << std::endl;
 
-	std::cout << "input a Big num: ";
+	/*std::cout << "input a Big num: ";
 	Qint cBig;
 	cBig.ScanQInt();
-	bool* bits = cBig.DecToBin();
+	bool* bits = cBig.DecToBin();*/
 }
 
 void showRawBitFloat(std::string str)
@@ -96,15 +96,17 @@ void showRawBitFloat(std::string str)
 int main()
 {
 	//testTask1_2();
-	std::cout << std::atoi("235346453646534634");
 	std::string floatNum;
 	while (true)
 	{
+		std::cout << "input a Qfloat: ";
 		std::cin >> floatNum;
+		std::cout << "bits of Qfloat: \n";
 		showRawBitFloat(Convert::ConvertFloatToBin(floatNum));
 		std::cout << std::endl;
 		std::cout << std::endl;
 	}
+
 	system("pause");
 	return 0;
 }
