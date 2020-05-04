@@ -96,7 +96,6 @@ void showRawBitFloat(std::string str)
 int main()
 {
 	testTask1_2();
-
 	std::string floatNum;
 	while (true)
 	{
