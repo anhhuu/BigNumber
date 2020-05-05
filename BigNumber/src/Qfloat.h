@@ -13,7 +13,7 @@ public:
 
 public:
 	//Nhập số thực Qfloat từ bàn phím
-	void ScanQfloat();
+	void ScanQfloat(std::string num);
 
 	//In số thực Qfloat ra màn hình
 	void PrintQfloat() const;

@@ -29,11 +29,9 @@ Qfloat::~Qfloat()
 }
 
 
-void Qfloat::ScanQfloat()
+void Qfloat::ScanQfloat(std::string num)
 {
-	std::string temp;
-	std::cin >> temp;
-	std::string bin = Convert::ConvertFloatToBin(temp);
+	std::string bin = Convert::ConvertFloatToBin(num);
 	BitProcess::SetBit(_data, bin);
 }
 
@@ -81,6 +79,8 @@ std::ostream& operator<<(std::ostream& os, const Qfloat& dt)
 
 std::istream& operator>>(std::istream& is, Qfloat& dt)
 {
-	dt.ScanQfloat();
+	std::string num;
+	is >> num;
+	dt.ScanQfloat(num);
 	return is;
 }
