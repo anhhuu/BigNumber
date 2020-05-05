@@ -5,6 +5,7 @@
 #include "BitProcess.h"
 #include "Core.h"
 
+std::unique_ptr<Convert> Convert::m_pInstance(nullptr);
 
 std::string Convert::CovertNumStringToBin(std::string num, unsigned int numOfBits)
 {
@@ -15,12 +16,12 @@ std::string Convert::CovertNumStringToBin(std::string num, unsigned int numOfBit
 	while (num != "0")
 	{
 		result += std::to_string((num[num.length() - 1] - '0') % 2);
-		num = Utils::DivideNumStringForTwo(num);
+		num = Utils::Instance()->DivideNumStringForTwo(num);
 	}
 
 	std::reverse(result.begin(), result.end());
 
-	BitProcess::StandardBits(result, numOfBits);
+	BitProcess::Instance()->StandardBits(result, numOfBits);
 
 	if (negative)
 	{
@@ -57,7 +58,7 @@ std::string Convert::ConvertBinToNumString(std::string bits)
 			}
 			else
 			{
-				decResult = Utils::AddTwoIntString(decResult, Utils::PowOneDigit(2, exp));
+				decResult = Utils::Instance()->AddTwoIntString(decResult, Utils::Instance()->PowOneDigit(2, exp));
 			}
 		}
 
@@ -66,7 +67,7 @@ std::string Convert::ConvertBinToNumString(std::string bits)
 
 	if (sign)
 	{
-		decResult = Utils::SubtractTwoSNumString(decResult, Utils::PowOneDigit(2, 127));
+		decResult = Utils::Instance()->SubtractTwoSNumString(decResult, Utils::Instance()->PowOneDigit(2, 127));
 		//Trường hợp số nhỏ nhất -2^127
 	}
 	else if (isNegativeNumber)
@@ -102,7 +103,7 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 		int index = 0;
 		while (index < NUM_OF_SIGNIFICANT_BITS)
 		{
-			decPart = Utils::MultiplyNumStringWithOneDigit(decPart, 2);
+			decPart = Utils::Instance()->MultiplyNumStringWithOneDigit(decPart, 2);
 			if (decPart.length() < lengthDecPartAtFirstTime + countFirstZero + 1)
 			{
 				result.append(1, '0');
@@ -135,7 +136,7 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 		unsigned int countBitsAfterOne = 0;
 		while (!isOne && countBitsBeforeOne < MAX_EXPONENT + NUM_OF_SIGNIFICANT_BITS)
 		{
-			decPart = Utils::MultiplyNumStringWithOneDigit(decPart, 2);
+			decPart = Utils::Instance()->MultiplyNumStringWithOneDigit(decPart, 2);
 			if (decPart.length() < lengthDecPartAtFirstTime + countFirstZero + 1)
 			{
 				countBitsBeforeOne++;
@@ -162,7 +163,7 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 
 		while (countBitsAfterOne < NUM_OF_SIGNIFICANT_BITS - 1 && countBitsBeforeOne < MAX_EXPONENT + NUM_OF_SIGNIFICANT_BITS)
 		{
-			decPart = Utils::MultiplyNumStringWithOneDigit(decPart, 2);
+			decPart = Utils::Instance()->MultiplyNumStringWithOneDigit(decPart, 2);
 			if (decPart.length() < lengthDecPartAtFirstTime + countFirstZero + 1)
 			{
 				result.append(1, '0');
@@ -189,7 +190,7 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 	}
 }
 
-std::string Convert::ConvertFloatToBin(const std::string& floatNum)
+std::string Convert::ConvertFloatToBin(std::string floatNum)
 {
 	unsigned int index = 0;
 	std::string result;
@@ -206,6 +207,12 @@ std::string Convert::ConvertFloatToBin(const std::string& floatNum)
 
 	unsigned int countBitBeforeOne = 0;
 	unsigned int firstPosOfDot = floatNum.find_first_of('.', 0);
+
+	if (firstPosOfDot == std::string::npos)
+	{
+		floatNum += ".0";
+		firstPosOfDot = floatNum.length() - 2;
+	}
 
 	std::string intPart = floatNum.substr(index, firstPosOfDot - index);
 
@@ -318,7 +325,7 @@ std::string Convert::ConvertBinToFloat(std::string bits)
 		return result;
 	}
 
-	BitProcess::StandardBits(exponent, MAX_CELL * BITS_OF_CELL);
+	BitProcess::Instance()->StandardBits(exponent, MAX_CELL * BITS_OF_CELL);
 
 	int exp = atoi(Convert::ConvertBinToNumString(exponent).c_str());
 
@@ -355,7 +362,7 @@ std::string Convert::ConvertBinToFloat(std::string bits)
 	std::string significantInt = significant.substr(0, pos);
 	std::string significantAfterPoint = significant.substr(pos + 1, significant.length() - 1);
 	
-	BitProcess::StandardBits(significantInt, MAX_CELL * BITS_OF_CELL);
+	BitProcess::Instance()->StandardBits(significantInt, MAX_CELL * BITS_OF_CELL);
 
 	result += ConvertBinToNumString(significantInt);
 	significantAfterPoint = ConvertBinPartToFloat(significantAfterPoint);
@@ -372,7 +379,7 @@ std::string Convert::ConvertBinPartToFloat(std::string bits, const unsigned int&
 	{
 		if (bits[i] == '1')
 		{
-			result = Utils::AddTwoDecWithPoint(result, Utils::NegativePowTwo(i + countFirstZero + 1));
+			result = Utils::Instance()->AddTwoDecWithPoint(result, Utils::Instance()->NegativePowTwo(i + countFirstZero + 1));
 		}
 	}
 	return result;
@@ -382,18 +389,31 @@ void Convert::ConvertBitsToTwoComplement(std::string& bits, bool sign)
 {
 	if (sign)
 	{
-		BitProcess::ReverseBits(bits);
-		bits = BitProcess::AddTwoBits(bits, "1");
+		BitProcess::Instance()->ReverseBits(bits);
+		bits = BitProcess::Instance()->AddTwoBits(bits, "1");
 	}
 }
 
 std::string Convert::ConvertBinToHex(std::string bits)
 {
 	std::string result = "";
-	auto mapBinToHex = Utils::GetMapBinToHex();
+	auto mapBinToHex = Utils::Instance()->GetMapBinToHex();
 	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i += 4)
 	{
 		result += mapBinToHex[bits.substr(i, 4)];
 	}
 	return result;
+}
+
+Convert::Convert()
+{
+}
+
+std::unique_ptr<Convert>& Convert::Instance()
+{
+	if (m_pInstance.get() == nullptr)
+	{
+		m_pInstance.reset(new Convert());
+	}
+	return m_pInstance;
 }

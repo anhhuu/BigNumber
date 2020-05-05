@@ -2,6 +2,38 @@
 #include "BitProcess.h"
 #include <string>
 #include <utility>
+
+std::map<std::string, std::string> Utils::_mapBinToHex = {
+	{"0000","0"},
+	{"0001","1"},
+	{"0010","2"},
+	{"0011","3"},
+	{"0100","4"},
+	{"0101","5"},
+	{"0110","6"},
+	{"0111","7"},
+	{"1000","8"},
+	{"1001","9"},
+	{"1010","A"},
+	{"1011","B"},
+	{"1100","C"},
+	{"1101","D"},
+	{"1110","E"},
+	{"1111","F"}
+};
+
+//Utils* Utils::m_pInstance = nullptr;
+std::unique_ptr<Utils> Utils::m_pInstance(nullptr);
+
+std::unique_ptr<Utils>& Utils::Instance()
+{
+	if (m_pInstance.get() == nullptr)
+	{
+		m_pInstance.reset(new Utils());
+	}
+	return m_pInstance;
+}
+
 std::string Utils::AddTwoIntString(std::string num1, std::string num2)
 {
 	std::string result = "";
@@ -267,40 +299,6 @@ std::string Utils::AddTwoDecWithPoint(std::string num1, std::string num2)
 	return result;
 }
 
-std::string Utils::FindMaxNumString(std::string num1, std::string num2)
-{
-	int lengthNum1 = num1.length();
-	int lengthNum2 = num2.length();
-
-	if (lengthNum1 > lengthNum2)
-	{
-		return num1;
-	}
-	else if (lengthNum1 < lengthNum2)
-	{
-		return num2;
-	}
-
-	//Trường hợp 2 chuỗi có độ dài bằng nhau
-	int index = 0;
-	if (num1 == num2) return num1;
-
-
-	while (index < lengthNum1 && num1[index] == num2[index])
-	{
-		index++;
-	}
-
-	if (num1[index] - num2[index] > 0)
-	{
-		return num1;
-	}
-	else
-	{
-		return num2;
-	}
-}
-
 std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 {
 	if (num1 == num2) return "0";
@@ -372,25 +370,6 @@ std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 	return result;
 }
 
-std::map<std::string, std::string> Utils::_mapBinToHex = {
-	{"0000","0"},
-	{"0001","1"},
-	{"0010","2"},
-	{"0011","3"},
-	{"0100","4"},
-	{"0101","5"},
-	{"0110","6"},
-	{"0111","7"},
-	{"1000","8"},
-	{"1001","9"},
-	{"1010","A"},
-	{"1011","B"},
-	{"1100","C"},
-	{"1101","D"},
-	{"1110","E"},
-	{"1111","F"}
-};
-
 std::map<std::string, std::string> Utils::GetMapBinToHex()
 {
 	return _mapBinToHex;
@@ -432,4 +411,42 @@ std::string Utils::MultiplyNumberWithTwo(std::string number)
 	}
 
 	return result;
+}
+
+std::string Utils::FindMaxNumString(std::string num1, std::string num2)
+{
+	int lengthNum1 = num1.length();
+	int lengthNum2 = num2.length();
+
+	if (lengthNum1 > lengthNum2)
+	{
+		return num1;
+	}
+	else if (lengthNum1 < lengthNum2)
+	{
+		return num2;
+	}
+
+	//Trường hợp 2 chuỗi có độ dài bằng nhau
+	int index = 0;
+	if (num1 == num2) return num1;
+
+
+	while (index < lengthNum1 && num1[index] == num2[index])
+	{
+		index++;
+	}
+
+	if (num1[index] - num2[index] > 0)
+	{
+		return num1;
+	}
+	else
+	{
+		return num2;
+	}
+}
+
+Utils::Utils()
+{
 }
