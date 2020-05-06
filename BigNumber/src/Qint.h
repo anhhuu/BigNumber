@@ -1,8 +1,7 @@
 #pragma once
-#include <string>
+
 #include <iostream>
-#include "BitProcess.h"
-#include "Convert.h"
+#include <string>
 
 class Qint
 {
@@ -11,13 +10,15 @@ private:
 
 public:
 	Qint();
-	Qint(const std::string& numberOrBits, const bool& isBits = false);
+	Qint(std::string numberOrBits, const bool& isBits = false);
 	Qint(const Qint& other);
 	~Qint(); 
 
 public:
-	//Nhập số QInt từ bàn phím
-	void ScanQInt();
+	std::string ToString();
+
+	//Nhập số QInt
+	void ScanQInt(std::string num);
 
 	//In số QInt ra màn hình
 	void PrintQInt() const;
@@ -26,17 +27,21 @@ public:
 	//Trả về mảng bit ở dạng bool
 	bool* DecToBin() const;
 
+	//Chuyển đổi thập phân sang nhị phân
+	//Trả về mảng bit ở dạng string
+	std::string DecToBin(bool isStr = true) const;
+
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số nguyên lớn
 	static Qint BinToDec(std::string bits);
 
+	//Chuyển đổi thập lục phân sang thập phân
+	//Trả về một số nguyên lớn
+	static Qint HexToDec(std::string hex);
+
 	//Chuyển đổi thập phân sang thập lục phân
 	//Trả về mảng kí tự của hệ thập lục phân 
 	std::string DecToHex() const;
-
-	//Chuyển đổi nhị phân sang thập lục phân
-	//Trả về mảng chứa các kí tự của hệ thập lục phân
-	std::string BinToHex(std::string bits) const;
 
 public:
 	//+ operator
@@ -62,7 +67,6 @@ public:
 
 public:
 	//boolean operator
-
 	const bool operator==(const Qint& other) const;
 	const bool operator!=(const Qint& other) const;
 	const bool operator>(const Qint& other) const;
@@ -72,7 +76,6 @@ public:
 
 public:
 	//bitwise operator
-
 	Qint operator<<(const int n);
 	Qint operator>>(const int n);
 	Qint rol(const int n);

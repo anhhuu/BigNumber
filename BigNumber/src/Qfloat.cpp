@@ -10,7 +10,7 @@ Qfloat::Qfloat()
 {
 }
 
-Qfloat::Qfloat(const std::string& numberOrBits, const bool& isBits)
+Qfloat::Qfloat(std::string numberOrBits, const bool& isBits)
 {
 	if (!isBits)
 	{
@@ -19,6 +19,10 @@ Qfloat::Qfloat(const std::string& numberOrBits, const bool& isBits)
 	}
 	else
 	{
+		if (numberOrBits.length() != MAX_CELL * BITS_OF_CELL)
+		{
+			BitProcess::Instance()->StandardBits(numberOrBits, MAX_CELL * BITS_OF_CELL);
+		}
 		BitProcess::Instance()->SetBit(_data, numberOrBits);
 	}
 }

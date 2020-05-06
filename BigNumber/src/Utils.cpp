@@ -1,7 +1,10 @@
 #include "Utils.h"
 #include "BitProcess.h"
+
+#include <iostream>
 #include <string>
 #include <utility>
+#include <fstream>
 
 std::map<std::string, std::string> Utils::_mapBinToHex = {
 	{"0000","0"},
@@ -411,6 +414,55 @@ std::string Utils::MultiplyNumberWithTwo(std::string number)
 	}
 
 	return result;
+}
+
+std::vector<std::string> Utils::ReadFile(std::string file_name_in)
+{
+	std::ifstream fin;
+	std::vector<std::string> list;
+
+	//Mo file
+	fin.open(file_name_in, std::ios_base::in);
+
+	if (fin.fail() == true)
+		std::cout << "File is inavailable!\n";
+	else
+	{
+		//Doc tung dong lenh
+		while (fin.eof() == false)
+		{
+			std::string line;
+			getline(fin, line);
+			list.push_back(line);
+		}
+	}
+
+	fin.close();
+	return list;
+}
+
+void Utils::WriteFile(std::string file_name_out, std::vector<std::string> list)
+{
+	std::ofstream fout;
+	fout.open(file_name_out, std::ios_base::out);
+
+	if (fout.fail() == true)
+		std::cout << "File is inavailable!\n";
+	else
+	{
+		for (int i = 0; i < list.size(); i++)
+		{
+			fout << list[i] << "\n";
+		}
+	}
+
+	fout.close();
+}
+
+void Utils::StandardFileName(std::string& file_name)
+{
+	std::string relativePath = "";//"..\\BigNumber\\";
+	file_name = relativePath + file_name;
 }
 
 std::string Utils::FindMaxNumString(std::string num1, std::string num2)

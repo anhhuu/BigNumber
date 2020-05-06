@@ -1,6 +1,7 @@
 #pragma once
-#include"Qint.h"
+
 #include <string>
+#include <memory>
 #include "Core.h"
 
 class BitProcess

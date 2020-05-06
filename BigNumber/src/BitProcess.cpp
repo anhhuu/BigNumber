@@ -1,4 +1,5 @@
 #include "BitProcess.h"
+#include "Convert.h"
 
 std::unique_ptr<BitProcess> BitProcess::m_pInstance(nullptr);
 

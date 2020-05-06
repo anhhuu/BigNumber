@@ -13,7 +13,7 @@ Qint::Qint()
 {
 }
 
-Qint::Qint(const std::string& numberOrBits, const bool& isBits)
+Qint::Qint(std::string numberOrBits, const bool& isBits)
 {
 	if (!isBits)
 	{
@@ -22,6 +22,10 @@ Qint::Qint(const std::string& numberOrBits, const bool& isBits)
 	}
 	else
 	{
+		if (numberOrBits.length() != MAX_CELL * BITS_OF_CELL)
+		{
+			BitProcess::Instance()->StandardBits(numberOrBits, 1 + NUM_OF_EXPONENT_BITS + NUM_OF_SIGNIFICANT_BITS);
+		}
 		BitProcess::Instance()->SetBit(_data, numberOrBits);
 	}
 }
@@ -44,13 +48,16 @@ Qint::~Qint()
 	memset(_data, 0, MAX_CELL);
 }
 
-void Qint::ScanQInt()
+std::string Qint::ToString()
 {
-	std::string temp;
-	std::cin >> temp;
+	const std::string bits = BitProcess::Instance()->GetBit(_data);
+	const std::string bigIntNumber = Convert::Instance()->ConvertBinToNumString(bits);
+	return bigIntNumber;
+}
 
-	std::string bin = Convert::Instance()->CovertNumStringToBin(temp, MAX_CELL * BITS_OF_CELL);
-
+void Qint::ScanQInt(std::string num)
+{
+	std::string bin = Convert::Instance()->CovertNumStringToBin(num, MAX_CELL * BITS_OF_CELL);
 	BitProcess::Instance()->SetBit(_data, bin);
 }
 
@@ -80,9 +87,18 @@ bool* Qint::DecToBin() const
 	return result;
 }
 
+std::string Qint::DecToBin(bool isStr) const
+{
+	const std::string bits = BitProcess::Instance()->GetBit(this->_data);
+	return bits;
+}
+
 Qint Qint::BinToDec(std::string bits)
 {
-	int length = MAX_CELL * BITS_OF_CELL;
+	if (bits.length() != MAX_CELL * BITS_OF_CELL)
+	{
+		BitProcess::Instance()->StandardBits(bits, MAX_CELL * BITS_OF_CELL);
+	}
 
 	const std::string numberInStr = Convert::Instance()->ConvertBinToNumString(bits);
 
@@ -90,15 +106,18 @@ Qint Qint::BinToDec(std::string bits)
 	return newQInt;
 }
 
-std::string Qint::BinToHex(std::string bits) const
+Qint Qint::HexToDec(std::string hex)
 {
-	return Convert::Instance()->ConvertBinToHex(bits);
+	std::string bits = Convert::Instance()->ConvertHexToBin(hex);
+	Qint result(bits, true);
+
+	return result;
 }
 
 std::string Qint::DecToHex() const
 {
 	std::string bits = BitProcess::Instance()->GetBit(_data);
-	auto result = BinToHex(bits);
+	std::string result = Convert::Instance()->ConvertBinToHex(bits);
 
 	return result;
 }
@@ -480,7 +499,9 @@ std::ostream& operator<<(std::ostream& os, const Qint& dt)
 
 std::istream& operator>>(std::istream& is, Qint& dt)
 {
-	dt.ScanQInt();
+	std::string num;
+	is >> num;
+	dt.ScanQInt(num);
 	return is;
 }
 

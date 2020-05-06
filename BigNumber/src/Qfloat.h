@@ -1,5 +1,8 @@
 ﻿#pragma once
+
+#include <iostream>
 #include <string>
+#include "Core.h"
 
 class Qfloat
 {
@@ -7,12 +10,16 @@ private:
 	unsigned char _data[16];
 
 public:
+	//Hàm khởi tạo mặc định
 	Qfloat();
-	Qfloat(const std::string& numberOrBits, const bool& isBits = false);
+	//Hàm khởi tạo nhận vào 2 tham số:
+	//numberOrBits: số ở dạng chuỗi hoặc dãy bit
+	//isBits: true nếu numberOrBits là dãy bit, false nếu là số
+	Qfloat(std::string numberOrBits, const bool& isBits = false);
 	~Qfloat();
 
 public:
-	//Nhập số thực Qfloat từ bàn phím
+	//Nhập số thực Qfloat
 	void ScanQfloat(std::string num);
 
 	//In số thực Qfloat ra màn hình
@@ -27,6 +34,7 @@ public:
 	static Qfloat BinToDec(std::string bits);
 
 public:
+	//Operator nhập xuất
 	friend std::ostream& operator<<(std::ostream& os, const Qfloat& dt);
 	friend std::istream& operator>>(std::istream& is, Qfloat& dt);
 };
