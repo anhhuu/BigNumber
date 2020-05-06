@@ -55,11 +55,6 @@ public:
 
 public:
 
-	//Lấy ra map kết quả chứa thông tin phép chuyển theo từng bộ 4 bit bin sang hex
-	//Không tham số đầu vào
-	//Trả về std::map<std::string,std::string>
-	std::map<std::string, std::string> GetMapBinToHex();
-
 	//Nhân một thập phân với 2
 	//Nhận vào một số thập phân
 	//Trả ra kết quả đã nhân với 2 ở dạng chuỗi
@@ -86,7 +81,4 @@ public:
 
 private:
 	static std::unique_ptr<Utils> m_pInstance;
-
-	static std::map<std::string, std::string> _mapBinToHex;
-
 };

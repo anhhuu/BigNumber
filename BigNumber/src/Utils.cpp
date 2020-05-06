@@ -6,25 +6,6 @@
 #include <utility>
 #include <fstream>
 
-std::map<std::string, std::string> Utils::_mapBinToHex = {
-	{"0000","0"},
-	{"0001","1"},
-	{"0010","2"},
-	{"0011","3"},
-	{"0100","4"},
-	{"0101","5"},
-	{"0110","6"},
-	{"0111","7"},
-	{"1000","8"},
-	{"1001","9"},
-	{"1010","A"},
-	{"1011","B"},
-	{"1100","C"},
-	{"1101","D"},
-	{"1110","E"},
-	{"1111","F"}
-};
-
 //Utils* Utils::m_pInstance = nullptr;
 std::unique_ptr<Utils> Utils::m_pInstance(nullptr);
 
@@ -371,11 +352,6 @@ std::string Utils::SubtractTwoSNumString(std::string num1, std::string num2)
 	}
 
 	return result;
-}
-
-std::map<std::string, std::string> Utils::GetMapBinToHex()
-{
-	return _mapBinToHex;
 }
 
 std::string Utils::MultiplyNumberWithTwo(std::string number)
