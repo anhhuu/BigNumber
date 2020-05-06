@@ -1,90 +1,288 @@
 ﻿#include <iostream>
+
+
+#include <stdint.h>
+#include <cstdint>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <conio.h>
+
 #include "Qint.h"
 #include "Qfloat.h"
 #include "Utils.h"
 #include "Convert.h"
-#include "BitProcess.h"
-#include "Utils.h"
 
-void testTask1()
+
+//Hàm xử lí với các toán tử và trả về chuỗi kết quả string
+std::string processOperator(Qint A, Qint B, std::string numB, std::string _operator, int base)
 {
-	Qint aBig("0");
-	Qint bBig("0");
-	long long int a = 0;
-	long long int b = 0;
+	if (_operator == "~")
+	{
+		return (~A).ToString();
+	}
+	else if (_operator == "+")
+	{
+		return (A + B).ToString();
+	}
+	else if (_operator == "-")
+	{
+		return (A - B).ToString();
+	}
+	else if (_operator == "*")
+	{
+		return (A * B).ToString();
+	}
+	else if (_operator == "/")
+	{
+		return (A / B).ToString();
+	}
+	else if (_operator == "&")
+	{
+		return (A & B).ToString();
+	}
+	else if (_operator == "|")
+	{
+		return (A | B).ToString();
+	}
+	else if (_operator == "^")
+	{
+		return (A ^ B).ToString();
+	}
+	else if (_operator == "<<")
+	{
+		int nums = stoi(numB);
+		return (A << nums).ToString();
+	}
+	else if (_operator == ">>")
+	{
+		int nums = stoi(numB);
+		return (A >> nums).ToString();
+	}
+	else if (_operator == "rol")
+	{
+		int nums = stoi(numB);
+		return (A.rol(nums)).ToString();
+	}
+	else if (_operator == "ror")
+	{
+		int nums = stoi(numB);
+		return (A.ror(nums)).ToString();
+		std::cout << std::endl;
+	}
+	else if (_operator == "<")
+	{
+		return ((A < B) ? "TRUE" : "FALSE");
+		std::cout << std::endl;
+	}
+	else if (_operator == ">")
+	{
+		return ((A > B) ? "TRUE" : "FALSE");
+		std::cout << std::endl;
+	}
+	else if (_operator == "<=")
+	{
+		return ((A <= B) ? "TRUE" : "FALSE");
+		std::cout << std::endl;
+	}
+	else if (_operator == ">=")
+	{
+		return ((A >= B) ? "TRUE" : "FALSE");
+		std::cout << std::endl;
+	}
+	else if (_operator == "==")
+	{
+		return ((A == B) ? "TRUE" : "FALSE");
+		std::cout << std::endl;
+	}
+}
 
-	std::cout << "input int a = "; std::cin >> a;
-	//aBig = Qint(std::to_string(a));
-	std::cin >> aBig;
 
-	std::cout << "input int b = "; std::cin >> b;
-	//bBig = Qint(std::to_string(b));
-	std::cin >> bBig;
+//Xử lí với số nguyên lớn và trả kết quả về chuỗi string
+std::string processQint(std::string inputString)
+{
+	std::string UnaryOperator = "~";
+	std::vector<std::string> BinaryOperator = { "+"," - ","*","/","<",">","<=",">=","==","&","|","^","<<",">>","rol","ror" };
 
-	std::cout << std::endl;
+	int OperatorType = 0;
+	int ArgumentCount = 1;
 
-	std::cout << "a \t\t= " << a << std::endl;
-	std::cout << "aBig \t\t= " << aBig << std::endl;
+	//Đếm số lượng tham số
+	for (int i = 0; i < inputString.length(); i++)
+	{
+		if (inputString[i] == ' ')
+			ArgumentCount++;
+	}
+	//Tìm Toán tử 1 ngôi trong chuỗi
+	for (int i = 0; i < UnaryOperator.size(); i++)
+	{
+		if (inputString.find(UnaryOperator[i], 0) != std::string::npos)
+		{
+			OperatorType = 1;
+			break;
+		}
+	}
+	//Tìm Toán tử 2 ngôi trong chuỗi
+	if (OperatorType == 0)
+	{
+		for (int i = 0; i < BinaryOperator.size(); i++)
+		{
+			if (inputString.find(BinaryOperator[i], 0) != std::string::npos)
+			{
+				OperatorType = 2;
+				break;
+			}
+		}
+	}
 
-	std::cout << "b \t\t= " << b << std::endl;
-	std::cout << "bBig \t\t= " << bBig << std::endl;
+	std::string p1, p2, _operator, num1, num2;
+	std::stringstream ss;
 
-	std::cout << "a & b \t\t= " << (a & b) << std::endl;
-	std::cout << "aBig & bBig \t= " << (aBig & bBig) << std::endl;
+	ss << inputString;
+	ss >> p1;
 
-	std::cout << "a | b \t\t= " << (a | b) << std::endl;
-	std::cout << "aBig | bBig \t= " << (aBig | bBig) << std::endl;
+	//Kiểm tra có chỉ thị p2 hay không
+	if (ArgumentCount - OperatorType == 3)
+		ss >> p2;
+	else
+		p2 = p1;
 
-	std::cout << "a ^ b \t\t= " << (a ^ b) << std::endl;
-	std::cout << "aBig ^ bBig \t= " << (aBig ^ bBig) << std::endl;
+	//Kiểu tra toán tử
+	_operator = "";
+	switch (OperatorType)
+	{
+	case 0:	//Không có toán tử
+		ss >> num1;
+		break;
+	case 1: //Toán tử 1 ngôi
+		ss >> _operator >> num1;
+		break;
+	case 2:	//Toán tử 2 ngôi
+		ss >> num1 >> _operator >> num2;
+		break;
+	}
 
-	std::cout << "~a \t\t= " << (~a) << std::endl;
-	std::cout << "~aBig \t\t= " << (~aBig) << std::endl;
 
-	std::cout << "a << 5 \t\t= " << (a << 5) << std::endl;
-	std::cout << "aBig << 5 \t= " << (aBig << 5) << std::endl;
+	//Trường hợp không có toán tử, thực hiện chuyển đổi giữa các toán hạng
+	int base1 = stoi(p1);
+	int base2 = stoi(p2);
 
-	std::cout << "a >> 2 \t\t= " << (a >> 2) << std::endl;
-	std::cout << "aBig >> 2 \t= " << (aBig >> 2) << std::endl;
+	if (_operator == "")
+	{
+		if ((base1 == 2) && (base2 == 16))
+		{
+			Qint A;
+			std::string Hex = Convert::Instance()->ConvertBinToHex(num1);
+			return Hex;
+			std::cout << std::endl;
+		}
+		else if ((base1 == 2) && (base2 == 10))
+		{
+			Qint A;
+			return (A.BinToDec(num1)).ToString();
+			std::cout << std::endl;
+		}
+		else if ((base1 == 10) && (base2 == 16))
+		{
+			Qint A(num1);
+			std::string Hex = A.DecToHex();
+			return Hex;
+			std::cout << std::endl;
+		}
+		else if ((base1 == 10) && (base2 == 2))
+		{
+			Qint A(num1);
+			std::string bits = A.DecToBin(true);
+			return bits;
+			std::cout << std::endl;
+		}
+		/*else if ((base1 == 16) && (base2 == 2))
+		{
+			Qint A;
+			std::string Bin = A.HexToBin(num1);
+			return Bin;
+		}
+		else if ((base1 == 16) && (base2 == 10))
+		{
+			Qint A;
+			return (A.HexToDec(num1)).ToString();
+		}*/
+	}
 
-	std::cout << std::endl;
+	//Trường hợp có toán tử, xử lí các toán hạng với toán tử
+	if (base1 == base2)
+	{
+		switch (base1)
+		{
+		case 2:
+		{
+			Qint A;
+			Qint B;
 
-	std::cout << "aBig > bBig: \t" << ((aBig > bBig) ? "true" : "false") << std::endl;
-	std::cout << "aBig < bBig: \t" << ((aBig < bBig) ? "true" : "false") << std::endl;
-	std::cout << "aBig == bBig: \t" << ((aBig == bBig) ? "true" : "false") << std::endl;
-	std::cout << "aBig != bBig: \t" << ((aBig != bBig) ? "true" : "false") << std::endl;
-	std::cout << "aBig >= bBig: \t" << ((aBig >= bBig) ? "true" : "false") << std::endl;
-	std::cout << "aBig <= bBig: \t" << ((aBig <= bBig) ? "true" : "false") << std::endl;
+			A = Qint::BinToDec(num1);
+			B = Qint::BinToDec(num2);
 
-	std::cout << std::endl;
+			return processOperator(A, B, num2, _operator, base1);
+		}
+		break;
+		case 10:
+		{
+			Qint A(num1);
+			Qint B(num2);
 
-	std::cout << "input a Big num: ";
-	Qint cBig;
-	cBig.ScanQInt();
-	bool* bits = cBig.DecToBin();
+			return processOperator(A, B, num2, _operator, base1);
+		}
+		break;
+		/*case 16:
+		{
+			std::string numA = HexToDec(num1);
+			std::string numB = HexToDec(num2);
+			Qint A(numA);
+			Qint B(numB);
+			return processOperator(A, B, num2, _operator, base1);
+		}
+			break;*/
+		}
 
-	Qint dBig = Qint::BinToDec(bits);
-
-	std::cout << "cBig \t\t= " << cBig << std::endl;
-	std::cout << "dBig \t\t= " << dBig << std::endl;
+	}
 
 }
 
-int main()
+
+int main(int argc, char** argv)
 {
-	bool bits[128] = { 0 };
-	bits[0] = 1;
+	std::string file_in, file_out, type;
 
-	std::cout << "sizeof(Qint) = " << sizeof(Qint) << " bytes" << std::endl;
+	if (argc < 4)
+		std::cout << "Invalid data!";
+	else
+	{
+		file_in = std::string(argv[1]);
+		file_out = std::string(argv[2]);
+		type = std::string(argv[3]);
+	}
+	Utils::Instance()->StandardFileName(file_in);
+	Utils::Instance()->StandardFileName(file_out);
+	std::vector<std::string> list = Utils::ReadFile(file_in);
 
-	std::cout << "Min number: " << Qint::BinToDec(bits) << std::endl;
+	std::ofstream fout;
+	fout.open(file_out, std::ios_base::out);
 
-	memset(bits, true, 128);
-	bits[0] = 0;
-	
-	std::cout << "Max number:  " << Qint::BinToDec(bits) << std::endl;
+	if (fout.fail() == true)
+		std::cout << "File is inavailable!\n";
+	else
+	{
+		if (type == "1")
+			for (int i = 0; i < list.size(); i++)
+			{
+				fout << processQint(list[i]) << "\n";
+			}
+		/*else
+			for (int i = 0; i < list.size(); i++)
+			{
+				fout << processQfloat(list[i]) << "\n";
+			}*/
+	}
 
-	testTask1();
-	system("pause");
-	return 0;
+	fout.close();
 }
