@@ -222,8 +222,7 @@ std::string Convert::ConvertFloatStringToBin(std::string floatNum)
 	{
 		intPart = "0";
 	}
-
-	if (firstPosDecPartNotOfZero != std::string::npos)
+	else// (firstPosDecPartNotOfZero != std::string::npos)
 	{
 		intPart = intPart.substr(firstPosDecPartNotOfZero, intPart.length() - firstPosDecPartNotOfZero);
 	}
