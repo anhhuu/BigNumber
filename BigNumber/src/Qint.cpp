@@ -17,7 +17,7 @@ Qint::Qint(std::string numberOrBits, const bool& isBits)
 {
 	if (!isBits)
 	{
-		std::string bin = Convert::Instance()->CovertNumStringToBin(numberOrBits, MAX_CELL * BITS_OF_CELL);
+		std::string bin = Convert::Instance()->CovertIntStringToBin(numberOrBits, MAX_CELL * BITS_OF_CELL);
 		BitProcess::Instance()->SetBit(_data, bin);
 	}
 	else
@@ -51,20 +51,20 @@ Qint::~Qint()
 std::string Qint::ToString()
 {
 	const std::string bits = BitProcess::Instance()->GetBit(_data);
-	const std::string bigIntNumber = Convert::Instance()->ConvertBinToNumString(bits);
+	const std::string bigIntNumber = Convert::Instance()->ConvertBinToIntString(bits);
 	return bigIntNumber;
 }
 
 void Qint::ScanQInt(std::string num)
 {
-	std::string bin = Convert::Instance()->CovertNumStringToBin(num, MAX_CELL * BITS_OF_CELL);
+	std::string bin = Convert::Instance()->CovertIntStringToBin(num, MAX_CELL * BITS_OF_CELL);
 	BitProcess::Instance()->SetBit(_data, bin);
 }
 
 void Qint::PrintQInt() const
 {
 	const std::string bits = BitProcess::Instance()->GetBit(_data);
-	const std::string bigIntNumber = Convert::Instance()->ConvertBinToNumString(bits);
+	const std::string bigIntNumber = Convert::Instance()->ConvertBinToIntString(bits);
 	std::cout << bigIntNumber;
 }
 
@@ -100,7 +100,7 @@ Qint Qint::BinToDec(std::string bits)
 		BitProcess::Instance()->StandardBits(bits, MAX_CELL * BITS_OF_CELL);
 	}
 
-	const std::string numberInStr = Convert::Instance()->ConvertBinToNumString(bits);
+	const std::string numberInStr = Convert::Instance()->ConvertBinToIntString(bits);
 
 	const Qint newQInt = Qint(numberInStr);
 	return newQInt;
@@ -127,7 +127,7 @@ Qint Qint::operator+(const Qint& other) const
 	std::string bits1 = BitProcess::Instance()->GetBit(_data);
 	std::string bits2 = BitProcess::Instance()->GetBit(other._data);
 	std::string addedBits = BitProcess::Instance()->AddTwoBits(bits1, bits2);
-	std::string numValue = Convert::Instance()->ConvertBinToNumString(addedBits);
+	std::string numValue = Convert::Instance()->ConvertBinToIntString(addedBits);
 
 	Qint result(numValue);
 	return result;

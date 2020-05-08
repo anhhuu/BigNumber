@@ -1,6 +1,4 @@
 ﻿#include <iostream>
-
-
 #include <stdint.h>
 #include <cstdint>
 #include <vector>
@@ -13,87 +11,97 @@
 #include "Utils.h"
 #include "Convert.h"
 
+//Hàm chuẩn hóa về hệ cơ số đề bài yêu cầu sau khi xử lí với toán tử
+std::string StandardResult(Qint number, int base)
+{
+	switch (base)
+	{
+	case 10:
+		return number.ToString();
+		break;
+	case 2:
+		return number.DecToBin(true);
+		break;
+	case 16:
+		return number.DecToHex();
+		break;
+	}
+}
 
 //Hàm xử lí với các toán tử và trả về chuỗi kết quả string
 std::string processOperator(Qint A, Qint B, std::string numB, std::string _operator, int base)
 {
 	if (_operator == "~")
 	{
-		return (~A).ToString();
+		return StandardResult(~A, base);
 	}
 	else if (_operator == "+")
 	{
-		return (A + B).ToString();
+		return StandardResult(A + B, base);
 	}
 	else if (_operator == "-")
 	{
-		return (A - B).ToString();
+		return StandardResult(A - B, base);
 	}
 	else if (_operator == "*")
 	{
-		return (A * B).ToString();
+		return StandardResult(A * B, base);
 	}
 	else if (_operator == "/")
 	{
-		return (A / B).ToString();
+		return StandardResult(A / B, base);
 	}
 	else if (_operator == "&")
 	{
-		return (A & B).ToString();
+		return StandardResult(A & B, base);
 	}
 	else if (_operator == "|")
 	{
-		return (A | B).ToString();
+		return StandardResult(A | B, base);
 	}
 	else if (_operator == "^")
 	{
-		return (A ^ B).ToString();
+		return StandardResult(A ^ B, base);
 	}
 	else if (_operator == "<<")
 	{
 		int nums = stoi(numB);
-		return (A << nums).ToString();
+		return StandardResult(A << nums, base);
 	}
 	else if (_operator == ">>")
 	{
 		int nums = stoi(numB);
-		return (A >> nums).ToString();
+		return StandardResult(A >> nums, base);
 	}
 	else if (_operator == "rol")
 	{
 		int nums = stoi(numB);
-		return (A.rol(nums)).ToString();
+		return StandardResult(A.rol(nums), base);
 	}
 	else if (_operator == "ror")
 	{
 		int nums = stoi(numB);
-		return (A.ror(nums)).ToString();
-		std::cout << std::endl;
+		return StandardResult(A.ror(nums), base);
 	}
 	else if (_operator == "<")
 	{
 		return ((A < B) ? "TRUE" : "FALSE");
-		std::cout << std::endl;
 	}
 	else if (_operator == ">")
 	{
 		return ((A > B) ? "TRUE" : "FALSE");
-		std::cout << std::endl;
 	}
 	else if (_operator == "<=")
 	{
 		return ((A <= B) ? "TRUE" : "FALSE");
-		std::cout << std::endl;
 	}
 	else if (_operator == ">=")
 	{
 		return ((A >= B) ? "TRUE" : "FALSE");
-		std::cout << std::endl;
 	}
 	else if (_operator == "==")
 	{
 		return ((A == B) ? "TRUE" : "FALSE");
-		std::cout << std::endl;
 	}
 }
 
@@ -196,17 +204,16 @@ std::string processQint(std::string inputString)
 			return bits;
 			std::cout << std::endl;
 		}
-		/*else if ((base1 == 16) && (base2 == 2))
+		else if ((base1 == 16) && (base2 == 2))
 		{
-			Qint A;
-			std::string Bin = A.HexToBin(num1);
+			std::string Bin = Convert::Instance()->ConvertHexToBin(num1);
 			return Bin;
 		}
 		else if ((base1 == 16) && (base2 == 10))
 		{
 			Qint A;
 			return (A.HexToDec(num1)).ToString();
-		}*/
+		}
 	}
 
 	//Trường hợp có toán tử, xử lí các toán hạng với toán tử
@@ -233,56 +240,75 @@ std::string processQint(std::string inputString)
 			return processOperator(A, B, num2, _operator, base1);
 		}
 		break;
-		/*case 16:
+		case 16:
 		{
-			std::string numA = HexToDec(num1);
-			std::string numB = HexToDec(num2);
-			Qint A(numA);
-			Qint B(numB);
+			Qint A = Qint::HexToDec(num1);
+			Qint B = Qint::HexToDec(num2);
 			return processOperator(A, B, num2, _operator, base1);
 		}
-			break;*/
+		break;
 		}
 
 	}
 
 }
 
+std::string processQfloat(std::string inputString)
+{
+	std::string p1, p2, number;
+	std::stringstream ss;
+
+	ss << inputString;
+	ss >> p1 >> p2 >> number;
+
+	if ((stoi(p1) == 2) && (stoi(p2) == 10))
+	{
+		Qfloat floatNum(number, true);
+		return floatNum.ToString();
+	}
+	else
+	{
+		Qfloat floatNum(number);
+		return floatNum.DecToBin();
+	}
+}
+
 
 int main(int argc, char** argv)
 {
 	std::string file_in, file_out, type;
-
 	if (argc < 4)
-		std::cout << "Invalid data!";
+		std::cout << "invalid data!";
 	else
 	{
 		file_in = std::string(argv[1]);
 		file_out = std::string(argv[2]);
 		type = std::string(argv[3]);
+
+		Utils::Instance()->StandardFileName(file_in);
+		Utils::Instance()->StandardFileName(file_out);
+
+		std::vector<std::string> list = Utils::ReadFile(file_in);
+
+		std::ofstream fout;
+		fout.open(file_out, std::ios_base::out);
+
+		if (fout.fail() == true)
+			std::cout << "File is inavailable!\n";
+		else
+		{
+			if (type == "1")
+				for (int i = 0; i < list.size(); i++)
+				{
+					fout << processQint(list[i]) << "\n";
+				}
+			else
+				for (int i = 0; i < list.size(); i++)
+				{
+					fout << processQfloat(list[i]) << "\n";
+				}
+		}
+
+		fout.close();
 	}
-	Utils::Instance()->StandardFileName(file_in);
-	Utils::Instance()->StandardFileName(file_out);
-	std::vector<std::string> list = Utils::ReadFile(file_in);
-
-	std::ofstream fout;
-	fout.open(file_out, std::ios_base::out);
-
-	if (fout.fail() == true)
-		std::cout << "File is inavailable!\n";
-	else
-	{
-		if (type == "1")
-			for (int i = 0; i < list.size(); i++)
-			{
-				fout << processQint(list[i]) << "\n";
-			}
-		/*else
-			for (int i = 0; i < list.size(); i++)
-			{
-				fout << processQfloat(list[i]) << "\n";
-			}*/
-	}
-
-	fout.close();
 }

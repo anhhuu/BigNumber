@@ -7,7 +7,7 @@
 
 std::unique_ptr<Convert> Convert::m_pInstance(nullptr);
 
-std::string Convert::CovertNumStringToBin(std::string num, unsigned int numOfBits)
+std::string Convert::CovertIntStringToBin(std::string num, unsigned int numOfBits)
 {
 	std::string result;
 	unsigned int index = 0;
@@ -31,7 +31,7 @@ std::string Convert::CovertNumStringToBin(std::string num, unsigned int numOfBit
 	return result;
 }
 
-std::string Convert::ConvertBinToNumString(std::string bits)
+std::string Convert::ConvertBinToIntString(std::string bits)
 {
 	int index = 0;
 	std::string decResult = "0";
@@ -190,7 +190,7 @@ std::string Convert::ConvertDecPartToBin(std::string decPart, unsigned int& coun
 	}
 }
 
-std::string Convert::ConvertFloatToBin(std::string floatNum)
+std::string Convert::ConvertFloatStringToBin(std::string floatNum)
 {
 	unsigned int index = 0;
 	std::string result;
@@ -230,7 +230,7 @@ std::string Convert::ConvertFloatToBin(std::string floatNum)
 
 	if (intPart != "0")
 	{
-		intPart = CovertNumStringToBin(intPart, MAX_CELL * BITS_OF_CELL + 1);
+		intPart = CovertIntStringToBin(intPart, MAX_CELL * BITS_OF_CELL + 1);
 	}
 
 	std::string decPart = floatNum.substr(firstPosOfDot + 1, floatNum.length() - 1 - firstPosOfDot);
@@ -252,7 +252,7 @@ std::string Convert::ConvertFloatToBin(std::string floatNum)
 			return result;
 		}
 
-		exponent = CovertNumStringToBin(std::to_string(exp + EXPONENT_BIAS), NUM_OF_EXPONENT_BITS);
+		exponent = CovertIntStringToBin(std::to_string(exp + EXPONENT_BIAS), NUM_OF_EXPONENT_BITS);
 
 		significant = intPart + decPart;
 		if (significant.length() < NUM_OF_SIGNIFICANT_BITS)
@@ -283,7 +283,7 @@ std::string Convert::ConvertFloatToBin(std::string floatNum)
 			decPart.insert(decPart.begin(), exp - EXPONENT_BIAS, '0');
 			exp = 0;
 		}
-		exponent = CovertNumStringToBin(std::to_string(exp), NUM_OF_EXPONENT_BITS);
+		exponent = CovertIntStringToBin(std::to_string(exp), NUM_OF_EXPONENT_BITS);
 
 		significant = decPart;
 		if (significant.length() < NUM_OF_SIGNIFICANT_BITS)
@@ -296,7 +296,7 @@ std::string Convert::ConvertFloatToBin(std::string floatNum)
 	return result;
 }
 
-std::string Convert::ConvertBinToFloat(std::string bits)
+std::string Convert::ConvertBinToFloatString(std::string bits)
 {
 	std::string result;
 	std::string exponent;
@@ -327,7 +327,7 @@ std::string Convert::ConvertBinToFloat(std::string bits)
 
 	BitProcess::Instance()->StandardBits(exponent, MAX_CELL * BITS_OF_CELL);
 
-	int exp = atoi(Convert::ConvertBinToNumString(exponent).c_str());
+	int exp = atoi(Convert::ConvertBinToIntString(exponent).c_str());
 
 	if (exp == 0)
 	{
@@ -339,7 +339,7 @@ std::string Convert::ConvertBinToFloat(std::string bits)
 		{
 			exp = -EXPONENT_BIAS + 1;
 			//result.append("0.");
-			result += ConvertBinPartToFloat(significant, -exp);
+			result += ConvertBinPartToFloatString(significant, -exp);
 		}
 
 		return result;
@@ -364,15 +364,15 @@ std::string Convert::ConvertBinToFloat(std::string bits)
 	
 	BitProcess::Instance()->StandardBits(significantInt, MAX_CELL * BITS_OF_CELL);
 
-	result += ConvertBinToNumString(significantInt);
-	significantAfterPoint = ConvertBinPartToFloat(significantAfterPoint);
+	result += ConvertBinToIntString(significantInt);
+	significantAfterPoint = ConvertBinPartToFloatString(significantAfterPoint);
 	significantAfterPoint.erase(0, 1);
 	result += significantAfterPoint;
 
 	return result;
 }
 
-std::string Convert::ConvertBinPartToFloat(std::string bits, const unsigned int& countFirstZero)
+std::string Convert::ConvertBinPartToFloatString(std::string bits, const unsigned int& countFirstZero)
 {
 	std::string result;
 	for (unsigned int i = 0; i < bits.length(); i++)
@@ -446,6 +446,8 @@ std::string Convert::ConvertBinToHex(std::string bits)
 	{"1110","E"},
 	{"1111","F"}
 	};
+
+	BitProcess::Instance()->StandardBits(bits, MAX_CELL * BITS_OF_CELL);
 
 	for (int i = 0; i < MAX_CELL * BITS_OF_CELL; i += 4)
 	{

@@ -29,9 +29,16 @@ public:
 	//Trả về mảng bit ở dạng bool
 	bool* DecToBin(const Qfloat& x) const;
 
+	//Chuyển đổi thập phân sang nhị phân
+	//Trả về mảng bit ở dạng string
+	std::string DecToBin(bool isStr = true) const;
+
 	//Chuyển đổi nhị phân sang thập phân
 	//Trả về một số Qfloat
 	static Qfloat BinToDec(std::string bits);
+
+	//Trả về string của số Qfloat
+	std::string ToString();
 
 public:
 	//Operator nhập xuất
