@@ -15,7 +15,7 @@ public:
 	~Qint(); 
 
 public:
-	std::string ToString();
+	std::string ToString() const;
 
 	//Nhập số QInt
 	void ScanQInt(std::string num);

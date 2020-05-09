@@ -48,7 +48,7 @@ Qint::~Qint()
 	memset(_data, 0, MAX_CELL);
 }
 
-std::string Qint::ToString()
+std::string Qint::ToString() const 
 {
 	const std::string bits = BitProcess::Instance()->GetBit(_data);
 	const std::string bigIntNumber = Convert::Instance()->ConvertBinToIntString(bits);
@@ -493,7 +493,7 @@ Qint Qint::operator~()
 
 std::ostream& operator<<(std::ostream& os, const Qint& dt)
 {
-	dt.PrintQInt();
+	os << dt.ToString();
 	return os;
 }
 

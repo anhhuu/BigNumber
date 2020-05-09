@@ -38,7 +38,7 @@ public:
 	static Qfloat BinToDec(std::string bits);
 
 	//Trả về string của số Qfloat
-	std::string ToString();
+	std::string ToString() const;
 
 public:
 	//Operator nhập xuất

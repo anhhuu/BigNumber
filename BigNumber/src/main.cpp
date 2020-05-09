@@ -116,13 +116,13 @@ std::string processQint(std::string inputString)
 	int ArgumentCount = 1;
 
 	//Đếm số lượng tham số
-	for (int i = 0; i < inputString.length(); i++)
+	for (unsigned int i = 0; i < inputString.length(); i++)
 	{
 		if (inputString[i] == ' ')
 			ArgumentCount++;
 	}
 	//Tìm Toán tử 1 ngôi trong chuỗi
-	for (int i = 0; i < UnaryOperator.size(); i++)
+	for (unsigned int i = 0; i < UnaryOperator.size(); i++)
 	{
 		if (inputString.find(UnaryOperator[i], 0) != std::string::npos)
 		{
@@ -133,7 +133,7 @@ std::string processQint(std::string inputString)
 	//Tìm Toán tử 2 ngôi trong chuỗi
 	if (OperatorType == 0)
 	{
-		for (int i = 0; i < BinaryOperator.size(); i++)
+		for (unsigned int i = 0; i < BinaryOperator.size(); i++)
 		{
 			if (inputString.find(BinaryOperator[i], 0) != std::string::npos)
 			{
@@ -296,12 +296,12 @@ int main(int argc, char** argv)
 		else
 		{
 			if (type == "1")
-				for (int i = 0; i < list.size(); i++)
+				for (unsigned int i = 0; i < list.size(); i++)
 				{
 					fout << processQint(list[i]) << "\n";
 				}
 			else
-				for (int i = 0; i < list.size(); i++)
+				for (unsigned int i = 0; i < list.size(); i++)
 				{
 					fout << processQfloat(list[i]) << "\n";
 				}

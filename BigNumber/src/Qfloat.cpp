@@ -79,7 +79,7 @@ Qfloat Qfloat::BinToDec(std::string bits)
 	return newQfloat;
 }
 
-std::string Qfloat::ToString()
+std::string Qfloat::ToString() const
 {
 	const std::string bits = BitProcess::Instance()->GetBit(_data);
 	const std::string bigFloatNumber = Convert::Instance()->ConvertBinToFloatString(bits);
@@ -88,7 +88,7 @@ std::string Qfloat::ToString()
 
 std::ostream& operator<<(std::ostream& os, const Qfloat& dt)
 {
-	dt.PrintQfloat();
+	os << dt.ToString();
 	return os;
 }
 
