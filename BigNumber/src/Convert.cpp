@@ -244,7 +244,7 @@ std::string Convert::ConvertFloatStringToBin(std::string floatNum)
 		intPart = intPart.substr(firstOne + 1, intPart.length() - firstOne - 1);
 
 		int exp = intPart.length();
-		if (exp >= MAX_CELL * BITS_OF_CELL)
+		if (exp > NUM_OF_SIGNIFICANT_BITS)
 		{
 			exponent = std::string(NUM_OF_EXPONENT_BITS, '1');
 			result += exponent + std::string(NUM_OF_SIGNIFICANT_BITS, '0');
@@ -315,7 +315,7 @@ std::string Convert::ConvertBinToFloatString(std::string bits)
 	{
 		if (std::atoi(significant.c_str()) == 0)
 		{
-			result = "inf";
+			result += "inf";
 		}
 		else
 		{
@@ -349,7 +349,15 @@ std::string Convert::ConvertBinToFloatString(std::string bits)
 
 	if (exp > 0)
 	{
-		significant.insert(exp + 1, ".");
+		if (exp <= NUM_OF_SIGNIFICANT_BITS)
+		{
+			//significant.insert(0, "1");
+			significant.insert(exp + 1, ".");
+		}
+		else
+		{
+			significant.insert(significant.length(), ".");
+		}
 	}
 	else
 	{
@@ -360,7 +368,7 @@ std::string Convert::ConvertBinToFloatString(std::string bits)
 	int pos = significant.find_first_of(".", 0);
 	std::string significantInt = significant.substr(0, pos);
 	std::string significantAfterPoint = significant.substr(pos + 1, significant.length() - 1);
-	
+
 	BitProcess::Instance()->StandardBits(significantInt, MAX_CELL * BITS_OF_CELL);
 
 	result += ConvertBinToIntString(significantInt);

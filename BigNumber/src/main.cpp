@@ -248,9 +248,7 @@ std::string processQint(std::string inputString)
 		}
 		break;
 		}
-
 	}
-
 }
 
 std::string processQfloat(std::string inputString)
