@@ -417,29 +417,24 @@ std::vector<std::string> Utils::ReadFile(std::string file_name_in)
 	return list;
 }
 
-void Utils::WriteFile(std::string file_name_out, std::vector<std::string> list)
-{
-	std::ofstream fout;
-	fout.open(file_name_out, std::ios_base::out);
+//void Utils::WriteFile(std::string file_name_out, std::vector<std::string> list)
+//{
+//	std::ofstream fout;
+//	fout.open(file_name_out, std::ios_base::out);
+//
+//	if (fout.fail() == true)
+//		std::cout << "File is inavailable!\n";
+//	else
+//	{
+//		for (int i = 0; i < list.size(); i++)
+//		{
+//			fout << list[i] << "\n";
+//		}
+//	}
+//
+//	fout.close();
+//}
 
-	if (fout.fail() == true)
-		std::cout << "File is inavailable!\n";
-	else
-	{
-		for (int i = 0; i < list.size(); i++)
-		{
-			fout << list[i] << "\n";
-		}
-	}
-
-	fout.close();
-}
-
-void Utils::StandardFileName(std::string& file_name)
-{
-	std::string relativePath = "";//"..\\BigNumber\\";
-	file_name = relativePath + file_name;
-}
 
 std::string Utils::FindMaxNumString(std::string num1, std::string num2)
 {

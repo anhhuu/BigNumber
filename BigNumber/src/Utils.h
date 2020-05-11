@@ -62,11 +62,9 @@ public:
 
 public:
 	//Đọc dữ liệu theo từng dòng và lưu vào vector tương ứng với các phần tử trong vector đó
-	static std::vector<std::string> ReadFile(std::string file_name_in);
+	std::vector<std::string> ReadFile(std::string file_name_in);
 	//Ghi dữ liệu xuất ra file theo từng dòng
-	void WriteFile(std::string file_name_out, std::vector<std::string> list);
-	//Tạo đường dẫn tương đối từ tên file nhận từ Command Prompt
-	void StandardFileName(std::string& file_name);
+	//void WriteFile(std::string file_name_out, std::vector<std::string> list);
 
 private:
 	Utils();
@@ -74,7 +72,6 @@ private:
 public:
 	Utils(const Utils&) = delete;
 	void operator=(const Utils&) = delete;
-
 
 	//Tìm số lớn nhất giữa 2 chuỗi
 	std::string FindMaxNumString(std::string num1, std::string num2);
