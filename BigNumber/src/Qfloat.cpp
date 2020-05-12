@@ -1,7 +1,4 @@
 #include "Qfloat.h"
-#include <string>
-#include <iostream>
-
 #include "BitProcess.h"
 #include "Convert.h"
 
@@ -84,6 +81,14 @@ std::string Qfloat::ToString() const
 	const std::string bits = BitProcess::Instance()->GetBit(_data);
 	const std::string bigFloatNumber = Convert::Instance()->ConvertBinToFloatString(bits);
 	return bigFloatNumber;
+}
+
+Qfloat& Qfloat::operator=(const Qfloat& other)
+{
+	for (int i = 0; i < 16; i++) {
+		_data[i] = other._data[i];
+	}
+	return *this;
 }
 
 std::ostream& operator<<(std::ostream& os, const Qfloat& dt)

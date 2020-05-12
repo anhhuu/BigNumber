@@ -1,12 +1,4 @@
-﻿#include <iostream>
-#include <stdint.h>
-#include <cstdint>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <conio.h>
-
-#include "ConsoleApplication.h"
+﻿#include "ConsoleApplication.h"
 
 
 int main(int argc, char** argv)

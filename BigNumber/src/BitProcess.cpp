@@ -214,11 +214,6 @@ void BitProcess::ShiftLeftTwoBits(std::string& A, std::string& Q) {
 	Q = concatenatedResult.substr(A.length(), Q.length());
 }
 
-BitProcess::BitProcess()
-{
-
-}
-
 std::unique_ptr<BitProcess>& BitProcess::Instance()
 {
 	if (m_pInstance.get() == nullptr)

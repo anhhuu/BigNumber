@@ -67,7 +67,9 @@ public:
 	//void WriteFile(std::string file_name_out, std::vector<std::string> list);
 
 private:
-	Utils();
+	Utils()
+	{
+	}
 
 public:
 	Utils(const Utils&) = delete;

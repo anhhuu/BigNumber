@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include "Core.h"
 
 class Qfloat
 {
@@ -39,6 +38,9 @@ public:
 
 	//Trả về string của số Qfloat
 	std::string ToString() const;
+
+public:
+	Qfloat& operator=(const Qfloat& other);
 
 public:
 	//Operator nhập xuất

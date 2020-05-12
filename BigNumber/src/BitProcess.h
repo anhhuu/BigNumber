@@ -43,7 +43,10 @@ public:
 
 
 private:
-	BitProcess();
+	BitProcess()
+	{
+
+	}
 
 public:
 	BitProcess(const BitProcess&) = delete;

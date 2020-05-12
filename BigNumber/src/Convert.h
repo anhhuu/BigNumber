@@ -52,7 +52,9 @@ private:
 	std::string ConvertBinPartToFloatString(std::string bits, const unsigned int& countFirstZero = 0);
 
 private:
-	Convert();
+	Convert()
+	{
+	}
 
 public:
 	Convert(const Convert&) = delete;

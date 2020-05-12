@@ -469,7 +469,3 @@ std::string Utils::FindMaxNumString(std::string num1, std::string num2)
 		return num2;
 	}
 }
-
-Utils::Utils()
-{
-}

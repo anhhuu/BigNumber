@@ -423,7 +423,7 @@ std::string Convert::ConvertHexToBin(std::string hex)
 	{"F", "1111"}
 	};
 
-	for (int i = 0; i < hex.length(); i++)
+	for (unsigned int i = 0; i < hex.length(); i++)
 	{
 		result += mapBinToHex[hex.substr(i, 1)];
 	}
@@ -461,10 +461,6 @@ std::string Convert::ConvertBinToHex(std::string bits)
 		result += mapBinToHex[bits.substr(i, 4)];
 	}
 	return result;
-}
-
-Convert::Convert()
-{
 }
 
 std::unique_ptr<Convert>& Convert::Instance()
